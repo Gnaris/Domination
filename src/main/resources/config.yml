@@ -1,0 +1,26 @@
+default_game_caracteristique:
+  game_opened: false
+  minimum:
+    player: 2
+    time: 60
+    catchtime: 10
+    catchspeed: 1
+    respawntime: 5
+    flag: 2
+    radius: 3
+    spawn: 2
+    point: 100
+    killpoint: 5
+    flagpoint: 1
+  maximum:
+    player: 10
+    time: 200
+    catchtime: 20
+    catchspeed: 2
+    respawntime: 20
+    flag: 3
+    radius: 9
+    spawn: 5
+    point: 200
+    killpoint: 10
+    flagpoint: 5

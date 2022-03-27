@@ -1,0 +1,8 @@
+name: Domination
+version: '${project.version}'
+main: main.Main
+api-version: 1.18
+authors: [Gnaris]
+commands:
+  dt:
+    description: Basic Command Of Plugin
