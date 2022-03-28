@@ -16,6 +16,7 @@ public final class Main extends JavaPlugin {
         //CONFIG
         saveDefaultConfig();
         reloadConfig();
+        Config.Init(this);
 
         // Initialization
         game_list = new HashMap<>();
@@ -23,10 +24,16 @@ public final class Main extends JavaPlugin {
         //COMMAND
         getCommand("dt").setExecutor(new Command());
 
+        System.out.println("[DOMINATION] has been turn on");
     }
 
     @Override
     public void onDisable() {
-        // Plugin shutdown logic
+        System.out.println("[DOMINATION] has been turn off");
+    }
+
+    public static Game getGame(String game_name)
+    {
+        return game_list.get(game_name);
     }
 }

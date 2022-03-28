@@ -1,19 +1,22 @@
 package game.builder;
 
+import main.Config;
+
 public abstract class GameCharacteristic {
 
-    protected int player;
-    protected int time;
-    protected int respawntime;
-    protected int catchtime;
-    protected int catchspeed;
-    protected int flag;
-    protected int radius;
-    protected int spawn;
-    protected int point;
-    protected int killpoint;
-    protected int flagpoint;
-    protected boolean open;
+    protected int player = Config.GetInt("default_game_caracteristique.minimum.player");
+    protected int time = Config.GetInt("default_game_caracteristique.minimum.time");
+    protected int respawntime = Config.GetInt("default_game_caracteristique.minimum.respawntime");
+    protected int catchtime = Config.GetInt("default_game_caracteristique.minimum.catchtime");
+    protected int catchspeed = Config.GetInt("default_game_caracteristique.minimum.catchspeed");
+    protected int flag = Config.GetInt("default_game_caracteristique.minimum.flag");
+    protected int radius = Config.GetInt("default_game_caracteristique.minimum.radius");
+    protected int spawn = Config.GetInt("default_game_caracteristique.minimum.spawn");
+    protected int point = Config.GetInt("default_game_caracteristique.minimum.point");
+    protected int killpoint = Config.GetInt("default_game_caracteristique.minimum.killpoint");
+    protected int flagpoint = Config.GetInt("default_game_caracteristique.minimum.flagpoint");
+    protected boolean open = Config.GetBoolean("default_game_caracteristique.game_opened");
+    protected boolean launched = false;
     protected String map;
 
     public int getPlayer() {
@@ -63,6 +66,8 @@ public abstract class GameCharacteristic {
     public boolean isOpen() {
         return open;
     }
+
+    public boolean isLaunched(){ return launched; }
 
     public String getMap() {
         return map;

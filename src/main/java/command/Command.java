@@ -1,18 +1,12 @@
 package command;
 
-import command.request.RequestController;
-import game.Game;
-import main.Main;
+import command.request.GameRequestController;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import javax.annotation.Nullable;
-
-import java.util.Map;
-
-import static main.Main.game_list;
 
 public class Command implements CommandExecutor{
     @Override
@@ -35,9 +29,8 @@ public class Command implements CommandExecutor{
                             }
                             break;
                         case 2 :
-                            RequestController request_controller = new RequestController(args[1], args[0], (Player) sender);
+                            GameRequestController request_controller = new GameRequestController(args[1], args[0], (Player) sender);
                             request_controller.checkAndExecuteCommandType();
-                            sender.sendMessage("info : " + Main.game_list.get("caca").getOwner() + " size : " + game_list.size());
                         break;
                         case 3 :
                         {

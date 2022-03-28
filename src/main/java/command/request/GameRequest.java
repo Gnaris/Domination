@@ -5,12 +5,12 @@ import main.Main;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-public class Request implements RequestInterface {
+public class GameRequest implements RequestInterface {
 
     private String game_name;
     private Player sender;
 
-    public Request(String game_name, Player sender)
+    public GameRequest(String game_name, Player sender)
     {
         this.game_name = game_name;
         this.sender = sender;
