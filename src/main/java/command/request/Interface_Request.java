@@ -1,6 +1,6 @@
 package command.request;
 
-public interface RequestInterface {
+public interface Interface_Request {
 
     void create();
     void join();

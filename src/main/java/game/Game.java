@@ -16,15 +16,10 @@ public class Game extends GameCharacteristic {
         this.owner = sender.getUniqueId();
     }
 
-    public String getOwner()
+    public UUID getOwner()
     {
-        return this.owner.toString();
+        return this.owner;
     }
 
     public List<UUID> getPlayerList() { return this.playerList;}
-
-    public void addPlayerList(UUID player)
-    {
-        this.playerList.add(player);
-    }
 }

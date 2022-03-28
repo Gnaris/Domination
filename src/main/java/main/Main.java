@@ -1,6 +1,6 @@
 package main;
 
-import command.Command;
+import command.View_Command;
 import game.Game;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -22,7 +22,7 @@ public final class Main extends JavaPlugin {
         game_list = new HashMap<>();
 
         //COMMAND
-        getCommand("dt").setExecutor(new Command());
+        getCommand("dt").setExecutor(new View_Command());
 
         System.out.println("[DOMINATION] has been turn on");
     }
