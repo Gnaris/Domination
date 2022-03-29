@@ -1,5 +1,6 @@
 default_game_caracteristique:
   game_opened: false
+  only_staff: false
   minimum:
     player: 2
     time: 60
@@ -24,3 +25,15 @@ default_game_caracteristique:
     point: 200
     killpoint: 10
     flagpoint: 5
+  configurable:
+    player: true
+    time: true
+    catchtimer: false
+    catchspeed: true
+    respawntimer: true
+    flag: true
+    radius: true
+    spawn: true
+    point: true
+    killpoint: true
+    flagpoint: true

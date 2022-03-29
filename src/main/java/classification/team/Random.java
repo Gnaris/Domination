@@ -3,11 +3,11 @@ package classification.team;
 import classification.team.parent.Team;
 import org.bukkit.entity.Player;
 
-public class Red extends Team {
+public class Random extends Team {
 
-    public Red(Player sender) {
+    public Random(Player sender) {
         super(sender);
-        this.team = TeamList.RED;
+        this.team = TeamList.RANDOM;
     }
 
     @Override

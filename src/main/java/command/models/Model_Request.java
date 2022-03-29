@@ -1,46 +1,42 @@
-package command.request;
+package command.models;
 
+import classification.Classification;
+import classification.kit.KitList;
+import classification.team.TeamList;
+import command.parent.CommandModel;
 import game.Game;
 import main.Main;
 import org.bukkit.entity.Player;
 
-public class Model_Request implements Interface_Request {
-
-    private final String game_name;
-    private final Player sender;
+public class Model_Request extends CommandModel {
 
     public Model_Request(String game_name, Player sender)
     {
-        this.game_name = game_name;
-        this.sender = sender;
+        super(game_name, sender);
     }
 
-    @Override
     public void create() {
         Main.game_list.put(this.game_name,new Game(this.sender));
     }
 
-    @Override
     public void join() {
-        Main.getGame(this.game_name).getPlayerList().add(this.sender.getUniqueId());
+        this.game.getPlayerClassification().put(this.sender.getUniqueId(), new Classification(KitList.INCOGNITO, TeamList.RANDOM));
+        this.game.getPlayerList().add(this.sender.getUniqueId());
+        Main.game_list.put(this.game_name, this.game);
     }
 
-    @Override
     public void delete() {
         Main.game_list.remove(this.game_name);
     }
 
-    @Override
     public void leave() {
         Main.getGame(this.game_name).getPlayerList().remove(this.sender.getUniqueId());
     }
 
-    @Override
     public void load() {
 
     }
 
-    @Override
     public void invite() {
 
     }
