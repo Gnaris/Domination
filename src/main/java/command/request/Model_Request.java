@@ -18,25 +18,21 @@ public class Model_Request implements Interface_Request {
     @Override
     public void create() {
         Main.game_list.put(this.game_name,new Game(this.sender));
-        this.sender.sendMessage("§aLa partie " + this.game_name + " a été crée avec succès");
     }
 
     @Override
     public void join() {
         Main.getGame(this.game_name).getPlayerList().add(this.sender.getUniqueId());
-        this.sender.sendMessage("§aVous avez rejoins la partie de §e" + Main.getGame(this.game_name).getOwner());
     }
 
     @Override
     public void delete() {
         Main.game_list.remove(this.game_name);
-        this.sender.sendMessage("§cLa partie §e" + this.game_name + " §rvient d'être supprimé");
     }
 
     @Override
     public void leave() {
         Main.getGame(this.game_name).getPlayerList().remove(this.sender.getUniqueId());
-        this.sender.sendMessage("§cVous avez quitté la partie !");
     }
 
     @Override
