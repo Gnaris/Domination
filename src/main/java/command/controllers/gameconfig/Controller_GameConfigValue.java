@@ -1,6 +1,6 @@
-package command.controllers;
+package command.controllers.gameconfig;
 
-import command.models.Model_GameConfigValue;
+import command.models.gameconfig.Model_GameConfigValue;
 import command.parent.CommandController;
 import main.Config;
 import org.bukkit.entity.Player;
@@ -16,7 +16,7 @@ public class Controller_GameConfigValue extends CommandController {
     }
 
     @Override
-    public void checkAndExecuteCommandType() {
+    public void checkAndExecuteCommand() {
 
         if(this.game == null)
         {
@@ -38,56 +38,47 @@ public class Controller_GameConfigValue extends CommandController {
             this.sender.sendMessage("§cLes valeurs ne doivent pas être en dessous de " + this.game.getMinGameConfigValue(this.command_type) + " ni au dessus de " + this.game.getMaxGameConfigValue(this.command_type));
             return;
         }
-        executeTypeCommand();
+        executeCommand();
     }
 
     @Override
-    public void executeTypeCommand()
+    public void executeCommand()
     {
-        Model_GameConfigValue game_config = new Model_GameConfigValue(this.game_name, this.sender, this.value);
+        Model_GameConfigValue game_config = new Model_GameConfigValue(this.game_name, this.sender,this.command_type, this.value);
+        game_config.updateConfiguration();
 
         switch(this.command_type) {
             case "player":
-                game_config.setPlayer();
                 this.sender.sendMessage("§aNombre de joueur maximum : " + this.value);
                 break;
             case "time":
-                game_config.setTime();
                 this.sender.sendMessage("§aDurée de la partie : " + this.value + " secondes");
                 break;
             case "respawntimer":
-                game_config.setRespawnTimer();
                 this.sender.sendMessage("§aTemps de respawn : " + this.value);
                 break;
             case "catchingtimer":
-                game_config.setCatchingTimer();
                 this.sender.sendMessage("§aDurée de la capture de drapeau : " + this.value);
                 break;
             case "catchspeed":
-                game_config.setCatchingSpeed();
                 this.sender.sendMessage("§aRapidité de la capture selon le nombre de joueur : " + this.value);
                 break;
             case "flag":
-                game_config.setFlag();
                 this.sender.sendMessage("§aNombre de drapeau dans la partie : " + this.value);
                 break;
             case "radius":
-                game_config.setRadius();
                 this.sender.sendMessage("§aTaille du drapeau (rayon) : " + this.value);
                 break;
             case "spawn":
-                game_config.setSpawn();
                 this.sender.sendMessage("§aNombre de spawn par équipe : " + this.value);
                 break;
             case "point":
-                game_config.setPoint();
                 this.sender.sendMessage("§aPoint pour remporter la manche : " + this.value);
                 break;
-            case "killpoint": game_config.setKillPoint();
+            case "killpoint":
                 this.sender.sendMessage("§aNombre de point par joueur tuer : " + this.value);
                 break;
             case "flagpoint" :
-                game_config.setFlagPoint();
                 this.sender.sendMessage("§aNombre de point par drapeau capturé (par seconde) : " + this.value);
                 break;
         }

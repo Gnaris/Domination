@@ -22,7 +22,7 @@ public abstract class Kit {
 
     protected abstract List<ItemStack> giveKit();
 
-    protected void setKit()
+    public void setKit()
     {
         for(Map.Entry game_name : Main.game_list.entrySet())
         {

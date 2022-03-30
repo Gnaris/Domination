@@ -19,7 +19,7 @@ public abstract class Team{
 
     public abstract void sendMessage();
 
-    protected void setTeam()
+    public void setTeam()
     {
         for(Map.Entry game_name : Main.game_list.entrySet())
         {

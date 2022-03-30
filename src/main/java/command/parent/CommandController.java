@@ -20,7 +20,7 @@ public abstract class CommandController {
         this.game_name = game_name;
     }
 
-    public abstract void checkAndExecuteCommandType();
-    public abstract void executeTypeCommand();
+    public abstract void checkAndExecuteCommand();
+    protected abstract void executeCommand();
 
 }

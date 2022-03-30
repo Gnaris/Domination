@@ -1,6 +1,6 @@
-package command.controllers;
+package command.controllers.gameconfig;
 
-import command.models.Model_GameConfigStatus;
+import command.models.gameconfig.Model_GameConfigStatus;
 import command.parent.CommandController;
 import org.bukkit.entity.Player;
 
@@ -11,7 +11,7 @@ public class Controller_GameConfigStatus extends CommandController {
     }
 
     @Override
-    public void checkAndExecuteCommandType() {
+    public void checkAndExecuteCommand() {
         if(this.game == null)
         {
             this.sender.sendMessage("§cVous devez d'abord créer une partie !");
@@ -32,20 +32,21 @@ public class Controller_GameConfigStatus extends CommandController {
             this.sender.sendMessage("§cVotre partie est déjà fermé aux publics");
             return;
         }
-        executeTypeCommand();
+        executeCommand();
     }
 
     @Override
-    public void executeTypeCommand() {
-        Model_GameConfigStatus game_config_status = new Model_GameConfigStatus(this.game_name, this.sender);
+    protected void executeCommand() {
+        boolean status = command_type.equalsIgnoreCase("open");
+        Model_GameConfigStatus game_config_status = new Model_GameConfigStatus(this.game_name, this.sender, status);
+        game_config_status.updateConfiguration();
+
         switch (this.command_type)
         {
             case "open" :
-                game_config_status.open();
                 this.sender.sendMessage("§aTout le monde pourront dès à présent rejoindre votre partie");
                 break;
             case "close" :
-                game_config_status.close();
                 this.sender.sendMessage("§aPlus personne pourra rejoindre votre partie sauf les invitations");
                 break;
         }

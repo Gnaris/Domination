@@ -7,9 +7,9 @@ import java.util.Map;
 
 public abstract class GameCharacteristic {
 
-    protected Map<String, Integer> game_characteristic;
-    protected Map<String, Integer> min_game_config;
-    protected Map<String, Integer> max_game_config;
+    protected Map<String, Double> game_characteristic;
+    protected Map<String, Double> min_game_config;
+    protected Map<String, Double> max_game_config;
 
     protected boolean open = Config.GetBoolean("default_game_caracteristique.game_opened");
     protected boolean launched = false;
@@ -18,30 +18,30 @@ public abstract class GameCharacteristic {
     public GameCharacteristic()
     {
         this.min_game_config = new HashMap<>();
-        this.min_game_config.put("player",Config.GetInt("default_game_caracteristique.minimum.player"));
-        this.min_game_config.put("time",Config.GetInt("default_game_caracteristique.minimum.time"));
-        this.min_game_config.put("respawntimer", Config.GetInt("default_game_caracteristique.minimum.respawntimer"));
-        this.min_game_config.put("catchtimer",Config.GetInt("default_game_caracteristique.minimum.catchtimer"));
-        this.min_game_config.put("catchspeed", Config.GetInt("default_game_caracteristique.minimum.catchspeed"));
-        this.min_game_config.put("flag", Config.GetInt("default_game_caracteristique.minimum.flag"));
-        this.min_game_config.put("radius",Config.GetInt("default_game_caracteristique.minimum.radius"));
-        this.min_game_config.put("spawn", Config.GetInt("default_game_caracteristique.minimum.spawn"));
-        this.min_game_config.put("point", Config.GetInt("default_game_caracteristique.minimum.point"));
-        this.min_game_config.put("killpoint", Config.GetInt("default_game_caracteristique.minimum.killpoint"));
-        this.min_game_config.put("flagpoint", Config.GetInt("default_game_caracteristique.minimum.flagpoint"));
+        this.min_game_config.put("player",Config.GetDouble("default_game_caracteristique.minimum.player"));
+        this.min_game_config.put("time",Config.GetDouble("default_game_caracteristique.minimum.time"));
+        this.min_game_config.put("respawntimer", Config.GetDouble("default_game_caracteristique.minimum.respawntimer"));
+        this.min_game_config.put("catchtimer",Config.GetDouble("default_game_caracteristique.minimum.catchtimer"));
+        this.min_game_config.put("catchspeed", Config.GetDouble("default_game_caracteristique.minimum.catchspeed"));
+        this.min_game_config.put("flag", Config.GetDouble("default_game_caracteristique.minimum.flag"));
+        this.min_game_config.put("radius",Config.GetDouble("default_game_caracteristique.minimum.radius"));
+        this.min_game_config.put("spawn", Config.GetDouble("default_game_caracteristique.minimum.spawn"));
+        this.min_game_config.put("point", Config.GetDouble("default_game_caracteristique.minimum.point"));
+        this.min_game_config.put("killpoint", Config.GetDouble("default_game_caracteristique.minimum.killpoint"));
+        this.min_game_config.put("flagpoint", Config.GetDouble("default_game_caracteristique.minimum.flagpoint"));
 
         this.max_game_config = new HashMap<>();
-        this.max_game_config.put("player",Config.GetInt("default_game_caracteristique.maximum.player"));
-        this.max_game_config.put("time",Config.GetInt("default_game_caracteristique.maximum.time"));
-        this.max_game_config.put("respawntimer", Config.GetInt("default_game_caracteristique.maximum.respawntimer"));
-        this.max_game_config.put("catchtimer",Config.GetInt("default_game_caracteristique.maximum.catchtimer"));
-        this.max_game_config.put("catchspeed", Config.GetInt("default_game_caracteristique.maximum.catchspeed"));
-        this.max_game_config.put("flag", Config.GetInt("default_game_caracteristique.maximum.flag"));
-        this.max_game_config.put("radius",Config.GetInt("default_game_caracteristique.maximum.radius"));
-        this.max_game_config.put("spawn", Config.GetInt("default_game_caracteristique.maximum.spawn"));
-        this.max_game_config.put("point", Config.GetInt("default_game_caracteristique.maximum.point"));
-        this.max_game_config.put("killpoint", Config.GetInt("default_game_caracteristique.maximum.killpoint"));
-        this.max_game_config.put("flagpoint", Config.GetInt("default_game_caracteristique.maximum.flagpoint"));
+        this.max_game_config.put("player",Config.GetDouble("default_game_caracteristique.maximum.player"));
+        this.max_game_config.put("time",Config.GetDouble("default_game_caracteristique.maximum.time"));
+        this.max_game_config.put("respawntimer", Config.GetDouble("default_game_caracteristique.maximum.respawntimer"));
+        this.max_game_config.put("catchtimer",Config.GetDouble("default_game_caracteristique.maximum.catchtimer"));
+        this.max_game_config.put("catchspeed", Config.GetDouble("default_game_caracteristique.maximum.catchspeed"));
+        this.max_game_config.put("flag", Config.GetDouble("default_game_caracteristique.maximum.flag"));
+        this.max_game_config.put("radius",Config.GetDouble("default_game_caracteristique.maximum.radius"));
+        this.max_game_config.put("spawn", Config.GetDouble("default_game_caracteristique.maximum.spawn"));
+        this.max_game_config.put("point", Config.GetDouble("default_game_caracteristique.maximum.point"));
+        this.max_game_config.put("killpoint", Config.GetDouble("default_game_caracteristique.maximum.killpoint"));
+        this.max_game_config.put("flagpoint", Config.GetDouble("default_game_caracteristique.maximum.flagpoint"));
 
         this.game_characteristic = new HashMap<>();
         this.game_characteristic.put("player",this.min_game_config.get("player"));
@@ -81,32 +81,32 @@ public abstract class GameCharacteristic {
         this.map = map;
     }
 
-    public int getGameCharacteristicValue(String key)
+    public double getGameCharacteristicValue(String key)
     {
         return this.game_characteristic.get(key);
     }
 
-    public void setGameCharacteristicValue(String key, int value)
+    public void setGameCharacteristicValue(String key, double value)
     {
         this.game_characteristic.put(key, value);
     }
 
-    public int getMinGameConfigValue(String key)
+    public double getMinGameConfigValue(String key)
     {
         return this.min_game_config.get(key);
     }
 
-    public void setMinGameConfigValue(String key, int value)
+    public void setMinGameConfigValue(String key, double value)
     {
         this.min_game_config.put(key, value);
     }
 
-    public int getMaxGameConfigValue(String key)
+    public double getMaxGameConfigValue(String key)
     {
         return this.max_game_config.get(key);
     }
 
-    public void setMaxGameConfigValue(String key, int value)
+    public void setMaxGameConfigValue(String key, double value)
     {
         this.max_game_config.put(key, value);
     }

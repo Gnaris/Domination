@@ -10,7 +10,6 @@ import java.util.Map;
 public final class Main extends JavaPlugin {
 
     public static Map<String, Game> game_list;
-
     @Override
     public void onEnable() {
         //CONFIG

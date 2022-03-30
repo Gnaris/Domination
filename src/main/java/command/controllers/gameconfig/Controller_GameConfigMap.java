@@ -1,4 +1,4 @@
-package command.controllers;
+package command.controllers.gameconfig;
 
 import command.parent.CommandController;
 import org.bukkit.entity.Player;
@@ -10,12 +10,12 @@ public class Controller_GameConfigMap extends CommandController {
     }
 
     @Override
-    public void checkAndExecuteCommandType() {
+    public void checkAndExecuteCommand() {
 
     }
 
     @Override
-    public void executeTypeCommand() {
+    protected void executeCommand() {
 
     }
 }

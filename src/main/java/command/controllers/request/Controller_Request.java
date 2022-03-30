@@ -1,13 +1,16 @@
-package command.controllers;
+package command.controllers.request;
 
 import command.parent.CommandController;
-import command.models.Model_Request;
+import command.models.request.Model_Request;
 import game.Game;
+import game.GameScoreBoard;
+import main.Config;
 import main.Main;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.util.Map;
+import java.util.Objects;
 
 public class Controller_Request extends CommandController {
 
@@ -18,7 +21,7 @@ public class Controller_Request extends CommandController {
     }
 
     @Override
-    public void checkAndExecuteCommandType()
+    public void checkAndExecuteCommand()
     {
         switch (this.command_type) {
             case "create":
@@ -53,14 +56,13 @@ public class Controller_Request extends CommandController {
             case "invite":
                 break;
 
-            case "help" :
-
             default: this.sender.sendMessage("§cCommande incorrecte, veuillez faire /dt help"); return;
         }
-        executeTypeCommand();
+        executeCommand();
     }
 
-        public void executeTypeCommand()
+        @Override
+        public void executeCommand()
         {
             Model_Request request = new Model_Request(this.game_name, this.sender);
 
@@ -72,7 +74,8 @@ public class Controller_Request extends CommandController {
                 break;
             case "join" :
                 request.join();
-                this.sender.sendMessage("§aVous avez rejoins la partie de §e" + Bukkit.getPlayer(Main.getGame(this.game_name).getOwner()));
+                new GameScoreBoard(this.sender).runTaskLater(Config.main, 0);
+                this.sender.sendMessage("§aVous avez rejoins la partie de §e" + Objects.requireNonNull(Bukkit.getPlayer(Main.getGame(this.game_name).getOwner())).getName());
                 break;
             case "delete" :
                 request.delete();
@@ -87,6 +90,9 @@ public class Controller_Request extends CommandController {
                 break;
             case "invite" :
                 request.invite();
+                break;
+            case "help" :
+                request.help();
                 break;
         }
     }

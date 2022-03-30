@@ -1,4 +1,4 @@
-package command.models;
+package command.models.request;
 
 import classification.Classification;
 import classification.kit.KitList;
@@ -22,7 +22,6 @@ public class Model_Request extends CommandModel {
     public void join() {
         this.game.getPlayerClassification().put(this.sender.getUniqueId(), new Classification(KitList.INCOGNITO, TeamList.RANDOM));
         this.game.getPlayerList().add(this.sender.getUniqueId());
-        Main.game_list.put(this.game_name, this.game);
     }
 
     public void delete() {
@@ -30,7 +29,7 @@ public class Model_Request extends CommandModel {
     }
 
     public void leave() {
-        Main.getGame(this.game_name).getPlayerList().remove(this.sender.getUniqueId());
+        this.game.getPlayerList().remove(this.sender.getUniqueId());
     }
 
     public void load() {
@@ -38,6 +37,11 @@ public class Model_Request extends CommandModel {
     }
 
     public void invite() {
+
+    }
+
+    public void help()
+    {
 
     }
 }
