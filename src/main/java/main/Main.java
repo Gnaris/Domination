@@ -15,13 +15,12 @@ public final class Main extends JavaPlugin {
         //CONFIG
         saveDefaultConfig();
         reloadConfig();
-        Config.Init(this);
 
         // Initialization
         game_list = new HashMap<>();
 
         //COMMAND
-        getCommand("dt").setExecutor(new View_Command());
+        getCommand("dt").setExecutor(new View_Command(this));
 
         System.out.println("[DOMINATION] has been turn on");
     }

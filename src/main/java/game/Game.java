@@ -2,6 +2,7 @@ package game;
 
 import classification.Classification;
 import game.builder.GameCharacteristic;
+import main.Main;
 import org.bukkit.entity.Player;
 
 import java.util.*;
@@ -9,14 +10,13 @@ import java.util.*;
 public class Game extends GameCharacteristic {
 
     private UUID owner;
-    private List<UUID> player_list;
-    private Map<UUID, Classification> player_classification;
+    private List<UUID> player_list = new ArrayList<>();;
+    private Map<UUID, Classification> player_classification = new HashMap<>();;
 
-    public Game(Player sender)
+    public Game(Player sender, Main config)
     {
+        super(config);
         this.owner = sender.getUniqueId();
-        this.player_list = new ArrayList<>();
-        this.player_classification = new HashMap<>();
     }
 
     public UUID getOwner()

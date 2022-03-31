@@ -10,13 +10,13 @@ import org.bukkit.entity.Player;
 
 public class Model_Request extends CommandModel {
 
-    public Model_Request(String game_name, Player sender)
+    public Model_Request(String game_name, Player sender, Main config)
     {
-        super(game_name, sender);
+        super(game_name, sender, config);
     }
 
     public void create() {
-        Main.game_list.put(this.game_name,new Game(this.sender));
+        Main.game_list.put(this.game_name,new Game(this.sender, this.config));
     }
 
     public void join() {
