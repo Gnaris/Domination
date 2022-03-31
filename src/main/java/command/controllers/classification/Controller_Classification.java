@@ -3,27 +3,19 @@ package command.controllers.classification;
 import classification.kit.KitList;
 import classification.team.TeamList;
 import command.models.classification.Model_Classification;
+import command.parent.CommandController;
 import game.Game;
 import main.Main;
 import org.bukkit.entity.Player;
 
 import java.util.Map;
 
-public class Controller_Classification{
+public class Controller_Classification extends CommandController {
 
-    private final String command_type;
-    private KitList kit_value;
-    private TeamList team_value;
-    private final String value;
-    private final Player sender;
-    private String game_name;
-    private Game game;
+    private TeamList team;
+    private KitList kit;
 
-    public Controller_Classification(String command_type, String value, Player sender) {
-
-        this.command_type = command_type;
-        this.value = value;
-        this.sender = sender;
+    public Controller_Classification(Player sender) {
         for(Map.Entry game : Main.game_list.entrySet())
         {
             Game game_name = (Game) game.getValue();
@@ -35,7 +27,8 @@ public class Controller_Classification{
         }
     }
 
-    public void checkAndExecuteCommandType()
+    @Override
+    public void checkAndExecuteCommand()
     {
         if(this.game == null) {this.sender.sendMessage("§cVous devez tout d'abord rejoindre une partie avant de faire cela");return;}
         switch (this.command_type)
@@ -44,9 +37,9 @@ public class Controller_Classification{
             {
                 for(TeamList team : TeamList.values())
                 {
-                    if(this.value.equalsIgnoreCase(team.name().toLowerCase())) this.team_value = team; break;
+                    if(this.string_value.equalsIgnoreCase(team.name().toLowerCase())) this.team = team; break;
                 }
-                if (this.team_value == null) {this.sender.sendMessage("§cLa couleur de cette team n'existe pas !");return;}
+                if (this.team == null) {this.sender.sendMessage("§cLa couleur de cette team n'existe pas !");return;}
                 break;
             }
 
@@ -54,27 +47,28 @@ public class Controller_Classification{
             {
                 for(KitList kit : KitList.values())
                 {
-                    if(this.value.equalsIgnoreCase(kit.name().toLowerCase())) this.kit_value = kit; break;
+                    if(this.string_value.equalsIgnoreCase(kit.name().toLowerCase())) this.kit = kit; break;
                 }
-                if (this.kit_value == null) {this.sender.sendMessage("§cCe kit n'existe pas !");return;}
+                if (this.kit == null) {this.sender.sendMessage("§cCe kit n'existe pas !");return;}
                 break;
             }
             default: this.sender.sendMessage("§cCommande incorrecte, veuillez faire /dt help"); return;
         }
-        executeTypeCommand();
+        executeCommand();
     }
 
-    public void executeTypeCommand() {
+    @Override
+    public void executeCommand() {
         Model_Classification model_classification;
         switch (this.command_type)
         {
             case "team" :
-                model_classification = new Model_Classification<TeamList>(this.game_name, this.sender, this.team_value);
+                model_classification = new Model_Classification<TeamList>(this.game_name, this.sender, this.team, this.config);
                 model_classification.updateConfiguration();
                 break;
 
             case "kit" :
-                model_classification = new Model_Classification<KitList>(this.game_name, this.sender, this.kit_value);
+                model_classification = new Model_Classification<KitList>(this.game_name, this.sender, this.kit, this.config);
                 model_classification.updateConfiguration();
                 break;
         }

@@ -3,14 +3,15 @@ package command.models.classification;
 import classification.kit.KitList;
 import classification.team.TeamList;
 import command.parent.CommandConfigModel;
+import main.Main;
 import org.bukkit.entity.Player;
 
 public class Model_Classification<T> extends CommandConfigModel {
 
     private T value;
 
-    public Model_Classification(String game_name, Player sender, T value) {
-        super(game_name, sender);
+    public Model_Classification(String game_name, Player sender, T value, Main config) {
+        super(game_name, sender, config);
         this.value = value;
     }
 

@@ -1,6 +1,5 @@
 package command.controllers.gameconfig;
 
-import command.interfaces.CommandExecutor;
 import command.models.gameconfig.Model_GameConfigStatus;
 import command.parent.CommandController;
 import main.Main;
@@ -8,6 +7,13 @@ import org.bukkit.entity.Player;
 
 public class Controller_GameConfigStatus extends CommandController{
 
+    private String value;
+    public Controller_GameConfigStatus(String game_name, String command_type, Player sender, Main config, String value) {
+        super(game_name, command_type, sender, config);
+        this.value = value;
+    }
+
+    @Override
     public void checkAndExecuteCommand() {
         if(this.game == null)
         {
@@ -32,6 +38,7 @@ public class Controller_GameConfigStatus extends CommandController{
         executeCommand();
     }
 
+    @Override
     public void executeCommand() {
         boolean status = command_type.equalsIgnoreCase("open");
         Model_GameConfigStatus game_config_status = new Model_GameConfigStatus(this.game_name, this.sender, status, this.config);

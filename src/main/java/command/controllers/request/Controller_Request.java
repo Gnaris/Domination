@@ -1,6 +1,5 @@
 package command.controllers.request;
 
-import command.interfaces.CommandExecutor;
 import command.parent.CommandController;
 import command.models.request.Model_Request;
 import game.Game;
@@ -14,9 +13,19 @@ import java.util.Objects;
 
 public class Controller_Request extends CommandController{
 
+    public Controller_Request(String game_name, String command_type, Player sender, Main config) {
+        super(game_name, command_type, sender, config);
+    }
+
+    public Controller_Request(String command_type, Player sender, Main config)
+    {
+        super(command_type, sender, config);
+    }
+
     @Override
     public void checkAndExecuteCommand()
     {
+        this.sender.sendMessage("Lol");
         if(this.game == null || !this.command_type.equalsIgnoreCase("create")) {this.sender.sendMessage("§cLe nom de la partie est incorrecte ou inexistant"); return; }
         switch (this.command_type)
         {

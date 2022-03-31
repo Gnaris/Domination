@@ -1,4 +1,4 @@
-package admincommand;
+package admin_command;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;

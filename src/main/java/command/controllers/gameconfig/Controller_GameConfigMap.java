@@ -4,6 +4,6 @@ import command.parent.CommandController;
 import main.Main;
 import org.bukkit.entity.Player;
 
-public class Controller_GameConfigMap extends CommandController {
+public class Controller_GameConfigMap {
 
 }

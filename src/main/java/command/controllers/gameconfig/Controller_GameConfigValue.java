@@ -1,6 +1,5 @@
 package command.controllers.gameconfig;
 
-import command.interfaces.CommandExecutor;
 import command.models.gameconfig.Model_GameConfigValue;
 import command.parent.CommandController;
 import main.Main;
@@ -8,8 +7,13 @@ import org.bukkit.entity.Player;
 
 public class Controller_GameConfigValue extends CommandController{
 
-    private int value;;
-    private Model_GameConfigValue game_config;
+    private int value;
+
+    public Controller_GameConfigValue(String game_name, String command_type, Player sender, Main config, int value) {
+        super(game_name, command_type, sender, config);
+        this.value = value;
+    }
+
 
     @Override
     public void checkAndExecuteCommand() {
