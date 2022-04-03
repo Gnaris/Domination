@@ -9,7 +9,6 @@ import java.util.List;
 public class Epeiste extends Kit {
     public Epeiste(Player sender) {
         super(sender);
-        this.kit = KitList.EPEISTE;
     }
 
     @Override

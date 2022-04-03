@@ -10,12 +10,14 @@ import java.util.*;
 public class Game extends GameCharacteristic {
 
     private UUID owner;
-    private List<UUID> player_list = new ArrayList<>();;
-    private Map<UUID, Classification> player_classification = new HashMap<>();;
+    private String game_name;
 
-    public Game(Player sender, Main config)
+    private List<UUID> player_list = new ArrayList<>();
+    private Map<UUID, Classification> player_classification = new HashMap<>();
+
+    public Game(String game_name, Player sender, Main plugin)
     {
-        super(config);
+        super(plugin);
         this.owner = sender.getUniqueId();
     }
 
@@ -29,5 +31,9 @@ public class Game extends GameCharacteristic {
     public Map<UUID, Classification> getPlayerClassification()
     {
         return this.player_classification;
+    }
+
+    public String getGame_name() {
+        return game_name;
     }
 }

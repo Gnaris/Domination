@@ -9,7 +9,6 @@ import java.util.List;
 public class Archer extends Kit {
     public Archer(Player sender) {
         super(sender);
-        this.kit = KitList.ARCHER;
     }
 
     @Override

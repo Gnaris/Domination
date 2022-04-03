@@ -10,7 +10,6 @@ public class Incognito extends Kit {
 
     public Incognito(Player sender) {
         super(sender);
-        this.kit = KitList.INCOGNITO;
     }
 
     @Override

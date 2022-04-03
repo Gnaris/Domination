@@ -13,7 +13,6 @@ import java.util.Map;
 public abstract class Kit {
 
     protected Player sender;
-    protected KitList kit = null;
 
     public Kit(Player sender)
     {
@@ -22,16 +21,4 @@ public abstract class Kit {
 
     protected abstract List<ItemStack> giveKit();
 
-    public void setKit()
-    {
-        for(Map.Entry game_name : Main.game_list.entrySet())
-        {
-            Game game = (Game) game_name.getValue();
-            if(game.getPlayerList().contains(this.sender.getUniqueId()))
-            {
-                game.getPlayerClassification().get(this.sender.getUniqueId()).setKit(this.kit);
-                break;
-            }
-        }
-    }
 }

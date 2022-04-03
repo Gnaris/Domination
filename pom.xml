@@ -39,7 +39,7 @@
                         </goals>
                         <configuration>
                             <createDependencyReducedPom>false</createDependencyReducedPom>
-                            <outputFile>C:\Users\Admin\Desktop\Minecraft Localhost\plugins\Domination.jar</outputFile>
+                            <outputFile>C:\Users\chenb\Desktop\Minecraft Localhost\plugins\Domination.jar</outputFile>
                         </configuration>
                     </execution>
                 </executions>

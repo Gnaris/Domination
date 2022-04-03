@@ -7,7 +7,6 @@ public class Blue extends Team {
 
     public Blue(Player sender) {
         super(sender);
-        this.team = TeamList.BlUE;
     }
 
     @Override

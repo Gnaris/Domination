@@ -9,7 +9,6 @@ import java.util.List;
 public class Mage extends Kit {
     public Mage(Player sender) {
         super(sender);
-        this.kit = KitList.MAGE;
     }
 
     @Override

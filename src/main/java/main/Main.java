@@ -1,6 +1,6 @@
 package main;
 
-import command.View_Command;
+import command.player_command.View_Command;
 import game.Game;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -9,7 +9,7 @@ import java.util.Map;
 
 public final class Main extends JavaPlugin {
 
-    public static Map<String, Game> game_list;
+    private Map<String, Game> game_list;
     @Override
     public void onEnable() {
         //CONFIG
@@ -30,8 +30,7 @@ public final class Main extends JavaPlugin {
         System.out.println("[DOMINATION] has been turn off");
     }
 
-    public static Game getGame(String game_name)
-    {
-        return game_list.get(game_name);
+    public Map<String, Game> getGame_list() {
+        return game_list;
     }
 }

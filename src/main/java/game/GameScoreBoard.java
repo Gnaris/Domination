@@ -16,12 +16,12 @@ public class GameScoreBoard extends BukkitRunnable {
     private Objective objective = board.registerNewObjective("GameScoreboard", "dummy");
 
     private Game game;
-    private Player sender;
+    private final Player sender;
 
-    public GameScoreBoard(Player sender)
+    public GameScoreBoard(Player sender, Main plugin)
     {
         this.sender = sender;
-        for(Map.Entry game_list : Main.game_list.entrySet())
+        for(Map.Entry game_list : plugin.getGame_list().entrySet())
         {
             Game game = (Game) game_list.getValue();
             if(game.getPlayerList().contains(sender.getUniqueId()))
@@ -36,29 +36,29 @@ public class GameScoreBoard extends BukkitRunnable {
     {
         this.objective.setDisplaySlot(DisplaySlot.SIDEBAR);
         this.objective.setDisplayName("§c§lDOMINATION");
-        Score score14 = this.objective.getScore("        §a§lCaractéristique     ");
+        Score score14 = this.objective.getScore("          §a§lCaractéristique     ");
         score14.setScore(14);
-        Score score13 = this.objective.getScore("§7Nombre de joueur : §e(" + this.game.getPlayerList().size() + "/" + this.game.getGameCharacteristicValue("player") + ")");
+        Score score13 = this.objective.getScore("§7Nombre de joueur : §e(" + (int) this.game.getPlayerList().size() + "/" + (int) this.game.getGameCharacteristicValue("player") + ")");
         score13.setScore(13);
-        Score score12 = this.objective.getScore("§7Durée de la partie : §e" + this.game.getGameCharacteristicValue("time") + "s");
+        Score score12 = this.objective.getScore("§7Durée de la partie : §e" + (int) this.game.getGameCharacteristicValue("time") + "s");
         score12.setScore(12);
-        Score score11 = this.objective.getScore("§7Durée de la capture : §e" + this.game.getGameCharacteristicValue("catchtimer") + "s");
+        Score score11 = this.objective.getScore("§7Durée de la capture : §e" + (int) this.game.getGameCharacteristicValue("catchtimer") + "s");
         score11.setScore(11);
         Score score10 = this.objective.getScore("§7Capture Accélérée : §e+" + this.game.getGameCharacteristicValue("catchspeed") + "s");
         score10.setScore(10);
-        Score score9 = this.objective.getScore("§7Temps de Respawn : §e" + this.game.getGameCharacteristicValue("respawntimer") + "s");
+        Score score9 = this.objective.getScore("§7Temps de Respawn : §e" + (int) this.game.getGameCharacteristicValue("respawntimer") + "s");
         score9.setScore(9);
-        Score score8 = this.objective.getScore("§7Nombre drapeau : §e" + this.game.getGameCharacteristicValue("flag"));
+        Score score8 = this.objective.getScore("§7Nombre drapeau : §e" + (int) this.game.getGameCharacteristicValue("flag"));
         score8.setScore(8);
-        Score score7 = this.objective.getScore("§7Rayon du drapeau : §e" + this.game.getGameCharacteristicValue("radius"));
+        Score score7 = this.objective.getScore("§7Rayon du drapeau : §e" + (int) this.game.getGameCharacteristicValue("radius"));
         score7.setScore(7);
-        Score score6 = this.objective.getScore("§7Spawn par équipe : §e" + this.game.getGameCharacteristicValue("spawn"));
+        Score score6 = this.objective.getScore("§7Spawn par équipe : §e" + (int) this.game.getGameCharacteristicValue("spawn"));
         score6.setScore(6);
-        Score score5 = this.objective.getScore("§7Objectif Point : §e" + this.game.getGameCharacteristicValue("point"));
+        Score score5 = this.objective.getScore("§7Objectif Point : §e" + (int) this.game.getGameCharacteristicValue("point"));
         score5.setScore(5);
-        Score score4 = this.objective.getScore("§7Point par joueur tuer : §e" + this.game.getGameCharacteristicValue("killpoint"));
+        Score score4 = this.objective.getScore("§7Point par joueur tuer : §e"  + (int) this.game.getGameCharacteristicValue("killpoint"));
         score4.setScore(4);
-        Score score3 = this.objective.getScore("§7Point par drapeau : §e" + this.game.getGameCharacteristicValue("flagpoint"));
+        Score score3 = this.objective.getScore("§7Point par drapeau : §e" + (int) this.game.getGameCharacteristicValue("flagpoint"));
         score3.setScore(3);
         Score score2 = this.objective.getScore("§7Map : §e" + "AUCUNE");
         score2.setScore(2);
