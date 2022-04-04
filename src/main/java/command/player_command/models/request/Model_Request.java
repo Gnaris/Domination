@@ -3,7 +3,7 @@ package command.player_command.models.request;
 import classification.Classification;
 import classification.kit.KitList;
 import classification.team.TeamList;
-import command.parent.CommandModel;
+import command.player_command.parent.CommandModel;
 import game.Game;
 import main.Main;
 import org.bukkit.entity.Player;

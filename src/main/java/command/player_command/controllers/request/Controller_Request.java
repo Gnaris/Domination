@@ -1,7 +1,7 @@
 package command.player_command.controllers.request;
 
 import command.player_command.models.request.Model_Request;
-import command.parent.CommandController;
+import command.player_command.parent.CommandController;
 import game.Game;
 import game.GameScoreBoard;
 import main.Main;

@@ -1,7 +1,7 @@
 package command.player_command.controllers.game_config;
 
 import command.player_command.models.game_config.Model_GameConfigStatus;
-import command.parent.CommandController;
+import command.player_command.parent.CommandController;
 import main.Main;
 import org.bukkit.entity.Player;
 

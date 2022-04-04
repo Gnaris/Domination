@@ -1,7 +1,7 @@
 package command.player_command.models.game_config;
 
-import command.parent.CommandModel;
-import command.parent.Configuration;
+import command.player_command.parent.CommandModel;
+import command.player_command.parent.Configuration;
 import main.Main;
 import org.bukkit.entity.Player;
 

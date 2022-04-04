@@ -1,4 +1,4 @@
-package command.parent;
+package command.player_command.parent;
 
 public interface Configuration {
 

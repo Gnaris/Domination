@@ -1,5 +1,6 @@
 package main;
 
+import command.admin_command.View_AdminCommand;
 import command.player_command.View_Command;
 import game.Game;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -21,6 +22,7 @@ public final class Main extends JavaPlugin {
 
         //COMMAND
         getCommand("dt").setExecutor(new View_Command(this));
+        getCommand("dta").setExecutor(new View_AdminCommand(this));
 
         System.out.println("[DOMINATION] has been turn on");
     }

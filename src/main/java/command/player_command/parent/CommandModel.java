@@ -1,4 +1,4 @@
-package command.parent;
+package command.player_command.parent;
 
 import game.Game;
 import main.Main;

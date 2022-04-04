@@ -1,6 +1,6 @@
-package command.factory;
+package command.player_command.factory;
 
-import command.parent.CommandController;
+import command.player_command.parent.CommandController;
 import command.player_command.controllers.classification.Controller_Classification;
 import command.player_command.controllers.game_config.Controller_GameConfigStatus;
 import command.player_command.controllers.game_config.Controller_GameConfigValue;

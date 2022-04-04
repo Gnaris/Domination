@@ -1,7 +1,7 @@
 package command.player_command;
 
-import command.parent.CommandController;
-import command.factory.ControllerFactory;
+import command.player_command.parent.CommandController;
+import command.player_command.factory.ControllerFactory;
 import main.Main;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;

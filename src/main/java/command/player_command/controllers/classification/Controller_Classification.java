@@ -3,7 +3,7 @@ package command.player_command.controllers.classification;
 import classification.kit.KitList;
 import classification.team.TeamList;
 import command.player_command.models.classification.Model_Classification;
-import command.parent.CommandController;
+import command.player_command.parent.CommandController;
 import game.Game;
 import game.GameScoreBoard;
 import main.Main;
@@ -11,7 +11,7 @@ import org.bukkit.entity.Player;
 
 import java.util.Map;
 
-public class Controller_Classification extends CommandController {
+public class Controller_Classification extends CommandController{
 
     private TeamList team;
     private KitList kit;
