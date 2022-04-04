@@ -1,5 +1,6 @@
 package command.admin_command;
 
+import coliseum.Coliseum;
 import command.admin_command.factory.ControllerAdministorFactory;
 import command.admin_command.parent.AdministratorCommandController;
 import main.Main;
@@ -8,12 +9,21 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.Map;
+
+
 // /dta create <name>
 // /dta delete <name>
+
 // /dta <map> setflag <name>
 // /dta <map> deleteflag <name>
+
 // /dta <map> setspawn <team color> <name>
 // /dta <map> deletespawn <team color> <name>
+
+// /dta show map
+// /dta showflag <name>
+// /dta showspawn <name>
 public class View_AdminCommand implements CommandExecutor {
 
     private final Main plugin;
@@ -34,10 +44,19 @@ public class View_AdminCommand implements CommandExecutor {
         {
             case 3 :
             {
+                if(args[0].equalsIgnoreCase("aze"))
+                {
+                    for(Map.Entry a : this.plugin.getColiseum_list().entrySet())
+                    {
+                        Coliseum coliseum = (Coliseum) a.getValue();
+                         sender.sendMessage("La list des arènes : " + coliseum.getName());
+                    }
+                }
                 if((args[0].equalsIgnoreCase("create") || args[0].equalsIgnoreCase("delete")) && args[1].equalsIgnoreCase("map"))
                 {
                     assert sender instanceof Player;
                     controller = ControllerAdministorFactory.getInstance(args, (Player) sender, this.plugin);
+                    assert controller != null;
                     controller.checkAndExecuteCommand();
                     return true;
                 }
@@ -45,6 +64,7 @@ public class View_AdminCommand implements CommandExecutor {
                 {
                     assert sender instanceof Player;
                     controller = ControllerAdministorFactory.getInstance(args, (Player) sender, this.plugin);
+                    assert controller != null;
                     controller.checkAndExecuteCommand();
                     return true;
                 }
@@ -57,6 +77,7 @@ public class View_AdminCommand implements CommandExecutor {
                 {
                     assert sender instanceof Player;
                     controller = ControllerAdministorFactory.getInstance(args, (Player) sender, this.plugin);
+                    assert controller != null;
                     controller.checkAndExecuteCommand();
                     return true;
                 }

@@ -14,7 +14,7 @@ public abstract class AdministratorCommandController {
     protected String map_name;
     protected String name_value;
     protected Player sender;
-    protected List<String> arena_lists = new ArrayList<>();
+    protected Main plugin;
 
     public AdministratorCommandController(String map_name, String command_type, String name_value, Main plugin, Player sender)
     {
@@ -23,7 +23,7 @@ public abstract class AdministratorCommandController {
         this.map_config = new MapConfig(plugin);
         this.name_value = name_value;
         this.sender = sender;
-        this.arena_lists.addAll(this.map_config.getConfig().getConfigurationSection("map").getKeys(false));
+        this.plugin = plugin;
     }
 
     public abstract void checkAndExecuteCommand();

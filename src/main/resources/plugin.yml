@@ -6,3 +6,5 @@ authors: [Gnaris]
 commands:
   dt:
     description: Basic Command Of Plugin
+  dta:
+    description: Command Admin for create map
