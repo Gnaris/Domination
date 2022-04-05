@@ -5,8 +5,8 @@ import org.bukkit.Location;
 
 public class Flag {
 
-    private String name;
-    private Location flag_location;
+    private final String name;
+    private final Location flag_location;
 
     public Flag(String name, Location flag_location)
     {
