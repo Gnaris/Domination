@@ -44,14 +44,6 @@ public class View_AdminCommand implements CommandExecutor {
         {
             case 3 :
             {
-                if(args[0].equalsIgnoreCase("aze"))
-                {
-                    for(Map.Entry a : this.plugin.getColiseum_list().entrySet())
-                    {
-                        Coliseum coliseum = (Coliseum) a.getValue();
-                         sender.sendMessage("La list des arènes : " + coliseum.getName());
-                    }
-                }
                 if((args[0].equalsIgnoreCase("create") || args[0].equalsIgnoreCase("delete")) && args[1].equalsIgnoreCase("map"))
                 {
                     assert sender instanceof Player;

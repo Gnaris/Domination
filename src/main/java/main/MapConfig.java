@@ -1,6 +1,5 @@
 package main;
 
-import main.Main;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 

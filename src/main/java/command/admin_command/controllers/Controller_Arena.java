@@ -23,8 +23,7 @@ public class Controller_Arena extends AdministratorCommandController {
 
             }
             case "delete" :
-                if(this.plugin.getColiseum_list() == null){ this.sender.sendMessage("§cMap inconnu"); return;}
-                if(!this.plugin.getColiseum_list().containsKey(this.map_name)){ this.sender.sendMessage("§cMap inconnu"); return;}
+                if(!this.plugin.getColiseum_list().containsKey(this.map_name) || this.plugin.getColiseum_list() == null){ this.sender.sendMessage("§cMap inconnu"); return;}
                 break;
         }
 
