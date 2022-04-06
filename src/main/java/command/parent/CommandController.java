@@ -28,7 +28,7 @@ public abstract class CommandController{
         this.plugin = plugin;
     }
 
-    public abstract void checkAndExecuteCommand();
+    public abstract void ControlCmd();
 
-    public abstract void executeCommand();
+    protected abstract void executeCmd();
 }

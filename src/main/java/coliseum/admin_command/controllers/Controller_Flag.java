@@ -1,5 +1,6 @@
 package coliseum.admin_command.controllers;
 
+import coliseum.Flag;
 import coliseum.admin_command.models.Model_Flag;
 import coliseum.admin_command.parent.AdminCmdController;
 import main.Main;
@@ -28,7 +29,7 @@ public class Controller_Flag extends AdminCmdController {
             {
                 case "setflag" :
                 {
-                    if(this.coliseums_list.get(this.map_name).getFlag_list().get(this.value_name) != null)
+                    if(this.coliseums_list.get(this.map_name).getFlag_list().stream().anyMatch(flag_list -> flag_list.getName().equalsIgnoreCase(this.value_name)))
                     {
                         this.sender.sendMessage("§cLe nom de ce drapeau existe déjà");
                         response = false;
@@ -38,7 +39,16 @@ public class Controller_Flag extends AdminCmdController {
 
                 case "deleteflag" :
                 {
-                    if(this.coliseums_list.get(this.map_name).getFlag_list().get(this.value_name) == null)
+                    boolean contains = false;
+                    for(Flag flag : this.coliseums_list.get(this.map_name).getFlag_list())
+                    {
+                        if(flag.getName().equalsIgnoreCase(this.value_name))
+                        {
+                           contains = true;
+                           break;
+                        }
+                    }
+                    if(!contains)
                     {
                         this.sender.sendMessage("§cLe nom de ce drapeau est inexistant");
                         response = false;
@@ -57,7 +67,7 @@ public class Controller_Flag extends AdminCmdController {
     @Override
     protected void executeCmd()
     {
-        Model_Flag model_flag = new Model_Flag(this.map_name, this.value_name, this.sender.getLocation(), this.coliseum_config, this.coliseums_list);
+        Model_Flag model_flag = new Model_Flag(this.map_name, this.value_name, this.sender, this.coliseum_config, this.coliseums_list);
 
         switch (this.command_type)
         {

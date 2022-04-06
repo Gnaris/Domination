@@ -60,8 +60,16 @@ public class GameScoreBoard extends BukkitRunnable {
         score4.setScore(4);
         Score score3 = this.objective.getScore("§7Point par drapeau : §e" + (int) this.game.getGameCharacteristicValue("flagpoint"));
         score3.setScore(3);
-        Score score2 = this.objective.getScore("§7Map : §e" + "AUCUNE");
-        score2.setScore(2);
+        if(this.game.getColiseum() != null)
+        {
+            Score score2 = this.objective.getScore("§7Map : §e" + this.game.getColiseum().getName());
+            score2.setScore(2);
+        }
+        else
+        {
+            Score score2 = this.objective.getScore("§7Map : §eAucune map");
+            score2.setScore(2);
+        }
         Score score1 = this.objective.getScore("§aVotre équipe : §6§l" + this.game.getPlayerClassification().get(this.sender.getUniqueId()).getTeam().name().substring(0,1).toUpperCase() + this.game.getPlayerClassification().get(this.sender.getUniqueId()).getTeam().name().substring(1).toLowerCase());
         score1.setScore(1);
         Score score0 = this.objective.getScore("§aVotre kit : §6§l" + this.game.getPlayerClassification().get(this.sender.getUniqueId()).getKit().name().substring(0,1).toUpperCase() + this.game.getPlayerClassification().get(this.sender.getUniqueId()).getKit().name().substring(1).toLowerCase());

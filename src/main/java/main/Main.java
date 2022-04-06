@@ -62,7 +62,7 @@ public final class Main extends JavaPlugin {
                                             .collect(Collectors.toList())
                                             .forEach(teamlist -> this.team = teamlist);
                                     spawn = new Spawn(spawn_name, this.team, location);
-                                    this.coliseums_list.get(coliseum_name).getSpawn_list().put(spawn_name, spawn);
+                                    this.coliseums_list.get(coliseum_name).getSpawn_list().add(spawn);
                                 }
                             }
                         }
@@ -78,7 +78,7 @@ public final class Main extends JavaPlugin {
                         world = this.coliseum_config.getConfig().getString("map." + coliseum_name + ".world");
                         location = new Location(Bukkit.getWorld(world), x,y,z);
                         flag = new Flag(flag_name, location);
-                        this.coliseums_list.get(coliseum_name).getFlag_list().put(flag_name, flag);
+                        this.coliseums_list.get(coliseum_name).getFlag_list().add(flag);
                     }
                 }
             }

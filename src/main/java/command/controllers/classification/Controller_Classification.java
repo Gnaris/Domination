@@ -9,15 +9,17 @@ import game.GameScoreBoard;
 import main.Main;
 import org.bukkit.entity.Player;
 
+import java.util.Arrays;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class Controller_Classification extends CommandController{
 
     private TeamList team;
     private KitList kit;
-    private final String value;
+    private final String value_team_kit;
 
-    public Controller_Classification(String command_type, Player sender, Main plugin, String value) {
+    public Controller_Classification(String command_type, String value_team_kit, Player sender, Main plugin) {
         super(command_type, sender, plugin);
 
         for(Map.Entry game : plugin.getGame_list().entrySet())
@@ -31,55 +33,71 @@ public class Controller_Classification extends CommandController{
             }
         }
 
-        this.value = value;
+        this.value_team_kit = value_team_kit;
     }
 
 
     @Override
-    public void checkAndExecuteCommand()
+    public void ControlCmd()
     {
-        if(this.game == null) {this.sender.sendMessage("§cVous devez tout d'abord rejoindre une partie avant de faire cela");return;}
+        if(this.game == null)
+        {
+            this.sender.sendMessage("§cVous devez tout d'abord rejoindre une partie avant de faire cela");
+            return;
+        }
+
         switch (this.command_type)
         {
             case "team" :
             {
-                for(TeamList team : TeamList.values())
+                Arrays.stream(TeamList.values())
+                        .filter(team_list -> team_list.toString().toLowerCase().equalsIgnoreCase(this.value_team_kit))
+                        .collect(Collectors.toList())
+                        .forEach(team_list -> this.team = team_list);
+
+                if (this.team == null)
                 {
-                    if(this.value.equalsIgnoreCase(team.name().toLowerCase())){ this.team = team; break; }
+                    this.sender.sendMessage("§cLa couleur de cette team n'existe pas !");
+                    return;
                 }
-                if (this.team == null) {this.sender.sendMessage("§cLa couleur de cette team n'existe pas !");return;}
                 break;
             }
 
             case "kit" :
             {
-                for(KitList kit : KitList.values())
+                Arrays.stream(KitList.values())
+                        .filter(kit_list -> kit_list.toString().toLowerCase().equalsIgnoreCase(this.value_team_kit))
+                        .collect(Collectors.toList())
+                        .forEach(kit_list -> this.kit = kit_list);
+
+                if (this.kit == null)
                 {
-                    if(this.value.equalsIgnoreCase(kit.name().toLowerCase())){ this.kit = kit; break; }
+                    this.sender.sendMessage("§cCe kit n'existe pas !");
+                    return;
                 }
-                if (this.kit == null) {this.sender.sendMessage("§cCe kit n'existe pas !");return;}
                 break;
             }
-            default: this.sender.sendMessage("§cCommande incorrecte, veuillez faire /dt help"); return;
         }
-        executeCommand();
+
+        executeCmd();
     }
 
     @Override
-    public void executeCommand() {
-        Model_Classification model_classification;
+    protected void executeCmd() {
+        Model_Classification model_classification = null;
         switch (this.command_type)
         {
             case "team" :
-                model_classification = new Model_Classification<TeamList>(this.game_name, this.sender, this.team, this.plugin);
-                model_classification.updateConfiguration();
+                model_classification = new Model_Classification<>(this.game_name, this.sender, this.team, this.plugin);
                 break;
 
             case "kit" :
-                model_classification = new Model_Classification<KitList>(this.game_name, this.sender, this.kit, this.plugin);
-                model_classification.updateConfiguration();
+                model_classification = new Model_Classification<>(this.game_name, this.sender, this.kit, this.plugin);
                 break;
         }
+
+        assert model_classification != null;
+        model_classification.updateConfiguration();
         new GameScoreBoard(this.sender, this.plugin).runTaskLater(this.plugin, 0);
     }
 }

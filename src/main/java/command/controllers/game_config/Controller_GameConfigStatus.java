@@ -7,12 +7,13 @@ import org.bukkit.entity.Player;
 
 public class Controller_GameConfigStatus extends CommandController {
 
-    public Controller_GameConfigStatus(String game_name, String command_type, Player sender, Main plugin) {
+    public Controller_GameConfigStatus(String command_type, String game_name, Player sender, Main plugin) {
         super(game_name, command_type, sender, plugin);
     }
 
     @Override
-    public void checkAndExecuteCommand() {
+    public void ControlCmd() {
+
         if(this.game == null)
         {
             this.sender.sendMessage("§cVous devez d'abord créer une partie !");
@@ -33,25 +34,27 @@ public class Controller_GameConfigStatus extends CommandController {
             this.sender.sendMessage("§cVotre partie est déjà fermé aux publics");
             return;
         }
-        executeCommand();
+
+        executeCmd();
     }
 
     @Override
-    public void executeCommand() {
-        Model_GameConfigStatus game_config_status;
+    protected void executeCmd() {
+        Model_GameConfigStatus game_config_status = null;
 
         switch (this.command_type)
         {
             case "open" :
-                this.sender.sendMessage("§aTout le monde pourront dès à présent rejoindre votre partie");
                 game_config_status = new Model_GameConfigStatus(this.game_name, this.sender, true, this.plugin);
-                game_config_status.updateConfiguration();
+                this.sender.sendMessage("§aTout le monde pourront dès à présent rejoindre votre partie");
                 break;
             case "close" :
-                this.sender.sendMessage("§aPlus personne pourra rejoindre votre partie sauf les invitations");
                 game_config_status = new Model_GameConfigStatus(this.game_name, this.sender, false, this.plugin);
-                game_config_status.updateConfiguration();
+                this.sender.sendMessage("§aPlus personne ne pourra rejoindre votre partie sauf pour les invitations");
                 break;
         }
+
+        assert game_config_status != null;
+        game_config_status.updateConfiguration();
     }
 }

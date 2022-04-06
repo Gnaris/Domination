@@ -1,6 +1,8 @@
 package coliseum.admin_command.controllers;
 
 import classification.team.TeamList;
+import coliseum.Flag;
+import coliseum.Spawn;
 import coliseum.admin_command.models.Model_Spawn;
 import coliseum.admin_command.parent.AdminCmdController;
 import main.Main;
@@ -49,7 +51,7 @@ public class Controller_Spawn extends AdminCmdController {
             {
                 case "setspawn" :
                 {
-                    if(this.coliseums_list.get(this.map_name).getSpawn_list().get(this.value_name) != null)
+                    if(this.coliseums_list.get(this.map_name).getSpawn_list().stream().anyMatch(spawn_list -> spawn_list.getName().equalsIgnoreCase(this.value_name)))
                     {
                         this.sender.sendMessage("§cLe nom de ce spawn existe déjà. Veuillez vérifier si le nom n'est pas dans les autres team aussi");
                         response = false;
@@ -59,7 +61,16 @@ public class Controller_Spawn extends AdminCmdController {
 
                 case "deletespawn" :
                 {
-                    if(this.coliseums_list.get(this.map_name).getSpawn_list().get(this.value_name) == null)
+                    boolean contains = false;
+                    for(Spawn spawn : this.coliseums_list.get(this.map_name).getSpawn_list())
+                    {
+                        if(spawn.getName().equalsIgnoreCase(this.value_name))
+                        {
+                            contains = true;
+                            break;
+                        }
+                    }
+                    if(!contains)
                     {
                         this.sender.sendMessage("§cLe nom de ce spawn est inexistant");
                         return;
@@ -74,7 +85,7 @@ public class Controller_Spawn extends AdminCmdController {
     @Override
     public void executeCmd() {
 
-        Model_Spawn model_spawn = new Model_Spawn(this.map_name, this.value_name, this.sender.getLocation(), this.team_color, this.coliseum_config, this.coliseums_list);
+        Model_Spawn model_spawn = new Model_Spawn(this.map_name, this.value_name, this.sender, this.team_color, this.coliseum_config, this.coliseums_list);
 
         switch(this.command_type)
         {

@@ -1,9 +1,12 @@
 package command;
 
+import coliseum.Flag;
 import command.factory.ControllerFactory;
 import command.parent.CommandController;
 import main.Main;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -27,62 +30,24 @@ public class View_Command implements CommandExecutor{
 
         if(s instanceof Player && args != null && label != null && label.equalsIgnoreCase("dt"))
         {
-                if(args.length == 0){ Bukkit.dispatchCommand(s, "dt help"); return false;}
-
-                Player sender = (Player) s;
-                CommandController controller;
-                switch(args.length)
-                {
-
-                    case 1 :
-                    {
-                        // /dt help
-                        controller = ControllerFactory.getInstance("help", args, sender, this.plugin);
-                        controller.checkAndExecuteCommand();
-                        return true;
-                    }
-
-
-                    case 2 :
-                    {
-                        // /dt team <value> OR /dt kit <value>
-                        if(args[0].equalsIgnoreCase("team") || args[0].equalsIgnoreCase("kit"))
-                        {
-                           controller = ControllerFactory.getInstance("classification", args, sender, this.plugin);
-                           controller.checkAndExecuteCommand();
-                           return true;
-                        }
-
-                        // /dt open <game_name> OR /dt close <game_name>
-                        if(args[0].equalsIgnoreCase("open") || args[0].equalsIgnoreCase("close"))
-                        {
-                            controller = ControllerFactory.getInstance("status", args, sender, this.plugin);
-                            controller.checkAndExecuteCommand();
-                            return true;
-                        }
-
-                        // dt <request> <game_name>
-                        controller = ControllerFactory.getInstance("request", args, sender, this.plugin);
-                        controller.checkAndExecuteCommand();
-                        return true;
-                    }
-
-
-                    case 3 :
-                    {
-                        // /dt <game_name> <key map> <map name>
-                        if(args[1].equalsIgnoreCase("map"))
-                        {
-                            return true;
-                        }
-
-                        // /dt <game_name> <key configuration> <value>
-                        controller = ControllerFactory.getInstance("game_config", args, sender, this.plugin);
-                        controller.checkAndExecuteCommand();
-                        return true;
-                    }
-                }
+            Player sender = (Player) s;
+            if(args.length == 0)
+            {
+                sender.sendMessage("world" + sender.getWorld());
+                sender.sendMessage("world " + sender.getWorld().getName());
+                sender.sendMessage("world " + sender.getWorld().toString());
+                return true;
             }
+            CommandController controller = ControllerFactory.getInstance(args, sender, this.plugin);
+            if(controller != null)
+            {
+                controller.ControlCmd();
+            }
+            else
+            {
+                sender.sendMessage("§cCommande inconnu");
+            }
+        }
         return false;
     }
 }

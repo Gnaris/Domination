@@ -49,7 +49,7 @@ public class Controller_Coliseum extends AdminCmdController {
     @Override
     protected void executeCmd() {
 
-        Model_Coliseum model_coliseum = new Model_Coliseum(this.map_name, this.value_name, this.sender.getLocation(), this.coliseum_config, this.coliseums_list);
+        Model_Coliseum model_coliseum = new Model_Coliseum(this.map_name, this.value_name, this.sender, this.coliseum_config, this.coliseums_list);
 
         switch(this.command_type)
         {

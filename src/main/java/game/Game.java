@@ -1,6 +1,7 @@
 package game;
 
 import classification.Classification;
+import coliseum.Coliseum;
 import game.builder.GameCharacteristic;
 import main.Main;
 import org.bukkit.entity.Player;
@@ -14,6 +15,8 @@ public class Game extends GameCharacteristic {
 
     private List<UUID> player_list = new ArrayList<>();
     private Map<UUID, Classification> player_classification = new HashMap<>();
+
+    private Coliseum coliseum = null;
 
     public Game(String game_name, Player sender, Main plugin)
     {
@@ -35,5 +38,13 @@ public class Game extends GameCharacteristic {
 
     public String getGame_name() {
         return game_name;
+    }
+
+    public Coliseum getColiseum() {
+        return coliseum;
+    }
+
+    public void setColiseum(Coliseum coliseum) {
+        this.coliseum = coliseum;
     }
 }

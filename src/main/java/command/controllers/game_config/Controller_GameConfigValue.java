@@ -10,14 +10,14 @@ public class Controller_GameConfigValue extends CommandController {
 
     private final int value;
 
-    public Controller_GameConfigValue(String game_name, String command_type, Player sender, Main plugin, int value) {
+    public Controller_GameConfigValue(String game_name, String command_type, int value, Player sender, Main plugin) {
         super(game_name, command_type, sender, plugin);
         this.value = value;
     }
 
 
     @Override
-    public void checkAndExecuteCommand() {
+    public void ControlCmd() {
 
         if(this.game == null)
         {
@@ -39,13 +39,14 @@ public class Controller_GameConfigValue extends CommandController {
             this.sender.sendMessage("§cLes valeurs ne doivent pas être en dessous de " + this.game.getMinGameConfigValue(this.command_type) + " ni au dessus de " + this.game.getMaxGameConfigValue(this.command_type));
             return;
         }
-        executeCommand();
+
+        executeCmd();
     }
 
     @Override
-    public void executeCommand()
+    public void executeCmd()
     {
-        Model_GameConfigValue game_config = new Model_GameConfigValue(this.game_name, this.sender,this.command_type, this.value, this.plugin);
+        Model_GameConfigValue game_config = new Model_GameConfigValue(this.game_name, this.command_type, this.value, this.sender, this.plugin);
         game_config.updateConfiguration();
         new GameScoreBoard(this.sender, this.plugin).runTaskLater(this.plugin, 0);
     }
