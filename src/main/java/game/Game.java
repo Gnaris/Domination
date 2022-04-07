@@ -12,11 +12,10 @@ public class Game extends GameCharacteristic {
 
     private UUID owner;
     private String game_name;
-
     private List<UUID> player_list = new ArrayList<>();
     private Map<UUID, Classification> player_classification = new HashMap<>();
-
     private Coliseum coliseum = null;
+
 
     public Game(String game_name, Player sender, Main plugin)
     {
@@ -47,4 +46,5 @@ public class Game extends GameCharacteristic {
     public void setColiseum(Coliseum coliseum) {
         this.coliseum = coliseum;
     }
+
 }

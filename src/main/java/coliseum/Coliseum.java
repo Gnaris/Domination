@@ -12,6 +12,7 @@ public class Coliseum {
     private final List<Flag> flag_list;
     private final List<Spawn> spawn_list;
     private boolean used;
+    private boolean map_loaded = false;
 
     public Coliseum(String name, String world)
     {
@@ -45,5 +46,13 @@ public class Coliseum {
     public void setUsed(boolean statut)
     {
         this.used = statut;
+    }
+
+    public boolean isMap_loaded() {
+        return map_loaded;
+    }
+
+    public void setMap_loaded(boolean map_loaded) {
+        this.map_loaded = map_loaded;
     }
 }

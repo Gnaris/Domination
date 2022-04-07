@@ -12,6 +12,9 @@ import main.Main;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Map;
 import java.util.Random;
 
 public class Model_Request extends CommandModel {
@@ -39,28 +42,29 @@ public class Model_Request extends CommandModel {
     }
 
     public void load() {
+
         int nb_flag = (int) this.game.getGameCharacteristicValue("flag");
         int nb_spawn = (int) this.game.getGameCharacteristicValue("spawn");
-        Random random = new Random();
-        int random_number;
+
         Coliseum coliseum = new Coliseum(this.game.getColiseum().getName(), this.game.getColiseum().getWorld());
+        Collections.shuffle(this.game.getColiseum().getFlag_list());
         for(int i = 0; i < nb_flag; i++)
         {
-            random_number = random.nextInt(nb_flag);
-            this.sender.sendMessage("number :" + random_number);
-            this.sender.sendMessage(this.game.getColiseum().getFlag_list().get(random_number).getName());
-            Flag flag = new Flag(this.game.getColiseum().getFlag_list().get(random_number).getName(), this.game.getColiseum().getFlag_list().get(random_number).getFlag_location());
-            flag.buildFlag(Material.WHITE_CONCRETE, Material.GLASS, (int) this.game.getGameCharacteristicValue("radius"));
+            Flag flag = this.game.getColiseum().getFlag_list().get(i);
             coliseum.getFlag_list().add(flag);
+            flag.buildFlag(Material.WHITE_CONCRETE, Material.GLASS, (int) this.game.getGameCharacteristicValue("radius"));
         }
+
+        Collections.shuffle(this.game.getColiseum().getSpawn_list());
         for(int i = 0; i < nb_spawn; i++)
         {
-            random_number = random.nextInt(nb_spawn);
-            Spawn spawn = new Spawn(this.game.getColiseum().getSpawn_list().get(random_number).getName(), this.game.getColiseum().getSpawn_list().get(random_number).getTeam_color(), this.game.getColiseum().getFlag_list().get(random_number).getFlag_location());
+            Spawn spawn = new Spawn(this.game.getColiseum().getSpawn_list().get(i).getName(), this.game.getColiseum().getSpawn_list().get(i).getTeam_color(), this.game.getColiseum().getSpawn_list().get(i).getLocation());
             coliseum.getSpawn_list().add(spawn);
         }
+
+        this.game.getColiseum().setUsed(true);
         this.game.setColiseum(coliseum);
-        this.plugin.getColiseum_list().get(coliseum.getName()).setUsed(true);
+        this.game.getColiseum().setMap_loaded(true);
     }
 
     public void invite() {
@@ -74,7 +78,7 @@ public class Model_Request extends CommandModel {
 
     public void start()
     {
-
+        this.game.setLaunched(true);
     }
 }
 

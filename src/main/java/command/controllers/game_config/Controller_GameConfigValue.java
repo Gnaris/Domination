@@ -39,6 +39,11 @@ public class Controller_GameConfigValue extends CommandController {
             this.sender.sendMessage("§cLes valeurs ne doivent pas être en dessous de " + this.game.getMinGameConfigValue(this.command_type) + " ni au dessus de " + this.game.getMaxGameConfigValue(this.command_type));
             return;
         }
+        if(this.command_type.equalsIgnoreCase("flag") && this.value > this.game.getColiseum().getFlag_list().size())
+        {
+            this.sender.sendMessage("§eCette arène possède uniquement " + this.game.getColiseum().getFlag_list().size() + " drapeau(x). De ce fait, vous aurez uniquement ces drapeaux");
+            return;
+        }
 
         executeCmd();
     }

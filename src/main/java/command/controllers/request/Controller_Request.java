@@ -4,6 +4,7 @@ import command.models.request.Model_Request;
 import command.parent.CommandController;
 import game.Game;
 import game.GameScoreBoard;
+import game.Launcher;
 import main.Main;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -28,7 +29,7 @@ public class Controller_Request extends CommandController {
     @Override
     public void ControlCmd()
     {
-        if(this.command_type.equalsIgnoreCase("help")) { executeCmd(); }
+        if(this.command_type.equalsIgnoreCase("help")) { executeCmd(); return; }
 
         if(this.game == null && !this.command_type.equalsIgnoreCase("create"))
         {
@@ -94,7 +95,7 @@ public class Controller_Request extends CommandController {
 
             case "delete":
             {
-                if (this.game.getOwner() != this.sender.getUniqueId() || !this.sender.hasPermission("domination.animator.use"))
+                if (this.game.getOwner().toString() != this.sender.getUniqueId().toString() || !this.sender.hasPermission("domination.animator.use"))
                 {
                     this.sender.sendMessage("§cVous ne pouvez pas supprimer la partie des autres");
                     return;
@@ -142,7 +143,37 @@ public class Controller_Request extends CommandController {
 
             case "start" :
             {
-
+                if(this.game == null)
+                {
+                    this.sender.sendMessage("§cLe nom de la partie est incorrecte ou inexistant");
+                    return;
+                }
+                if(!this.game.getOwner().toString().equalsIgnoreCase(this.sender.getUniqueId().toString()) || !this.sender.hasPermission("domination.animator.use"))
+                {
+                    this.sender.sendMessage("§cVous n'êtes pas le propriétaire de la partie");
+                    return;
+                }
+                if(this.game.isLaunched())
+                {
+                    this.sender.sendMessage("§cCette partie est déjà lancée !");
+                    return;
+                }
+                if(this.game.getColiseum() == null)
+                {
+                    this.sender.sendMessage("§cLa map n'existe pas");
+                    return;
+                }
+                if(!this.game.getColiseum().isMap_loaded())
+                {
+                    this.sender.sendMessage("§cVeuillez tout d'abord construire la map /dt load <nom de la partie>");
+                    return;
+                }
+                if(this.game.getColiseum().isUsed())
+                {
+                    this.sender.sendMessage("§cMalheuresement quelqu'un a lancé une partie avec cette map avant vous");
+                    return;
+                }
+                break;
             }
         }
         executeCmd();
@@ -207,6 +238,7 @@ public class Controller_Request extends CommandController {
 
             case "help" :
             {
+                this.sender.sendMessage("§aVoici la liste des commandes");
                 request.help();
                 break;
             }
@@ -214,6 +246,7 @@ public class Controller_Request extends CommandController {
             case "start" :
             {
                 request.start();
+                new Launcher(this.game).runTaskTimer(this.plugin, 0, 20);
                 break;
             }
         }
