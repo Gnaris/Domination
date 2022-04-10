@@ -1,8 +1,9 @@
-package gameplay;
+package gameplay.event;
 
 import classification.team.TeamList;
 import coliseum.core.Flag;
 import game.Game;
+import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarStyle;
@@ -10,6 +11,7 @@ import org.bukkit.boss.BossBar;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
+@Getter
 public class CatchFlags extends BukkitRunnable {
 
     private final Game game;
@@ -43,20 +45,18 @@ public class CatchFlags extends BukkitRunnable {
         {
             this.flag.setCatched(true);
             this.flag.setTeam_catched(this.game.getPlayer_list().get(this.catcher.getUniqueId()).getTeam());
-            for(TeamList team_list : TeamList.values())
+            TeamList team_color = null;
+            int i = 0;
+            while(team_color == null && i < TeamList.values().length)
             {
-                if(this.game.getPlayer_list().get(this.catcher.getUniqueId()).getTeam() == team_list)
+                if(this.game.getPlayer_list().get(this.catcher.getUniqueId()).getTeam() == TeamList.values()[i])
                 {
-                    this.flag.buildFlag(team_list.getConcrete(), team_list.getGlass(), (int) this.game.getGameCharacteristicValue("radius"));
-                    break;
+                    team_color = TeamList.values()[i];
+                    this.flag.buildFlag(team_color.getConcrete(), team_color.getGlass(), (int) this.game.getGameCharacteristicValue("radius"));
                 }
+                i++;
             }
             this.bar.removePlayer(this.catcher);
         }
-    }
-
-    public BossBar getBar()
-    {
-        return this.bar;
     }
 }

@@ -2,8 +2,8 @@ package command.controllers.request;
 
 import command.models.request.Model_Request;
 import command.parent.CommandController;
-import game.GameScoreBoard;
-import game.Launcher;
+import game.core.GameScoreBoard;
+import game.core.Launcher;
 import main.Main;
 import main.utils.GameRecuperator;
 import org.bukkit.Bukkit;

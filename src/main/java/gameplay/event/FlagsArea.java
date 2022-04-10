@@ -1,7 +1,8 @@
-package gameplay;
+package gameplay.event;
 
 import coliseum.core.Flag;
 import game.Game;
+import gameplay.event.CatchFlags;
 import main.Main;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

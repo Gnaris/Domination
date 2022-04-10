@@ -1,4 +1,4 @@
-package gameplay;
+package gameplay.core;
 
 import classification.team.TeamList;
 import coliseum.core.Flag;

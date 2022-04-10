@@ -7,7 +7,7 @@ import coliseum.core.Spawn;
 import coliseum.admin_command.View_AdminCommand;
 import command.View_Command;
 import game.Game;
-import gameplay.FlagsArea;
+import gameplay.event.FlagsArea;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;

@@ -1,7 +1,8 @@
-package game;
+package game.core;
 
+import game.Game;
 import gameplay.GamePlay;
-import gameplay.GameplayStatistic;
+import gameplay.core.GameplayStatistic;
 import main.Main;
 import org.bukkit.Bukkit;
 import org.bukkit.scheduler.BukkitRunnable;

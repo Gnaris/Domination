@@ -4,7 +4,7 @@ import classification.kit.KitList;
 import classification.team.TeamList;
 import command.models.classification.Model_Classification;
 import command.parent.CommandController;
-import game.GameScoreBoard;
+import game.core.GameScoreBoard;
 import main.Main;
 import main.utils.GameRecuperator;
 import org.bukkit.entity.Player;

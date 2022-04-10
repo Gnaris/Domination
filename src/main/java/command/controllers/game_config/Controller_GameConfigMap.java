@@ -2,7 +2,7 @@ package command.controllers.game_config;
 
 import command.models.game_config.Model_GameConfigMap;
 import command.parent.CommandController;
-import game.GameScoreBoard;
+import game.core.GameScoreBoard;
 import main.Main;
 import main.utils.GameRecuperator;
 import main.utils.MapsRecuperator;

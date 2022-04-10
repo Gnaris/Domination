@@ -1,6 +1,7 @@
-package game;
+package game.core;
 
 import classification.team.TeamList;
+import game.Game;
 import main.Main;
 import main.utils.GameRecuperator;
 import org.bukkit.Bukkit;
