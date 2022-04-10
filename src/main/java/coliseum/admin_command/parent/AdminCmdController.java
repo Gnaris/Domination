@@ -1,32 +1,36 @@
 package coliseum.admin_command.parent;
 
+import classification.team.TeamList;
 import coliseum.Coliseum;
+import lombok.Getter;
 import main.Main;
 import main.MapConfig;
 import org.bukkit.entity.Player;
 
-import java.util.Map;
+import java.util.List;
 
+@Getter
 public abstract class AdminCmdController {
 
-    protected Player sender;
     protected String map_name;
     protected String command_type;
-    protected String value_name;
+    protected String name;
+    protected Coliseum map;
+    protected TeamList color_team;
 
-    protected MapConfig coliseum_config;
-    protected Map<String, Coliseum> coliseums_list;
+    protected Player sender;
+    protected String[] args;
 
-    public AdminCmdController(Player sender, String command_type, String map_name, String value_name, Main plugin)
+    protected MapConfig map_config;
+    protected List<Coliseum> maps_list;
+
+    public AdminCmdController(String[] args, Player sender, Main plugin)
     {
         this.sender = sender;
-        this.command_type = command_type;
-        this.map_name = map_name;
-        this.value_name = value_name;
+        this.args = args;
 
-        this.coliseum_config = plugin.getColiseum_config();
-        this.coliseums_list = plugin.getColiseum_list();
-
+        this.map_config = plugin.getColiseum_config();
+        this.maps_list = plugin.getMaps_list();
     }
 
     public abstract void controlCmd();

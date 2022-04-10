@@ -33,39 +33,24 @@ public class View_AdminCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender player, Command command, String label, String[] args) {
 
-        if(!(player instanceof Player && player.isOp() || player.hasPermission("domination") && label.equalsIgnoreCase("dta")))
+        if(player instanceof Player && player.hasPermission("domination"))
         {
-            player.sendMessage("§cSeul les animateurs ou les opérateurs ont accès à ces commandes");
-            return false;
-        }
-
-        assert player instanceof Player;
-        Player sender = (Player) player;
-
-        if(args.length < 2)
-        {
-            sender.sendMessage("§cCommande inconnu veuillez vous renseigner je ne sais pas ou mais quelques part en tout cas");
-            return false;
-        }
-
-        if(args[0].equalsIgnoreCase("show") && args[1].equalsIgnoreCase("arena"))
-        {
-            sender.sendMessage("§aVoici la list des arèenes :");
-            for(String coliseum : this.plugin.getColiseum_list().keySet())
+            Player sender = (Player) player;
+            if(args.length < 2)
             {
-                sender.sendMessage("§7-" + coliseum);
+                sender.sendMessage("§cCommande inconnu veuillez vous renseigner je ne sais pas ou mais quelques part en tout cas");
+                return false;
             }
-            return true;
-        }
 
-        AdminCmdController controller = ControllerAdministorFactory.getInstance(sender, args, this.plugin);
-        if(controller != null)
-        {
-            controller.controlCmd();
-        }
-        else
-        {
-            sender.sendMessage("§cCommande inconnu");
+            AdminCmdController controller = ControllerAdministorFactory.getInstance(sender, args, this.plugin);
+            if(controller != null)
+            {
+                controller.controlCmd();
+            }
+            else
+            {
+                sender.sendMessage("§cCommande inconnu");
+            }
         }
         return false;
     }

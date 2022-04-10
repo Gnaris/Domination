@@ -1,8 +1,12 @@
-package coliseum;
+package coliseum.core;
 
 import classification.team.TeamList;
+import lombok.Getter;
+import lombok.Setter;
 import org.bukkit.Location;
 
+@Getter
+@Setter
 public class Spawn {
 
     private final String name;

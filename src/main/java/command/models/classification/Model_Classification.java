@@ -1,30 +1,25 @@
 package command.models.classification;
 
-import classification.kit.KitList;
-import classification.team.TeamList;
+import command.parent.CommandController;
 import command.parent.CommandModel;
 import command.parent.Configuration;
-import main.Main;
-import org.bukkit.entity.Player;
 
-public class Model_Classification<T> extends CommandModel implements Configuration {
+public class Model_Classification extends CommandModel implements Configuration {
 
-    private final T value;
 
-    public Model_Classification(String game_name, Player sender, T value, Main plugin) {
-        super(game_name, sender, plugin);
-        this.value = value;
+    public Model_Classification(CommandController controller) {
+        super(controller);
     }
 
     @Override
     public void updateConfiguration() {
-        if(value.getClass().equals(TeamList.class))
+        if(this.team != null)
         {
-            this.game.getPlayerClassification().get(this.sender.getUniqueId()).setTeam((TeamList) this.value);
+            this.game.getPlayer_list().get(this.sender.getUniqueId()).setTeam(this.team);
         }
-        if(value.getClass().equals(KitList.class))
+        if(this.kit != null)
         {
-            this.game.getPlayerClassification().get(this.sender.getUniqueId()).setKit((KitList) this.value);
+            this.game.getPlayer_list().get(this.sender.getUniqueId()).setKit(this.kit);
         }
     }
 }

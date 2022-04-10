@@ -1,30 +1,30 @@
-package coliseum;
+package coliseum.core;
 
 
-import org.bukkit.Bukkit;
+import classification.team.TeamList;
+import lombok.Getter;
+import lombok.Setter;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.entity.Player;
 
-import java.util.Objects;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
+@Getter
+@Setter
 public class Flag {
 
     private final String name;
     private final Location flag_location;
+    private final List<UUID> player_on_flag = new ArrayList<>();
+    private boolean catched = false;
+    private TeamList team_catched = null;
 
     public Flag(String name, Location flag_location)
     {
         this.name = name;
         this.flag_location = flag_location;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public Location getFlag_location() {
-        return flag_location;
     }
 
     public void buildFlag(Material block, Material glass, int radius)
@@ -53,4 +53,20 @@ public class Flag {
                 .getBlockAt((int) this.flag_location.getX() -1, (int) this.flag_location.getY() -1, (int) this.flag_location.getZ())
                 .setType(glass);
     }
+
+    public void addPlayerOnFlag(UUID player)
+    {
+        this.player_on_flag.add(player);
+    }
+
+    public void removePlayerOnFlag(UUID player)
+    {
+        this.player_on_flag.remove(player);
+    }
+
+    public List<UUID> getPlayer_on_flag() {
+        return player_on_flag;
+    }
+
+
 }

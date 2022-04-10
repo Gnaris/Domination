@@ -4,67 +4,61 @@ import classification.Classification;
 import classification.kit.KitList;
 import classification.team.TeamList;
 import coliseum.Coliseum;
-import coliseum.Flag;
-import coliseum.Spawn;
+import coliseum.core.Flag;
+import coliseum.core.Spawn;
+import command.parent.CommandController;
 import command.parent.CommandModel;
 import game.Game;
-import main.Main;
 import org.bukkit.Material;
-import org.bukkit.entity.Player;
 
-import java.util.Collection;
 import java.util.Collections;
-import java.util.Map;
-import java.util.Random;
 
 public class Model_Request extends CommandModel {
 
-    public Model_Request(String game_name, Player sender, Main plugin)
-    {
-        super(game_name, sender, plugin);
+
+    public Model_Request(CommandController controller) {
+        super(controller);
     }
 
     public void create() {
-        this.plugin.getGame_list().put(this.game_name, new Game(this.game_name, this.sender, this.plugin));
+        this.plugin.getGames_list().add(new Game(this.game_name, this.sender, this.plugin));
     }
 
     public void join() {
-        this.game.getPlayerClassification().put(this.sender.getUniqueId(), new Classification(KitList.INCOGNITO, TeamList.RANDOM));
-        this.game.getPlayerList().add(this.sender.getUniqueId());
+        this.game.getPlayer_list().put(this.sender.getUniqueId(), new Classification(KitList.INCOGNITO, TeamList.RANDOM));
     }
 
     public void delete() {
-        this.plugin.getGame_list().remove(this.game_name);
+        this.plugin.getGames_list().remove(this.game);
     }
 
     public void leave() {
-        this.game.getPlayerList().remove(this.sender.getUniqueId());
+        this.game.getPlayer_list().remove(this.sender.getUniqueId());
     }
 
     public void load() {
 
         int nb_flag = (int) this.game.getGameCharacteristicValue("flag");
-        int nb_spawn = (int) this.game.getGameCharacteristicValue("spawn");
 
-        Coliseum coliseum = new Coliseum(this.game.getColiseum().getName(), this.game.getColiseum().getWorld());
-        Collections.shuffle(this.game.getColiseum().getFlag_list());
+        Coliseum coliseum = new Coliseum(this.game.getMap().getName(), this.game.getMap().getWorld());
+        Collections.shuffle(this.game.getMap().getFlag_list());
         for(int i = 0; i < nb_flag; i++)
         {
-            Flag flag = this.game.getColiseum().getFlag_list().get(i);
+            Flag flag = this.game.getMap().getFlag_list().get(i);
             coliseum.getFlag_list().add(flag);
             flag.buildFlag(Material.WHITE_CONCRETE, Material.GLASS, (int) this.game.getGameCharacteristicValue("radius"));
         }
 
-        Collections.shuffle(this.game.getColiseum().getSpawn_list());
-        for(int i = 0; i < nb_spawn; i++)
+        Collections.shuffle(this.game.getMap().getSpawn_list());
+        for(int i = 0; i < this.game.getMap().getSpawn_list().size(); i++)
         {
-            Spawn spawn = new Spawn(this.game.getColiseum().getSpawn_list().get(i).getName(), this.game.getColiseum().getSpawn_list().get(i).getTeam_color(), this.game.getColiseum().getSpawn_list().get(i).getLocation());
+            Spawn spawn = new Spawn(this.game.getMap().getSpawn_list().get(i).getName(), this.game.getMap().getSpawn_list().get(i).getTeam_color(), this.game.getMap().getSpawn_list().get(i).getLocation());
             coliseum.getSpawn_list().add(spawn);
         }
 
-        this.game.getColiseum().setUsed(true);
-        this.game.setColiseum(coliseum);
-        this.game.getColiseum().setMap_loaded(true);
+        this.game.getMap().setUsed(true);
+        this.game.setMap(coliseum);
+        this.game.setMap_loaded(true);
     }
 
     public void invite() {

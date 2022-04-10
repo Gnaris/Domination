@@ -1,73 +1,65 @@
 package coliseum.admin_command.controllers;
 
-import coliseum.Flag;
 import coliseum.admin_command.models.Model_Flag;
 import coliseum.admin_command.parent.AdminCmdController;
 import main.Main;
+import main.utils.MapsRecuperator;
 import org.bukkit.entity.Player;
 
 public class Controller_Flag extends AdminCmdController {
 
 
-    public Controller_Flag(Player sender, String command_type, String map_name, String value_name, Main plugin) {
-        super(sender, command_type, map_name, value_name, plugin);
+    public Controller_Flag(String[] args, Player sender, Main plugin) {
+        super(args, sender, plugin);
+
+        // Command : /dta <map name> [setflag, deleteflag] <name of flag>
+        this.map_name = args[0];
+        this.command_type = args[1];
+        this.name = args[2];
+        this.map = MapsRecuperator.getMapByName(this.maps_list, this.map_name);
     }
 
     @Override
     public void controlCmd() {
 
-        boolean response = true;
-
-        if(!this.coliseums_list.containsKey(this.map_name))
-        {
-            this.sender.sendMessage("§cLe nom de la map est inexistant");
-            response = false;
-        }
-        else
+        String error;
+        error = this.map == null ? "§cLe nom de la map est inexistant" : null;
+        if(error == null)
         {
             switch(this.command_type)
             {
                 case "setflag" :
                 {
-                    if(this.coliseums_list.get(this.map_name).getFlag_list().stream().anyMatch(flag_list -> flag_list.getName().equalsIgnoreCase(this.value_name)))
-                    {
-                        this.sender.sendMessage("§cLe nom de ce drapeau existe déjà");
-                        response = false;
-                    }
+                    error = this.map.getFlag_list().stream()
+                            .anyMatch(flag_list -> flag_list.getName().equalsIgnoreCase(this.name)) ?
+                            "§cLe nom de ce drapeau existe déjà" : null;
                     break;
                 }
 
                 case "deleteflag" :
                 {
-                    boolean contains = false;
-                    for(Flag flag : this.coliseums_list.get(this.map_name).getFlag_list())
-                    {
-                        if(flag.getName().equalsIgnoreCase(this.value_name))
-                        {
-                           contains = true;
-                           break;
-                        }
-                    }
-                    if(!contains)
-                    {
-                        this.sender.sendMessage("§cLe nom de ce drapeau est inexistant");
-                        response = false;
-                    }
+                    error = this.map.getFlag_list().stream()
+                            .noneMatch(flag_list -> flag_list.getName().equalsIgnoreCase(this.name)) ?
+                            "§cLe nom de ce drapeau n'existe pas" : null;
                     break;
                 }
             }
         }
 
-        if(response)
+        if(error == null)
         {
             executeCmd();
+        }
+        else
+        {
+            this.sender.sendMessage(error);
         }
     }
 
     @Override
     protected void executeCmd()
     {
-        Model_Flag model_flag = new Model_Flag(this.map_name, this.value_name, this.sender, this.coliseum_config, this.coliseums_list);
+        Model_Flag model_flag = new Model_Flag(this);
 
         switch (this.command_type)
         {

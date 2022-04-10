@@ -1,29 +1,35 @@
 package command.parent;
 
+import classification.kit.KitList;
+import classification.team.TeamList;
+import coliseum.Coliseum;
 import game.Game;
+import lombok.Getter;
 import main.Main;
 import org.bukkit.entity.Player;
 
+@Getter
 public abstract class CommandController{
 
-    protected String game_name;
-    protected String command_type;
+    protected String[] args;
     protected Player sender;
-    protected Game game;
     protected Main plugin;
 
-    public CommandController(String game_name, String command_type, Player sender, Main plugin)
-    {
-        this.game_name = game_name;
-        this.game = plugin.getGame_list().get(game_name);
-        this.command_type = command_type;
-        this.sender = sender;
-        this.plugin = plugin;
-    }
+    protected String game_name;
+    protected String map_name;
+    protected String command_type;
+    protected Game game;
+    protected Coliseum map;
+    protected KitList kit;
+    protected TeamList team;
+    protected String name;
+    protected int value;
+    protected boolean status;
 
-    public CommandController(String command_type, Player sender, Main plugin)
+
+    public CommandController(String args[], Player sender, Main plugin)
     {
-        this.command_type = command_type;
+        this.args = args;
         this.sender = sender;
         this.plugin = plugin;
     }

@@ -3,58 +3,56 @@ package command.controllers.game_config;
 import command.models.game_config.Model_GameConfigStatus;
 import command.parent.CommandController;
 import main.Main;
+import main.utils.GameRecuperator;
 import org.bukkit.entity.Player;
 
 public class Controller_GameConfigStatus extends CommandController {
 
-    public Controller_GameConfigStatus(String command_type, String game_name, Player sender, Main plugin) {
-        super(game_name, command_type, sender, plugin);
+
+    public Controller_GameConfigStatus(String[] args, Player sender, Main plugin) {
+        super(args, sender, plugin);
+        //Command : /dt [open, close] <game_name>
+        this.command_type = args[0];
+        this.game_name = args[1];
+        this.game = GameRecuperator.byGame_Name(plugin.getGames_list(), this.game_name);
     }
 
     @Override
     public void ControlCmd() {
 
-        if(this.game == null)
-        {
-            this.sender.sendMessage("§cVous devez d'abord créer une partie !");
-            return;
-        }
-        if(!this.game.getOwner().toString().equalsIgnoreCase(this.sender.getUniqueId().toString()))
-        {
-            this.sender.sendMessage("§cVous devez être le propriétaire de la partie !");
-            return;
-        }
-        if(this.game.isOpen() && this.command_type.equalsIgnoreCase("open"))
-        {
-            this.sender.sendMessage("§cVotre partie est déjà ouverte aux publics");
-            return;
-        }
-        if(!this.game.isOpen() && this.command_type.equalsIgnoreCase("close"))
-        {
-            this.sender.sendMessage("§cVotre partie est déjà fermé aux publics");
-            return;
-        }
+        String error = null;
 
-        executeCmd();
+        error = this.game == null ? "§cVous devez d'abord créer une partie" :
+                this.game.getOwner() != this.sender.getUniqueId() ? "§cVous devez être le propriétaire de la partie" :
+                this.game.isOpen() && this.command_type.equalsIgnoreCase("open") ? "§cVotre partie est actuellement déjà ouverte" :
+                !this.game.isOpen() && this.command_type.equalsIgnoreCase("close") ? "Votre partie est déjà fermé aux plublics" : null;
+
+        if(error == null)
+        {
+            executeCmd();
+        }
+        else
+        {
+            this.sender.sendMessage(error);
+        }
     }
 
     @Override
     protected void executeCmd() {
-        Model_GameConfigStatus game_config_status = null;
 
         switch (this.command_type)
         {
             case "open" :
-                game_config_status = new Model_GameConfigStatus(this.game_name, this.sender, true, this.plugin);
+                this.status = true;
                 this.sender.sendMessage("§aTout le monde pourront dès à présent rejoindre votre partie");
                 break;
             case "close" :
-                game_config_status = new Model_GameConfigStatus(this.game_name, this.sender, false, this.plugin);
+                this.status = false;
                 this.sender.sendMessage("§aPlus personne ne pourra rejoindre votre partie sauf pour les invitations");
                 break;
         }
 
-        assert game_config_status != null;
+        Model_GameConfigStatus game_config_status = new Model_GameConfigStatus(this);
         game_config_status.updateConfiguration();
     }
 }

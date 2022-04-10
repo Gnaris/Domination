@@ -2,188 +2,127 @@ package command.controllers.request;
 
 import command.models.request.Model_Request;
 import command.parent.CommandController;
-import game.Game;
 import game.GameScoreBoard;
 import game.Launcher;
 import main.Main;
+import main.utils.GameRecuperator;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import org.bukkit.scoreboard.Scoreboard;
-import org.bukkit.scoreboard.ScoreboardManager;
 
-import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
 
 public class Controller_Request extends CommandController {
 
-    public Controller_Request(String command_type, String game_name, Player sender, Main plugin) {
-        super(game_name, command_type, sender, plugin);
-    }
 
-    public Controller_Request(String command_type, Player sender, Main plugin)
-    {
-        super(command_type, sender, plugin);
+    public Controller_Request(String[] args, Player sender, Main plugin) {
+        super(args, sender, plugin);
+
+        // Command : /dt [RequestList] <game name> OR /dt help
+
+        this.command_type = args[0];
+        if(args.length == 2)
+        {
+            this.game_name = args[1];
+            this.game = GameRecuperator.byGame_Name(plugin.getGames_list(), this.game_name);
+        }
     }
 
     @Override
     public void ControlCmd()
     {
-        if(this.command_type.equalsIgnoreCase("help")) { executeCmd(); return; }
+        String error = null;
+        error = this.game == null && !this.command_type.equalsIgnoreCase("create") && !this.command_type.equalsIgnoreCase("help")  ? "§cLe nom de la partie est incorrecte ou inexistant" : null;
 
-        if(this.game == null && !this.command_type.equalsIgnoreCase("create"))
+        if(error == null)
         {
-            this.sender.sendMessage("§cLe nom de la partie est incorrecte ou inexistant");
-            return;
+            switch (this.command_type)
+            {
+
+                case "create":
+                {
+                    error = this.plugin.getGames_list().contains(this.game) ? "§cLe nom de cette partie existe déjà !" : null;
+                    if(error == null && !this.sender.hasPermission("domination.animator.use"))
+                    {
+                        error = this.plugin.getGames_list().stream()
+                                .noneMatch(game_list -> game_list.getOwner() == this.sender.getUniqueId()) ? "§cVous avez déjà crée une partie" : null;
+                    }
+                    break;
+                }
+
+                case "join":
+                {
+                    error = this.game.isLaunched() ? "§cLa partie a déjà été lancée" :
+                            !this.game.isOpen() && this.game.getOwner() != this.sender.getUniqueId()  ? "§cLa partie est en privée" :
+                            this.game.getPlayer_list().size() > this.game.getGameCharacteristicValue("player") ? "§cIl n'y a plus de place dans cette partie" :
+                            this.game.getPlayer_list().containsKey(this.sender.getUniqueId()) ? "§cVous êtes déjà dans la partie" : null;
+                    if(error == null)
+                    {
+                        error = this.plugin.getGames_list().stream()
+                                .anyMatch(game_list -> game_list.getPlayer_list().containsKey(this.sender.getUniqueId())) ? "§cVous avez déjà rejoins une partie" : null;
+                    }
+                    break;
+                }
+
+                case "delete":
+                {
+                    error = !this.game.getOwner().toString().equalsIgnoreCase(this.sender.getUniqueId().toString()) && !this.sender.hasPermission("domination.animator.use") ? "§cVous ne pouvez pas supprimer la partie des autres" :
+                            this.game.isLaunched() ? "§cVous ne pouvez pas supprimer une partie déjà lancé" : null;
+                    break;
+                }
+
+                case "leave":
+                {
+                    error = !this.game.getPlayer_list().containsKey(this.sender.getUniqueId()) ? "§cVous n'avez pas encore rejoins cette partie !" : null;
+                    break;
+                }
+
+                case "load":
+                {
+                    error = this.game.getMap() == null ? "§cVous ne pouvez pas charger une map vide" :
+                            (int) this.game.getGameCharacteristicValue("flag") > this.game.getMap().getFlag_list().size() ? "§cCette map contient uniquement " + this.game.getMap().getFlag_list().size() + " drapeau(x)" :
+                            this.game.getMap().isUsed() ? "§cMalheuresement quelqu'un a chargé la map avant vous. Veuillez en reprendre une autre (Premier charger, premier servi)" : null;
+                    break;
+                }
+
+                case "invite":
+                {
+
+                }
+
+                case "start" :
+                {
+                    error  = this.game.getOwner() != this.sender.getUniqueId() && !this.sender.hasPermission("domination.animator.use") ? "§cVous n'êtes pas le propriétaire de la partie" :
+                            this.game.isLaunched() ? "§cCette parti a déjà été lancée" :
+                            this.game.getMap() == null ? "Vous devez d'abord choisir une map avant de lancer votre partie" :
+                            !this.game.isMap_loaded() ? "§cVeuillez charger votre map" : null;
+                    break;
+                }
+
+                case "help" :
+                {
+                    error = null;
+                    break;
+                }
+            }
         }
 
-        switch (this.command_type)
+        if(error == null)
         {
-
-            case "create":
-            {
-                if (this.plugin.getGame_list().containsKey(this.game_name))
-                {
-                    this.sender.sendMessage("§cLe nom de cette partie existe déjà !");
-                    return;
-                }
-                for (Map.Entry gameList : this.plugin.getGame_list().entrySet())
-                {
-                    this.game = (Game) gameList.getValue();if (this.game.getOwner() == this.sender.getUniqueId())
-                    {
-                        this.sender.sendMessage("§cVous avez déjà créer une partie !");
-                        return;
-                    }
-                }
-                break;
-            }
-
-
-            case "join":
-            {
-                if (this.game.isLaunched())
-                {
-                    this.sender.sendMessage("!cLa partie a déjà été lancée");
-                    return;
-                }
-                if (!this.game.isOpen())
-                {
-                    this.sender.sendMessage("§cLa partie que vous souhaitez rejoindre est en privée");
-                    return;
-                }
-                if (this.game.getPlayerList().size() > this.game.getGameCharacteristicValue("player"))
-                {
-                    this.sender.sendMessage("§cLa partie est remplit, vous ne pouvez pas rejoindre la partie");
-                    return;
-                }
-                if (this.game.getPlayerList().contains(this.sender.getUniqueId()))
-                {
-                    this.sender.sendMessage("§cVous êtes déjà dans la partie !");
-                    return;
-                }
-                for (Map.Entry gameList : this.plugin.getGame_list().entrySet())
-                {
-                    this.game = (Game) gameList.getValue();
-                    if (this.game.getPlayerList().contains(this.sender.getUniqueId()))
-                    {
-                        this.sender.sendMessage("Vous êtes déjà dans une partie !");return;
-                    }
-                }
-                break;
-            }
-
-
-            case "delete":
-            {
-                if (this.game.getOwner().toString() != this.sender.getUniqueId().toString() || !this.sender.hasPermission("domination.animator.use"))
-                {
-                    this.sender.sendMessage("§cVous ne pouvez pas supprimer la partie des autres");
-                    return;
-                }
-                if (this.game.isLaunched() || !this.sender.hasPermission("domination.animator.use"))
-                {
-                    this.sender.sendMessage("§cLa partie que vous souhaitez supprimer n'existe pas");
-                    return;
-                }
-                break;
-            }
-
-
-            case "leave":
-            {
-                if (!this.game.getPlayerList().contains(this.sender.getUniqueId()))
-                {
-                    this.sender.sendMessage("§cVous n'avez pas encore rejoins cette partie !");
-                    return;
-                }
-                break;
-            }
-
-
-            case "load":
-            {
-                if(this.game.getColiseum() == null)
-                {
-                    this.sender.sendMessage("§cVous ne pouvez pas charger une map vide");
-                    return;
-                }
-                if(this.game.getColiseum().isUsed())
-                {
-                    this.sender.sendMessage("§cMalheuresement quelqu'un vous a volé votre map. Veuillez en reprendre une autre");
-                    return;
-                }
-                break;
-            }
-
-
-            case "invite":
-            {
-
-            }
-
-            case "start" :
-            {
-                if(this.game == null)
-                {
-                    this.sender.sendMessage("§cLe nom de la partie est incorrecte ou inexistant");
-                    return;
-                }
-                if(!this.game.getOwner().toString().equalsIgnoreCase(this.sender.getUniqueId().toString()) || !this.sender.hasPermission("domination.animator.use"))
-                {
-                    this.sender.sendMessage("§cVous n'êtes pas le propriétaire de la partie");
-                    return;
-                }
-                if(this.game.isLaunched())
-                {
-                    this.sender.sendMessage("§cCette partie est déjà lancée !");
-                    return;
-                }
-                if(this.game.getColiseum() == null)
-                {
-                    this.sender.sendMessage("§cLa map n'existe pas");
-                    return;
-                }
-                if(!this.game.getColiseum().isMap_loaded())
-                {
-                    this.sender.sendMessage("§cVeuillez tout d'abord construire la map /dt load <nom de la partie>");
-                    return;
-                }
-                if(this.game.getColiseum().isUsed())
-                {
-                    this.sender.sendMessage("§cMalheuresement quelqu'un a lancé une partie avec cette map avant vous");
-                    return;
-                }
-                break;
-            }
+            executeCmd();
         }
-        executeCmd();
+        else
+        {
+            this.sender.sendMessage(error);
+        }
+
     }
 
 
         @Override
         public void executeCmd()
         {
-            Model_Request request = new Model_Request(this.game_name, this.sender, this.plugin);
+            Model_Request request = new Model_Request(this);
 
         switch(this.command_type)
         {
@@ -198,14 +137,14 @@ public class Controller_Request extends CommandController {
             {
                 request.join();
                 new GameScoreBoard(this.sender, this.plugin).runTaskLater(this.plugin, 0);
-                this.sender.sendMessage("§aVous avez rejoins la partie de §e" + Objects.requireNonNull(Bukkit.getPlayer(this.plugin.getGame_list().get(this.game_name).getOwner())).getName());
+                this.sender.sendMessage("§aVous avez rejoins la partie de §e" + Objects.requireNonNull(Bukkit.getPlayer(this.game.getOwner()).getName()));
                 break;
             }
 
             case "delete" :
             {
                 request.delete();
-                for(UUID player : this.game.getPlayerList())
+                for(UUID player : this.game.getPlayer_list().keySet())
                 {
                     Objects.requireNonNull(Bukkit.getPlayer(player)).sendMessage("§cLa partie §e<< " + this.game_name + " >> §cvient d'être supprimé");
                     Objects.requireNonNull(Bukkit.getPlayer(player)).setScoreboard(Objects.requireNonNull(Bukkit.getScoreboardManager()).getNewScoreboard());
@@ -246,7 +185,7 @@ public class Controller_Request extends CommandController {
             case "start" :
             {
                 request.start();
-                new Launcher(this.game).runTaskTimer(this.plugin, 0, 20);
+                new Launcher(this.game, this.plugin).runTaskTimer(this.plugin, 0, 20);
                 break;
             }
         }

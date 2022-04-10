@@ -1,91 +1,77 @@
 package coliseum.admin_command.controllers;
 
 import classification.team.TeamList;
-import coliseum.Flag;
-import coliseum.Spawn;
 import coliseum.admin_command.models.Model_Spawn;
 import coliseum.admin_command.parent.AdminCmdController;
 import main.Main;
+import main.utils.MapsRecuperator;
 import org.bukkit.entity.Player;
-
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
 public class Controller_Spawn extends AdminCmdController {
 
-    private TeamList team_color;
+    public Controller_Spawn(String[] args, Player sender, Main plugin) {
+        super(args, sender, plugin);
 
-    public Controller_Spawn(Player sender, String command_type, String map_name, String team_color, String value_name, Main plugin) {
-        super(sender, command_type, map_name, value_name, plugin);
+        // Command : /dta <map name> [setspawn, deletespawn] <color team> <name>
+        this.map_name = args[0];
+        this.command_type = args[1];
+        String color_team = args[2];
+        this.name = args[3];
+
+        this.map = MapsRecuperator.getMapByName(this.maps_list, this.map_name);
 
         Arrays.stream(TeamList.values())
-                .filter(teamlist -> team_color.equalsIgnoreCase(teamlist.toString().toLowerCase()))
+                .filter(teamlist -> color_team.equalsIgnoreCase(teamlist.toString().toLowerCase()))
                 .collect(Collectors.toList())
-                .forEach(teamlist -> this.team_color = teamlist);
+                .forEach(teamlist -> this.color_team = teamlist);
     }
 
 
     @Override
     public void controlCmd() {
-        boolean response = true;
+        String error;
+        error = this.map == null ? "§cLe nom de la map est inexistant" :
+                this.color_team == null ? "§cLe nom de cette équipe est invalide" :
+                this.color_team == TeamList.RANDOM ? "§cPourquoi mettre un spawn pour les randoms ?" : null;
 
-        if(this.coliseums_list.get(this.map_name) == null)
-        {
-            this.sender.sendMessage("Le nom de la map est inexistant");
-            response = false;
-        }
-        if(this.team_color == null)
-        {
-            this.sender.sendMessage("§cLe nom de cette équipe est invalide");
-            response = false;
-        }
-        if(this.team_color == TeamList.RANDOM)
-        {
-            this.sender.sendMessage("§cPourquoi mettre un spawn pour les randoms ?");
-            response = false;
-        }
-
-        if(response)
+        if(error == null)
         {
             switch(this.command_type)
             {
                 case "setspawn" :
                 {
-                    if(this.coliseums_list.get(this.map_name).getSpawn_list().stream().anyMatch(spawn_list -> spawn_list.getName().equalsIgnoreCase(this.value_name)))
-                    {
-                        this.sender.sendMessage("§cLe nom de ce spawn existe déjà. Veuillez vérifier si le nom n'est pas dans les autres team aussi");
-                        response = false;
-                    }
+                    error = this.map.getSpawn_list().stream()
+                            .anyMatch(spawn_list -> spawn_list.getName().equalsIgnoreCase(this.name)) ?
+                            "§cLe nom de ce spawn existe déjà. Veuillez vérifier si le nom n'est pas dans les autres team aussi" : null;
                     break;
                 }
 
                 case "deletespawn" :
                 {
-                    boolean contains = false;
-                    for(Spawn spawn : this.coliseums_list.get(this.map_name).getSpawn_list())
-                    {
-                        if(spawn.getName().equalsIgnoreCase(this.value_name))
-                        {
-                            contains = true;
-                            break;
-                        }
-                    }
-                    if(!contains)
-                    {
-                        this.sender.sendMessage("§cLe nom de ce spawn est inexistant");
-                        return;
-                    }
+                    error = this.map.getSpawn_list().stream()
+                            .noneMatch(spawn_list -> spawn_list.getName().equalsIgnoreCase(this.name)) ?
+                            "§cLe nom de ce spawn n'existe pas !" : null;
+                    break;
                 }
             }
         }
 
-        if(response) executeCmd();
+        if(error == null)
+        {
+            executeCmd();
+        }
+        else
+        {
+            this.sender.sendMessage(error);
+        }
     }
 
     @Override
     public void executeCmd() {
 
-        Model_Spawn model_spawn = new Model_Spawn(this.map_name, this.value_name, this.sender, this.team_color, this.coliseum_config, this.coliseums_list);
+        Model_Spawn model_spawn = new Model_Spawn(this);
 
         switch(this.command_type)
         {

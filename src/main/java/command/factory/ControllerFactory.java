@@ -1,6 +1,7 @@
 package command.factory;
 
 import command.controllers.classification.Controller_Classification;
+//import command.controllers.game_config.Controller_GameConfigMap;
 import command.controllers.game_config.Controller_GameConfigMap;
 import command.controllers.game_config.Controller_GameConfigStatus;
 import command.controllers.game_config.Controller_GameConfigValue;
@@ -25,64 +26,55 @@ public class ControllerFactory
 
     public static CommandController getInstance(String[] args, Player sender, Main plugin)
     {
+        CommandController controller = null;
         String command_type = args[0];
-        String value_team_kit;
-        String game_name;
-        String coliseum_name;
-        int value;
-
         switch(args.length)
         {
             case 1 :
             {
                 if(command_type.equalsIgnoreCase("help"))
                 {
-                    return new Controller_Request(command_type, sender, plugin);
+                    controller = new Controller_Request(args, sender, plugin);
                 }
                 break;
             }
 
             case 2 :
             {
-                game_name = args[1];
-                value_team_kit = args[1];
-                String finalCommand_type = command_type;
                 if(command_type.equalsIgnoreCase("team") || command_type.equalsIgnoreCase("kit"))
                 {
-                    return new Controller_Classification(command_type, value_team_kit, sender, plugin);
+                    controller = new Controller_Classification(args, sender, plugin);
                 }
 
                 if(command_type.equalsIgnoreCase("open") || command_type.equalsIgnoreCase("close"))
                 {
-                    return new Controller_GameConfigStatus(command_type, game_name, sender, plugin);
+                    controller = new Controller_GameConfigStatus(args, sender, plugin);
                 }
 
+                String finalCommand_type = command_type;
                 if(Arrays.stream(RequestList.values()).anyMatch(request_list -> request_list.toString().toLowerCase().equalsIgnoreCase(finalCommand_type)))
                 {
-                    return new Controller_Request(command_type, game_name, sender, plugin);
+                    controller = new Controller_Request(args, sender, plugin);
                 }
                 break;
             }
 
             case 3 :
             {
-                game_name = args[0];
-                command_type = args[1];
-                coliseum_name = args[2];
 
+                command_type = args[1];
                 if(command_type.equalsIgnoreCase("map"))
                 {
-                    return new Controller_GameConfigMap(game_name, command_type, coliseum_name, sender, plugin);
+                    controller = new Controller_GameConfigMap(args, sender, plugin);
                 }
 
                 if(Objects.requireNonNull(plugin.getConfig().getConfigurationSection("default_game_caracteristique.minimum")).getKeys(false).stream().anyMatch(command_type::equalsIgnoreCase))
                 {
-                    value = Integer.parseInt(args[2]);
-                    return new Controller_GameConfigValue(game_name, command_type, value, sender, plugin);
+                    controller = new Controller_GameConfigValue(args, sender, plugin);
                 }
                 break;
             }
         }
-        return null;
+        return controller;
     }
 }

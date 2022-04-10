@@ -1,4 +1,4 @@
-package game.builder;
+package game.parent;
 
 import main.Main;
 
@@ -12,8 +12,6 @@ public abstract class GameCharacteristic {
     protected Map<String, Double> max_game_config = new HashMap<>();
 
     protected boolean open;
-    protected boolean launched = false;
-    protected String map = null;
 
     public GameCharacteristic(Main plugin)
     {
@@ -33,22 +31,6 @@ public abstract class GameCharacteristic {
 
     public void setOpen(boolean open) {
         this.open = open;
-    }
-
-    public boolean isLaunched() {
-        return launched;
-    }
-
-    public void setLaunched(boolean launched) {
-        this.launched = launched;
-    }
-
-    public String getMap() {
-        return map;
-    }
-
-    public void setMap(String map) {
-        this.map = map;
     }
 
     public double getGameCharacteristicValue(String key)

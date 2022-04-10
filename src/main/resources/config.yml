@@ -9,7 +9,6 @@ default_game_caracteristique:
     respawntimer: 5
     flag: 2
     radius: 3
-    spawn: 2
     point: 100
     killpoint: 5
     flagpoint: 1
@@ -21,7 +20,6 @@ default_game_caracteristique:
     respawntimer: 20
     flag: 3
     radius: 9
-    spawn: 5
     point: 200
     killpoint: 10
     flagpoint: 5
@@ -33,7 +31,6 @@ default_game_caracteristique:
     respawntimer: true
     flag: true
     radius: true
-    spawn: true
     point: true
     killpoint: true
     flagpoint: true

@@ -25,9 +25,6 @@ public class ControllerAdministorFactory {
     public static AdminCmdController getInstance(Player sender, String[] args, Main plugin)
     {
         String command_type = args[0];
-        String map_name = args[1];
-        String value_name;
-        String team_color;
 
         switch(args.length)
         {
@@ -35,7 +32,7 @@ public class ControllerAdministorFactory {
             {
                 if(command_type.equalsIgnoreCase("create") || command_type.equalsIgnoreCase("delete"))
                 {
-                    return new Controller_Coliseum(sender, command_type, map_name, null, plugin);
+                    return new Controller_Coliseum(args, sender, plugin);
                 }
                 break;
             }
@@ -43,11 +40,9 @@ public class ControllerAdministorFactory {
             case 3 :
             {
                 command_type = args[1];
-                map_name = args[0];
-                value_name = args[2];
                 if(command_type.equalsIgnoreCase("setflag") || command_type.equalsIgnoreCase("deleteflag"))
                 {
-                    return new Controller_Flag(sender, command_type, map_name, value_name, plugin);
+                    return new Controller_Flag(args, sender, plugin);
                 }
                 break;
             }
@@ -55,12 +50,9 @@ public class ControllerAdministorFactory {
             case 4 :
             {
                 command_type = args[1];
-                map_name = args[0];
-                team_color = args[2];
-                value_name = args[3];
                 if(command_type.equalsIgnoreCase("setspawn") || command_type.equalsIgnoreCase("deletespawn"))
                 {
-                    return new Controller_Spawn(sender, command_type, map_name, team_color, value_name, plugin);
+                    return new Controller_Spawn(args, sender, plugin);
                 }
                 break;
             }

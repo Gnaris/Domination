@@ -1,47 +1,51 @@
 package command.controllers.game_config;
 
-import coliseum.Coliseum;
 import command.models.game_config.Model_GameConfigMap;
 import command.parent.CommandController;
 import game.GameScoreBoard;
 import main.Main;
+import main.utils.GameRecuperator;
+import main.utils.MapsRecuperator;
 import org.bukkit.entity.Player;
 
 public class Controller_GameConfigMap extends CommandController {
 
-    private String coliseum_name;
-    private Coliseum coliseum;
 
-    public Controller_GameConfigMap(String game_name, String command_type, String coliseum_name, Player sender, Main plugin) {
-        super(game_name, command_type, sender, plugin);
-        this.coliseum_name = coliseum_name;
+    public Controller_GameConfigMap(String[] args, Player sender, Main plugin) {
+        super(args, sender, plugin);
+
+        // Command : /dt <game name> map <map name>
+        this.game_name = args[0];
+        this.command_type = args[1];
+        this.map_name = args[2];
+
+        this.map = MapsRecuperator.getMapByName(plugin.getMaps_list(), this.map_name);
+        this.game = GameRecuperator.byGame_Name(plugin.getGames_list(), this.game_name);
     }
 
     @Override
     public void ControlCmd() {
-        if(this.plugin.getColiseum_list().get(this.coliseum_name) == null)
+
+        String error = null;
+        error = this.map == null ? "§cVous ne pouvez pas utiliser une map qui n'existe pas" :
+                this.map.isUsed() ? "§cCette map est déjà utilisée par une autre partie" : null;
+        if(error == null)
         {
-            this.sender.sendMessage("§cVous ne pouvez pas utiliser une map qui n'existe pas");
-            return;
+            executeCmd();
         }
-
-        this.coliseum = this.plugin.getColiseum_list().get(this.coliseum_name);
-
-        if(this.plugin.getColiseum_list().get(this.coliseum_name).isUsed())
+        else
         {
-            this.sender.sendMessage("§cCette map est déjà utilisée par une autre partie !");
-            return;
+            this.sender.sendMessage(error);
         }
-
-        executeCmd();
     }
 
     @Override
     protected void executeCmd()
     {
-        Model_GameConfigMap game_config_map = new Model_GameConfigMap(this.game_name, this.coliseum, this.sender, this.plugin);
-        game_config_map.setColiseum();
-        this.sender.sendMessage("§cChangement d'arène effectuée : " + this.coliseum.getName());
+        Model_GameConfigMap game_config_map = new Model_GameConfigMap(this);
+        game_config_map.setMap();
+        this.sender.sendMessage("§aVous avez choisis l'arène " + this.map_name);
         new GameScoreBoard(this.sender, this.plugin).runTaskLater(this.plugin, 0);
     }
 }
+
