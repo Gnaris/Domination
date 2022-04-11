@@ -1,13 +1,12 @@
 package command.factory;
 
 import command.controllers.classification.Controller_Classification;
-//import command.controllers.game_config.Controller_GameConfigMap;
 import command.controllers.game_config.Controller_GameConfigMap;
 import command.controllers.game_config.Controller_GameConfigStatus;
 import command.controllers.game_config.Controller_GameConfigValue;
 import command.controllers.request.Controller_Request;
-import command.controllers.request.RequestList;
 import command.parent.CommandController;
+import game_command.controllers.request.RequestList;
 import main.Main;
 import org.bukkit.entity.Player;
 

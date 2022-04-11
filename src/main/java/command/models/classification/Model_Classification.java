@@ -1,5 +1,6 @@
 package command.models.classification;
 
+
 import command.parent.CommandController;
 import command.parent.CommandModel;
 import command.parent.Configuration;

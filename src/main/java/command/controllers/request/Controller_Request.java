@@ -1,5 +1,6 @@
 package command.controllers.request;
 
+
 import command.models.request.Model_Request;
 import command.parent.CommandController;
 import game.core.GameScoreBoard;

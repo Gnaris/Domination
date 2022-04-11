@@ -1,5 +1,6 @@
 package command.models.game_config;
 
+
 import command.parent.CommandController;
 import command.parent.CommandModel;
 import command.parent.Configuration;

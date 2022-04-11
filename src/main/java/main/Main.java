@@ -4,11 +4,11 @@ import classification.team.TeamList;
 import coliseum.Coliseum;
 import coliseum.core.Flag;
 import coliseum.core.Spawn;
-import coliseum.admin_command.View_AdminCommand;
 import command.View_Command;
 import game.Game;
 import gameplay.event.FlagsArea;
 import lombok.Getter;
+import map_command.View_MapCommand;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -89,7 +89,7 @@ public final class Main extends JavaPlugin {
 
         //COMMAND
         getCommand("dt").setExecutor(new View_Command(this));
-        getCommand("dta").setExecutor(new View_AdminCommand(this));
+        getCommand("dta").setExecutor(new View_MapCommand(this));
 
         //EVENT
         getServer().getPluginManager().registerEvents(new FlagsArea(this), this);

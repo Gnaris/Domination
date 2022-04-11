@@ -2,6 +2,7 @@ package command.controllers.classification;
 
 import classification.kit.KitList;
 import classification.team.TeamList;
+
 import command.models.classification.Model_Classification;
 import command.parent.CommandController;
 import game.core.GameScoreBoard;
@@ -12,7 +13,7 @@ import org.bukkit.entity.Player;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
-public class Controller_Classification extends CommandController{
+public class Controller_Classification extends CommandController {
 
 
     public Controller_Classification(String[] args, Player sender, Main plugin) {
@@ -22,7 +23,10 @@ public class Controller_Classification extends CommandController{
         this.command_type = args[0];
         this.name = args[1];
         this.game = GameRecuperator.byPlayer_Name(plugin.getGames_list(), this.sender.getUniqueId());
-        this.game_name = this.game.getName();
+        if(this.game != null)
+        {
+            this.game_name = this.game.getName();
+        }
     }
 
     @Override

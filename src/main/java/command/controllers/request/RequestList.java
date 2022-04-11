@@ -1,4 +1,4 @@
-package command.controllers.request;
+package game_command.controllers.request;
 
 public enum RequestList {
 
