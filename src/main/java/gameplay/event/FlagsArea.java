@@ -2,8 +2,8 @@ package gameplay.event;
 
 import coliseum.core.Flag;
 import game.Game;
-import gameplay.event.CatchFlags;
 import main.Main;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
@@ -16,10 +16,11 @@ import java.util.stream.Collectors;
 public class FlagsArea implements Listener {
 
     private final Main plugin;
-    private final List<Game> games_list = new ArrayList<>();
-    private Game game;
+    private final List<Game> games_started = new ArrayList<>();
+    private Game player_game;
+
     private CatchFlags catch_bar;
-    private BukkitTask catch_flag;
+    private BukkitTask catch_task;
 
     public FlagsArea(Main plugin) {
         this.plugin = plugin;
@@ -29,42 +30,39 @@ public class FlagsArea implements Listener {
     public void onFlag(PlayerMoveEvent e)
     {
         if(this.plugin.getGames_list() == null) { return; }
-        this.games_list.addAll(this.plugin.getGames_list());
-        this.games_list.stream()
+        this.games_started.addAll(this.plugin.getGames_list());
+        this.games_started.stream()
                 .filter(game_list -> game_list.getPlayer_list().containsKey(e.getPlayer().getUniqueId()) && game_list.isLaunched())
                 .collect(Collectors.toList())
-                .forEach(game_list -> this.game = game_list);
-        if(this.game == null){ return; }
+                .forEach(game_list -> this.player_game = game_list);
+        if(this.player_game == null){ return; }
 
-
-        for(Flag flag : this.game.getMap().getFlag_list())
+        Player player = e.getPlayer();
+        List<Flag> flags_list = this.player_game.getMap().getFlag_list();
+        Flag flag = null;
+        int i = 0;
+        int area = (int) this.player_game.getGameCharacteristicValue("radius") + 1;
+        while(flag == null && i < flags_list.size())
         {
-            if(e.getPlayer().getLocation().distance(flag.getFlag_location()) <= this.game.getGameCharacteristicValue("radius") + 1)
+            if(player.getLocation().distance(flags_list.get(i).getFlag_location()) <= area && !flags_list.get(i).getPlayer_on_flag().contains(player.getUniqueId()))
             {
-                if(!flag.getPlayer_on_flag().contains(e.getPlayer().getUniqueId()))
-                {
-                    e.getPlayer().sendMessage("§aVous rentrez dans le drapeau : " + flag.getName());
-                    this.catch_bar = new CatchFlags(this.game, flag, e.getPlayer());
-                    this.catch_flag = this.catch_bar.runTaskTimer(this.plugin, 0, 20);
-                    flag.getPlayer_on_flag().add(e.getPlayer().getUniqueId());
-                }
-                return;
+                flag = this.player_game.getMap().getFlag_list().get(i);
+                player.sendMessage("§aVous entrez dans le drapeau : " + flag.getName());
+                this.catch_bar = new CatchFlags(this.player_game, flag, e.getPlayer());
+                this.catch_bar.getBar().addPlayer(player);
+                this.catch_task = this.catch_bar.runTaskTimer(this.plugin, 0, 20);
+                flag.getPlayer_on_flag().add(player.getUniqueId());
             }
 
-            if(flag.getPlayer_on_flag() != null)
+            if(player.getLocation().distance(flags_list.get(i).getFlag_location()) > area && flags_list.get(i).getPlayer_on_flag().contains(player.getUniqueId()))
             {
-                if(flag.getPlayer_on_flag().contains(e.getPlayer().getUniqueId()))
-                {
-                    if(e.getPlayer().getLocation().distance(flag.getFlag_location()) > this.game.getGameCharacteristicValue("radius") + 1)
-                    {
-                        flag.getPlayer_on_flag().remove(e.getPlayer().getUniqueId());
-                        e.getPlayer().sendMessage("§cVous êtes sortis du drapeau : " + flag.getName());
-                        this.catch_bar.getBar().removePlayer(e.getPlayer());
-                        this.catch_flag.cancel();
-                        this.catch_flag = null;
-                    }
-                }
+                flag = this.player_game.getMap().getFlag_list().get(i);
+                player.sendMessage("§cVous êtes sortis du drapeau : " + flag.getName());
+                this.catch_bar.getBar().removePlayer(player);
+                this.catch_task.cancel();
+                flag.getPlayer_on_flag().remove(player.getUniqueId());
             }
+            i++;
         }
     }
 }

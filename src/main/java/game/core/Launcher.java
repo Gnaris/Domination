@@ -2,7 +2,7 @@ package game.core;
 
 import game.Game;
 import gameplay.GamePlay;
-import gameplay.core.GameplayStatistic;
+import gameplay.core.Statistic;
 import main.Main;
 import org.bukkit.Bukkit;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -30,7 +30,7 @@ public class Launcher extends BukkitRunnable {
         if (this.timer <= -1) {
             GamePlay gameplay = new GamePlay(this.game);
             gameplay.teleportPlayers();
-            new GameplayStatistic(this.game).runTaskTimer(this.plugin, 0, 20);
+            new Statistic(this.game).runTaskTimer(this.plugin, 0, 20);
             this.cancel();
         }
     }

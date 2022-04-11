@@ -27,7 +27,6 @@ public class CatchFlags extends BukkitRunnable {
         this.bar = Bukkit.createBossBar("§aCapture de drapeau en cours !", BarColor.RED, BarStyle.SOLID);
         this.bar.setVisible(true);
         this.bar.setProgress(1.0);
-        this.bar.addPlayer(catcher);
     }
 
     @Override
