@@ -30,33 +30,33 @@ public class Statistic extends BukkitRunnable {
     private Scoreboard openScoreBoard() {
         this.objective.setDisplaySlot(DisplaySlot.SIDEBAR);
         this.objective.setDisplayName("§c§lDOMINATION");
-        int total_score = 9;
-        this.objective.getScore("      §a§lGameplay").setScore(total_score);
+        int total_score = 15;
+        this.objective.getScore("        §a§l▶ Gameplay ◀").setScore(total_score);
         total_score--;
         this.objective.getScore("").setScore(total_score);
         total_score--;
-        this.objective.getScore("§7§lLes drapeaux :").setScore(total_score);
+        this.objective.getScore("■ Drapeaux :").setScore(total_score);
         total_score--;
         for (Flag flag : this.game.getMap().getFlag_list())
         {
             if (flag.isCatched())
             {
-                this.objective.getScoreboard().resetScores("§6Drapeau " + flag.getName() + " : none");
+                this.objective.getScoreboard().resetScores("§6→ " + flag.getName() + " : none");
                 Arrays.stream(TeamList.values())
                         .filter(team_list -> team_list != TeamList.RANDOM)
                         .collect(Collectors.toList())
-                        .forEach(team_list -> this.objective.getScoreboard().resetScores("§6Drapeau " + flag.getName() + " : " + team_list.getName()));
-                this.objective.getScore("§6Drapeau " + flag.getName() + " : " + flag.getTeam_catched().getName()).setScore(total_score);
+                        .forEach(team_list -> this.objective.getScoreboard().resetScores("§6→ " + flag.getName() + " : " + team_list.getName()));
+                this.objective.getScore("§6→ " + flag.getName() + " : " + flag.getTeam_catched().getName()).setScore(total_score);
             }
             else
             {
-                this.objective.getScore("§6Drapeau " + flag.getName() + " : none").setScore(total_score);
+                this.objective.getScore("§6→ " + flag.getName() + " : none").setScore(total_score);
             }
             total_score--;
         }
         this.objective.getScore(" ").setScore(total_score);
         total_score--;
-        this.objective.getScore("§a§lPoints : ").setScore(total_score);
+        this.objective.getScore("■ Objectif : " + (int) this.game.getGameCharacteristicValue("point") + " points").setScore(total_score);
         total_score--;
         for (Map.Entry team_point : this.game.getTeam_point().entrySet())
         {
@@ -65,7 +65,7 @@ public class Statistic extends BukkitRunnable {
             this.objective.getScore(team_color.getName() + " : " + team_point.getValue()).setScore(total_score);
             total_score--;
         }
-        this.objective.getScore("§eTemps : " + this.timer).setScore(total_score);
+        this.objective.getScore("  ").setScore(total_score);
         return this.board;
     }
 
@@ -76,9 +76,9 @@ public class Statistic extends BukkitRunnable {
             player.setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());
             player.setScoreboard(openScoreBoard());
         }
-        this.objective.getScoreboard().resetScores("§eTemps : " + this.timer);
+        this.objective.getScoreboard().resetScores("§eFin de la partie dans : " + this.timer + "s");
         this.timer--;
-        this.objective.getScore("§eTemps : " + this.timer).setScore(0);
+        this.objective.getScore("§eFin de la partie dans : " + this.timer + "s").setScore(0);
 
         if (this.timer <= -1) {
             this.cancel();
