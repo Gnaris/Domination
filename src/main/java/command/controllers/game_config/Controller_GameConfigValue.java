@@ -27,7 +27,7 @@ public class Controller_GameConfigValue extends CommandController {
         error = this.game == null ? "§cVous devez d'abord créer une partie " :
                 this.game.getOwner() != this.sender.getUniqueId() && !this.sender.hasPermission("domination.animator.use") ? "§cVous devez être le propriétaire de la partie" :
                 !this.plugin.getConfig().getBoolean("default_game_caracteristique.configurable." + this.command_type) ? "§cCette configuration est désactivée par les staffs ou elle n'existe pas" :
-                this.value < this.game.getMinGameConfigValue(this.command_type) || this.value > this.game.getMaxGameConfigValue(this.command_type) ?  "§cLes valeurs ne doivent pas être en dessous de " + this.game.getMinGameConfigValue(this.command_type) + " ni au dessus de " + this.game.getMaxGameConfigValue(this.command_type) : null;
+                this.value < (int) this.game.getMinGameConfigValue(this.command_type) || this.value > (int) this.game.getMaxGameConfigValue(this.command_type) ?  "§cLes valeurs ne doivent pas être en dessous de " + this.game.getMinGameConfigValue(this.command_type) + " ni au dessus de " + this.game.getMaxGameConfigValue(this.command_type) : null;
 
         if(error == null)
         {

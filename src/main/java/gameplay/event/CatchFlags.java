@@ -32,6 +32,8 @@ public class CatchFlags extends BukkitRunnable {
     @Override
     public void run() {
         double reduce_progress = 1.0 / (int) this.game.getGameCharacteristicValue("catchtimer");
+
+
         if(this.bar.getProgress() - reduce_progress >= 0)
         {
             this.bar.setProgress(this.bar.getProgress() - reduce_progress);

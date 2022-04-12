@@ -54,19 +54,11 @@ public class Flag {
                 .setType(glass);
     }
 
-    public void addPlayerOnFlag(UUID player)
-    {
-        this.player_on_flag.add(player);
-    }
-
-    public void removePlayerOnFlag(UUID player)
-    {
-        this.player_on_flag.remove(player);
-    }
-
+    /**
+     *
+     * @return
+     */
     public List<UUID> getPlayer_on_flag() {
         return player_on_flag;
     }
-
-
 }

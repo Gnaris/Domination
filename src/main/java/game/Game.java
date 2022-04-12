@@ -23,6 +23,7 @@ public class Game extends GameCharacteristic {
     private Map<TeamList, Integer> team_point = new HashMap<>();
     private boolean map_loaded = false;
     private boolean launched = false;
+    private Double timer = 0.0;
 
     public Game(String name, Player sender, Main plugin)
     {

@@ -73,6 +73,8 @@ public class Model_Request extends CommandModel {
     public void start()
     {
         this.game.setLaunched(true);
+        this.game.setTimer(this.game.getGameCharacteristicValue("time"));
+        this.sender.sendMessage("time : " + this.game.getTimer());
     }
 }
 

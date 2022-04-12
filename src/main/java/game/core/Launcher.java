@@ -2,6 +2,7 @@ package game.core;
 
 import game.Game;
 import gameplay.GamePlay;
+import gameplay.core.PointIncreaser;
 import gameplay.core.Statistic;
 import main.Main;
 import org.bukkit.Bukkit;
@@ -31,6 +32,7 @@ public class Launcher extends BukkitRunnable {
             GamePlay gameplay = new GamePlay(this.game);
             gameplay.teleportPlayers();
             new Statistic(this.game).runTaskTimer(this.plugin, 0, 20);
+            new PointIncreaser(this.game).runTaskTimer(this.plugin, 0, 20);
             this.cancel();
         }
     }

@@ -29,6 +29,7 @@ public class FlagsArea implements Listener {
     @EventHandler
     public void onFlag(PlayerMoveEvent e)
     {
+        //Search player game
         if(this.plugin.getGames_list() == null) { return; }
         this.games_started.addAll(this.plugin.getGames_list());
         this.games_started.stream()
@@ -37,6 +38,7 @@ public class FlagsArea implements Listener {
                 .forEach(game_list -> this.player_game = game_list);
         if(this.player_game == null){ return; }
 
+        //Enter / Exit Flag Area
         Player player = e.getPlayer();
         List<Flag> flags_list = this.player_game.getMap().getFlag_list();
         Flag flag = null;

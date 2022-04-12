@@ -8,6 +8,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scoreboard.*;
 
+import java.text.DecimalFormat;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.UUID;
@@ -61,7 +62,10 @@ public class Statistic extends BukkitRunnable {
         for (Map.Entry team_point : this.game.getTeam_point().entrySet())
         {
             TeamList team_color = (TeamList) team_point.getKey();
-            this.objective.getScoreboard().resetScores(team_color.getName() + " : " + ((int) team_point.getValue() - 1));
+            for(int i = 0; i < this.game.getMap().getFlag_list().size() + 1; i++)
+            {
+                this.objective.getScoreboard().resetScores(team_color.getName() + " : " + ((int) team_point.getValue() - i));
+            }
             this.objective.getScore(team_color.getName() + " : " + team_point.getValue()).setScore(total_score);
             total_score--;
         }
@@ -76,11 +80,16 @@ public class Statistic extends BukkitRunnable {
             player.setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());
             player.setScoreboard(openScoreBoard());
         }
-        this.objective.getScoreboard().resetScores("§eFin de la partie dans : " + this.timer + "s");
-        this.timer--;
-        this.objective.getScore("§eFin de la partie dans : " + this.timer + "s").setScore(0);
+        DecimalFormat decimal_format = new DecimalFormat("###");
 
-        if (this.timer <= -1) {
+        this.objective.getScoreboard().resetScores("§eFin de la partie dans : -1s");
+        this.objective.getScoreboard().resetScores("§eFin de la partie dans : 0s");
+        this.objective.getScoreboard().resetScores("§eFin de la partie dans : " + decimal_format.format((this.game.getTimer())) + "s");
+        this.objective.getScoreboard().resetScores("§eFin de la partie dans : " + decimal_format.format((this.game.getTimer() + 1)) + "s");
+        this.game.setTimer(this.game.getTimer() - 1);
+        this.objective.getScore("§eFin de la partie dans : " + decimal_format.format(this.game.getTimer()) + "s").setScore(0);
+
+        if (this.game.getTimer() <= 0) {
             this.cancel();
         }
     }
