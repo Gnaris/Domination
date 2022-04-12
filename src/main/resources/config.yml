@@ -3,7 +3,7 @@ default_game_caracteristique:
   only_staff: false
   minimum:
     player: 2
-    time: 1
+    time: 60
     catchtimer: 10
     catchspeed: 1
     respawntimer: 5
@@ -13,16 +13,16 @@ default_game_caracteristique:
     killpoint: 5
     flagpoint: 1
   maximum:
-    player: 200
-    time: 200
-    catchtimer: 200
-    catchspeed: 200
-    respawntimer: 200
-    flag: 300
-    radius: 900
-    point: 200
-    killpoint: 20
-    flagpoint: 20
+    player: 1000
+    time: 1000
+    catchtimer: 1000
+    catchspeed: 1000
+    respawntimer: 1000
+    flag: 1000
+    radius: 1000
+    point: 1000
+    killpoint: 1000
+    flagpoint: 1000
   configurable:
     player: true
     time: true

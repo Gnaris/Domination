@@ -1,7 +1,7 @@
 package map_command.controllers;
 
 import main.Main;
-import main.utils.MapsRecuperator;
+import utils.MapsUtils;
 import map_command.models.Model_Coliseum;
 import map_command.parent.AdminCmdController;
 import org.bukkit.entity.Player;
@@ -14,7 +14,7 @@ public class Controller_Coliseum extends AdminCmdController {
         // Command : /dta [create, delete] <map name>
         this.command_type = args[0];
         this.map_name = args[1];
-        this.map = MapsRecuperator.getMapByName(this.maps_list, this.map_name);
+        this.map = MapsUtils.getMapByName(this.maps_list, this.map_name);
     }
 
     @Override

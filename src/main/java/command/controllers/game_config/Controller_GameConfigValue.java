@@ -4,7 +4,7 @@ import command.models.game_config.Model_GameConfigValue;
 import command.parent.CommandController;
 import game.core.GameScoreBoard;
 import main.Main;
-import main.utils.GameRecuperator;
+import utils.GameUtils;
 import org.bukkit.entity.Player;
 
 public class Controller_GameConfigValue extends CommandController {
@@ -17,17 +17,23 @@ public class Controller_GameConfigValue extends CommandController {
         this.command_type = args[1];
         this.value = Integer.parseInt(args[2]);
 
-        this.game = GameRecuperator.byGame_Name(plugin.getGames_list(), this.game_name);
+        this.game = GameUtils.getGameByName(plugin.getGames_list(), this.game_name);
     }
 
     @Override
     public void ControlCmd() {
 
         String error = null;
-        error = this.game == null ? "§cVous devez d'abord créer une partie " :
-                this.game.getOwner() != this.sender.getUniqueId() && !this.sender.hasPermission("domination.animator.use") ? "§cVous devez être le propriétaire de la partie" :
-                !this.plugin.getConfig().getBoolean("default_game_caracteristique.configurable." + this.command_type) ? "§cCette configuration est désactivée par les staffs ou elle n'existe pas" :
-                this.value < (int) this.game.getMinGameConfigValue(this.command_type) || this.value > (int) this.game.getMaxGameConfigValue(this.command_type) ?  "§cLes valeurs ne doivent pas être en dessous de " + this.game.getMinGameConfigValue(this.command_type) + " ni au dessus de " + this.game.getMaxGameConfigValue(this.command_type) : null;
+        error =
+                this.game == null ?
+                        "§cVous devez d'abord créer une partie " :
+                this.game.getOwner() != this.sender.getUniqueId() && !this.sender.hasPermission("domination.animator.use") ?
+                        "§cVous devez être le propriétaire de la partie" :
+                !this.plugin.getConfig().getBoolean("default_game_caracteristique.configurable." + this.command_type) ?
+                        "§cCette configuration est désactivée par les staffs ou elle n'existe pas" :
+                this.value < (int) this.game.getMinGameConfigValue(this.command_type) || this.value > (int) this.game.getMaxGameConfigValue(this.command_type) ?
+                        "§cLes valeurs ne doivent pas être en dessous de " + this.game.getMinGameConfigValue(this.command_type) + " ni au dessus de " + this.game.getMaxGameConfigValue(this.command_type) :
+                        null;
 
         if(error == null)
         {
@@ -44,6 +50,6 @@ public class Controller_GameConfigValue extends CommandController {
     {
         Model_GameConfigValue game_config = new Model_GameConfigValue(this);
         game_config.updateConfiguration();
-        new GameScoreBoard(this.sender, this.plugin).runTaskLater(this.plugin, 0);
+        new GameScoreBoard(this.game_name, this.sender, this.plugin).runTaskLater(this.plugin, 0);
     }
 }

@@ -1,7 +1,7 @@
 package map_command.controllers;
 
 import main.Main;
-import main.utils.MapsRecuperator;
+import utils.MapsUtils;
 import map_command.models.Model_Flag;
 import map_command.parent.AdminCmdController;
 import org.bukkit.entity.Player;
@@ -16,7 +16,7 @@ public class Controller_Flag extends AdminCmdController {
         this.map_name = args[0];
         this.command_type = args[1];
         this.name = args[2];
-        this.map = MapsRecuperator.getMapByName(this.maps_list, this.map_name);
+        this.map = MapsUtils.getMapByName(this.maps_list, this.map_name);
     }
 
     @Override

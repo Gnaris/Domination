@@ -21,14 +21,16 @@ public class PointIncreaser extends BukkitRunnable {
 
     @Override
     public void run() {
+        //Increase score point to team
         for(Flag flag : this.game.getMap().getFlag_list())
         {
             if(flag.isCatched())
             {
                 this.game.getTeam_point().put(flag.getTeam_catched(), this.game.getTeam_point().get(flag.getTeam_catched()) + this.flag_point);
-                Bukkit.broadcastMessage("Point : " + this.game.getTeam_point().get(flag.getTeam_catched()));
             }
         }
+
+        //checks if the score is reached
         for(TeamList team_color : TeamList.values())
         {
             if(team_color != TeamList.RANDOM)
@@ -40,5 +42,6 @@ public class PointIncreaser extends BukkitRunnable {
                 }
             }
         }
+
     }
 }

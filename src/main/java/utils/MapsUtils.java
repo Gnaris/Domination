@@ -1,10 +1,10 @@
-package main.utils;
+package utils;
 
 import coliseum.Coliseum;
 
 import java.util.List;
 
-public class MapsRecuperator {
+public class MapsUtils {
 
     public static Coliseum getMapByName(List<Coliseum> maps_list, String map_name)
     {

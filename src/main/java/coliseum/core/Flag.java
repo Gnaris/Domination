@@ -29,6 +29,7 @@ public class Flag {
 
     public void buildFlag(Material block, Material glass, int radius)
     {
+        //Flag platform
         for(int x = (int) this.flag_location.getX() - (radius + 1); x < (int) this.flag_location.getX() + radius; x++) {
             for(int z = (int) this.flag_location.getZ() - radius; z < (int) this.flag_location.getZ() + (radius + 1); z++) {
                 this.flag_location.getWorld()
@@ -37,6 +38,7 @@ public class Flag {
             }
         }
 
+        //Beacon platform
         for(int x = (int) this.flag_location.getX() - 2; x < (int) this.flag_location.getX() + 1; x++) {
             for(int z = (int) this.flag_location.getZ() - 1; z < (int) this.flag_location.getZ() + 2; z++) {
                 this.flag_location.getWorld()
@@ -54,11 +56,8 @@ public class Flag {
                 .setType(glass);
     }
 
-    /**
-     *
-     * @return
-     */
-    public List<UUID> getPlayer_on_flag() {
+
+    public List<UUID> getPlayer_on_flag_area() {
         return player_on_flag;
     }
 }

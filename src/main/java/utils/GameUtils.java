@@ -1,15 +1,20 @@
-package main.utils;
+package utils;
 
 import game.Game;
 
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-public class GameRecuperator {
+public class GameUtils {
 
-    public static Game byGame_Name(List<Game> games_list, String game_name)
+    /**
+     * Get the game via a game name
+     * @param games_list
+     * @param game_name
+     * @return
+     */
+    public static Game getGameByName(List<Game> games_list, String game_name)
     {
         final Game[] game = {null};
         games_list.stream()
@@ -19,7 +24,13 @@ public class GameRecuperator {
         return game[0];
     }
 
-    public static Game byPlayer_Name(List<Game> games_list, UUID player_uuid)
+    /**
+     * Get the game via a player uuid
+     * @param games_list
+     * @param game_name
+     * @return
+     */
+    public static Game getGameByPlayerUUID(List<Game> games_list, UUID player_uuid)
     {
         final Game[] game = {null};
         games_list.stream()
@@ -27,5 +38,10 @@ public class GameRecuperator {
                 .collect(Collectors.toList())
                 .forEach(game_list -> game[0] = game_list);
         return game[0];
+    }
+
+    public static void endTheGame()
+    {
+
     }
 }

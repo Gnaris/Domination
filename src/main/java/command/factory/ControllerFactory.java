@@ -23,6 +23,13 @@ import java.util.Objects;
 public class ControllerFactory
 {
 
+    /**
+     * Send to the desired controller according to the command launched
+     * @param args
+     * @param sender
+     * @param plugin
+     * @return
+     */
     public static CommandController getInstance(String[] args, Player sender, Main plugin)
     {
         CommandController controller = null;

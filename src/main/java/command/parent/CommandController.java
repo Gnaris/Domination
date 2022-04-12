@@ -34,7 +34,13 @@ public abstract class CommandController{
         this.plugin = plugin;
     }
 
+    /**
+     * Checks if all the conditions of the order are respected
+     */
     public abstract void ControlCmd();
 
+    /**
+     * Call the model to update the game if controlCmd method is true
+     */
     protected abstract void executeCmd();
 }

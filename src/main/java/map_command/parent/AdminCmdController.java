@@ -33,7 +33,13 @@ public abstract class AdminCmdController {
         this.maps_list = plugin.getMaps_list();
     }
 
+    /**
+     * Checks if all the conditions of the order are respected
+     */
     public abstract void controlCmd();
 
+    /**
+     * Call the model to update the map if controlCmd method is true
+     */
     protected abstract void executeCmd();
 }

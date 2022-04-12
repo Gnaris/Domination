@@ -3,7 +3,7 @@ package command.controllers.game_config;
 import command.models.game_config.Model_GameConfigStatus;
 import command.parent.CommandController;
 import main.Main;
-import main.utils.GameRecuperator;
+import utils.GameUtils;
 import org.bukkit.entity.Player;
 
 public class Controller_GameConfigStatus extends CommandController {
@@ -14,7 +14,7 @@ public class Controller_GameConfigStatus extends CommandController {
         //Command : /dt [open, close] <game_name>
         this.command_type = args[0];
         this.game_name = args[1];
-        this.game = GameRecuperator.byGame_Name(plugin.getGames_list(), this.game_name);
+        this.game = GameUtils.getGameByName(plugin.getGames_list(), this.game_name);
     }
 
     @Override

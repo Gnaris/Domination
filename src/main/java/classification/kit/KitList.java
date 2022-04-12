@@ -1,8 +1,18 @@
 package classification.kit;
 
+import lombok.Getter;
+
+@Getter
 public enum KitList {
-    EPEISTE,
-    ARCHER,
-    MAGE,
-    INCOGNITO,
+    EPEISTE("Épéiste"),
+    ARCHER("Archer"),
+    MAGE("Mage"),
+    INCOGNITO("Incognito");
+
+    private String name;
+
+    KitList(String name)
+    {
+        this.name = name;
+    }
 }

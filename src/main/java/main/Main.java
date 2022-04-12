@@ -41,23 +41,26 @@ public final class Main extends JavaPlugin {
         String world;
         if(this.coliseum_config.getConfig().getString("map") != null)
         {
-            for(String coliseum_name : this.coliseum_config.getConfig().getConfigurationSection("map").getKeys(false))
+            //get every map name
+            for(String map_name : this.coliseum_config.getConfig().getConfigurationSection("map").getKeys(false))
             {
-                map = new Coliseum(coliseum_name, this.coliseum_config.getConfig().getString("map." + coliseum_name + ".world"));
-                if(this.coliseum_config.getConfig().getString("map." + coliseum_name + ".spawns") != null)
+                map = new Coliseum(map_name, this.coliseum_config.getConfig().getString("map." + map_name + ".world"));
+                if(this.coliseum_config.getConfig().getString("map." + map_name + ".spawns") != null)
                 {
-                    for(String team_color : this.coliseum_config.getConfig().getConfigurationSection("map." + coliseum_name + ".spawns").getKeys(false)) {
+                    //get every spawn team color
+                    for(String team_color : this.coliseum_config.getConfig().getConfigurationSection("map." + map_name + ".spawns").getKeys(false)) {
                         {
-                            if(this.coliseum_config.getConfig().getString("map." + coliseum_name + ".spawns." + team_color) != null)
+                            if(this.coliseum_config.getConfig().getString("map." + map_name + ".spawns." + team_color) != null)
                             {
-                                for(String spawn_name : this.coliseum_config.getConfig().getConfigurationSection("map." + coliseum_name + ".spawns." + team_color).getKeys(false))
+                                //get every spawn team color position
+                                for(String spawn_name : this.coliseum_config.getConfig().getConfigurationSection("map." + map_name + ".spawns." + team_color).getKeys(false))
                                 {
-                                    x = this.coliseum_config.getConfig().getDouble("map." + coliseum_name + ".spawns." + team_color + "." + spawn_name + ".x");
-                                    y = this.coliseum_config.getConfig().getDouble("map." + coliseum_name + ".spawns." + team_color + "." + spawn_name + ".y");
-                                    z = this.coliseum_config.getConfig().getDouble("map." + coliseum_name + ".spawns." + team_color + "." + spawn_name + ".z");
-                                    yaw = (float) this.coliseum_config.getConfig().getDouble("map." + coliseum_name + ".spawns." + team_color + "." + spawn_name + ".yaw");
-                                    pitch = (float) this.coliseum_config.getConfig().getDouble("map." + coliseum_name + ".spawns." + team_color + "." + spawn_name + ".pitch");
-                                    world = this.coliseum_config.getConfig().getString("map." + coliseum_name + ".world");
+                                    x = this.coliseum_config.getConfig().getDouble("map." + map_name + ".spawns." + team_color + "." + spawn_name + ".x");
+                                    y = this.coliseum_config.getConfig().getDouble("map." + map_name + ".spawns." + team_color + "." + spawn_name + ".y");
+                                    z = this.coliseum_config.getConfig().getDouble("map." + map_name + ".spawns." + team_color + "." + spawn_name + ".z");
+                                    yaw = (float) this.coliseum_config.getConfig().getDouble("map." + map_name + ".spawns." + team_color + "." + spawn_name + ".yaw");
+                                    pitch = (float) this.coliseum_config.getConfig().getDouble("map." + map_name + ".spawns." + team_color + "." + spawn_name + ".pitch");
+                                    world = this.coliseum_config.getConfig().getString("map." + map_name + ".world");
                                     location = new Location(Bukkit.getWorld(world), x,y,z,yaw,pitch);
                                     Arrays.stream(TeamList.values())
                                             .filter(teamlist -> team_color.equalsIgnoreCase(teamlist.toString().toLowerCase()))
@@ -70,14 +73,15 @@ public final class Main extends JavaPlugin {
                         }
                     }
                 }
-                if(this.coliseum_config.getConfig().getString("map." + coliseum_name + ".flags") != null)
+                if(this.coliseum_config.getConfig().getString("map." + map_name + ".flags") != null)
                 {
-                    for(String flag_name : this.coliseum_config.getConfig().getConfigurationSection("map." + coliseum_name + ".flags").getKeys(false))
+                    //Get every flag position
+                    for(String flag_name : this.coliseum_config.getConfig().getConfigurationSection("map." + map_name + ".flags").getKeys(false))
                     {
-                        x = this.coliseum_config.getConfig().getDouble("map." + coliseum_name + ".flags." + flag_name + ".x");
-                        y = this.coliseum_config.getConfig().getDouble("map." + coliseum_name + ".flags." + flag_name + ".y");
-                        z = this.coliseum_config.getConfig().getDouble("map." + coliseum_name + ".flags." + flag_name + ".z");
-                        world = this.coliseum_config.getConfig().getString("map." + coliseum_name + ".world");
+                        x = this.coliseum_config.getConfig().getDouble("map." + map_name + ".flags." + flag_name + ".x");
+                        y = this.coliseum_config.getConfig().getDouble("map." + map_name + ".flags." + flag_name + ".y");
+                        z = this.coliseum_config.getConfig().getDouble("map." + map_name + ".flags." + flag_name + ".z");
+                        world = this.coliseum_config.getConfig().getString("map." + map_name + ".world");
                         location = new Location(Bukkit.getWorld(world), x,y,z);
                         flag = new Flag(flag_name, location);
                         map.getFlag_list().add(flag);

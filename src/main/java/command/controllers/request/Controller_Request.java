@@ -6,7 +6,7 @@ import command.parent.CommandController;
 import game.core.GameScoreBoard;
 import game.core.Launcher;
 import main.Main;
-import main.utils.GameRecuperator;
+import utils.GameUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
@@ -25,7 +25,7 @@ public class Controller_Request extends CommandController {
         if(args.length == 2)
         {
             this.game_name = args[1];
-            this.game = GameRecuperator.byGame_Name(plugin.getGames_list(), this.game_name);
+            this.game = GameUtils.getGameByName(plugin.getGames_list(), this.game_name);
         }
     }
 
@@ -39,14 +39,13 @@ public class Controller_Request extends CommandController {
         {
             switch (this.command_type)
             {
-
                 case "create":
                 {
                     error = this.plugin.getGames_list().contains(this.game) ? "§cLe nom de cette partie existe déjà !" : null;
                     if(error == null && !this.sender.hasPermission("domination.animator.use"))
                     {
                         error = this.plugin.getGames_list().stream()
-                                .noneMatch(game_list -> game_list.getOwner() == this.sender.getUniqueId()) ? "§cVous avez déjà crée une partie" : null;
+                                .anyMatch(game_list -> game_list.getOwner() == this.sender.getUniqueId()) ? "§cVous avez déjà crée une partie" : null;
                     }
                     break;
                 }
@@ -67,7 +66,7 @@ public class Controller_Request extends CommandController {
 
                 case "delete":
                 {
-                    error = !this.game.getOwner().toString().equalsIgnoreCase(this.sender.getUniqueId().toString()) && !this.sender.hasPermission("domination.animator.use") ? "§cVous ne pouvez pas supprimer la partie des autres" :
+                    error = this.game.getOwner() != this.sender.getUniqueId() && !this.sender.hasPermission("domination.animator.use") ? "§cVous ne pouvez pas supprimer la partie des autres" :
                             this.game.isLaunched() ? "§cVous ne pouvez pas supprimer une partie déjà lancé" : null;
                     break;
                 }
@@ -82,7 +81,8 @@ public class Controller_Request extends CommandController {
                 {
                     error = this.game.getMap() == null ? "§cVous ne pouvez pas charger une map vide" :
                             (int) this.game.getGameCharacteristicValue("flag") > this.game.getMap().getFlag_list().size() ? "§cCette map contient uniquement " + this.game.getMap().getFlag_list().size() + " drapeau(x)" :
-                            this.game.getMap().isUsed() ? "§cMalheuresement quelqu'un a chargé la map avant vous. Veuillez en reprendre une autre (Premier charger, premier servi)" : null;
+                            this.game.getMap().isUsed() ? "§cMalheuresement quelqu'un a chargé la map avant vous. Veuillez en reprendre une autre (Premier charger, premier servi)" :
+                            this.game.getOwner() != this.sender.getUniqueId() ? "§cVous devez être le propriétaire de la partie" : null;
                     break;
                 }
 
@@ -137,7 +137,7 @@ public class Controller_Request extends CommandController {
             case "join" :
             {
                 request.join();
-                new GameScoreBoard(this.sender, this.plugin).runTaskLater(this.plugin, 0);
+                new GameScoreBoard(this.game_name, this.sender, this.plugin).runTaskLater(this.plugin, 0);
                 this.sender.sendMessage("§aVous avez rejoins la partie de §e" + Objects.requireNonNull(Bukkit.getPlayer(this.game.getOwner()).getName()));
                 break;
             }
@@ -150,14 +150,15 @@ public class Controller_Request extends CommandController {
                     Objects.requireNonNull(Bukkit.getPlayer(player)).sendMessage("§cLa partie §e<< " + this.game_name + " >> §cvient d'être supprimé");
                     Objects.requireNonNull(Bukkit.getPlayer(player)).setScoreboard(Objects.requireNonNull(Bukkit.getScoreboardManager()).getNewScoreboard());
                 }
+                this.sender.sendMessage("§aVous venez de supprimer la partie");
                 break;
             }
 
             case "leave" :
             {
-                this.sender.setScoreboard(Objects.requireNonNull(Bukkit.getScoreboardManager()).getNewScoreboard());
                 request.leave();
-                new GameScoreBoard(this.sender, this.plugin).runTaskLater(this.plugin, 0);
+                new GameScoreBoard(this.game_name, this.sender, this.plugin).runTaskLater(this.plugin, 0);
+                this.sender.setScoreboard(Objects.requireNonNull(Bukkit.getScoreboardManager()).getNewScoreboard());
                 this.sender.sendMessage("§cVous avez quitté la partie !");
                 break;
             }
@@ -165,7 +166,7 @@ public class Controller_Request extends CommandController {
             case "load" :
             {
                 request.load();
-                new GameScoreBoard(this.sender, this.plugin).runTaskLater(this.plugin, 0);
+                new GameScoreBoard(this.game_name ,this.sender, this.plugin).runTaskLater(this.plugin, 0);
                 this.sender.sendMessage("§eChargement de la map terminé ! Vous pouvez dès à présent jouer !");
                 break;
             }

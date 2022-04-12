@@ -22,6 +22,13 @@ import org.bukkit.entity.Player;
 
 public class ControllerAdministorFactory {
 
+    /**
+     * Send to the desired controller according to the command launched
+     * @param sender
+     * @param args
+     * @param plugin
+     * @return
+     */
     public static AdminCmdController getInstance(Player sender, String[] args, Main plugin)
     {
         String command_type = args[0];

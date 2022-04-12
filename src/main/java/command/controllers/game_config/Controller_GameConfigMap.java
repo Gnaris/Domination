@@ -4,8 +4,8 @@ import command.models.game_config.Model_GameConfigMap;
 import command.parent.CommandController;
 import game.core.GameScoreBoard;
 import main.Main;
-import main.utils.GameRecuperator;
-import main.utils.MapsRecuperator;
+import utils.GameUtils;
+import utils.MapsUtils;
 import org.bukkit.entity.Player;
 
 public class Controller_GameConfigMap extends CommandController {
@@ -19,8 +19,8 @@ public class Controller_GameConfigMap extends CommandController {
         this.command_type = args[1];
         this.map_name = args[2];
 
-        this.map = MapsRecuperator.getMapByName(plugin.getMaps_list(), this.map_name);
-        this.game = GameRecuperator.byGame_Name(plugin.getGames_list(), this.game_name);
+        this.map = MapsUtils.getMapByName(plugin.getMaps_list(), this.map_name);
+        this.game = GameUtils.getGameByName(plugin.getGames_list(), this.game_name);
     }
 
     @Override
@@ -28,7 +28,8 @@ public class Controller_GameConfigMap extends CommandController {
 
         String error = null;
         error = this.map == null ? "§cVous ne pouvez pas utiliser une map qui n'existe pas" :
-                this.map.isUsed() ? "§cCette map est déjà utilisée par une autre partie" : null;
+                this.map.isUsed() ? "§cCette map est déjà utilisée par une autre partie" :
+                this.game.getOwner() != this.sender.getUniqueId() ? "§cVous devez être le propriétaire de la partie" : null;
         if(error == null)
         {
             executeCmd();
@@ -45,7 +46,7 @@ public class Controller_GameConfigMap extends CommandController {
         Model_GameConfigMap game_config_map = new Model_GameConfigMap(this);
         game_config_map.setMap();
         this.sender.sendMessage("§aVous avez choisis l'arène " + this.map_name);
-        new GameScoreBoard(this.sender, this.plugin).runTaskLater(this.plugin, 0);
+        new GameScoreBoard(this.game_name, this.sender, this.plugin).runTaskLater(this.plugin, 0);
     }
 }
 

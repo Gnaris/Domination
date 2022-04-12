@@ -2,7 +2,7 @@ package map_command.controllers;
 
 import classification.team.TeamList;
 import main.Main;
-import main.utils.MapsRecuperator;
+import utils.MapsUtils;
 import map_command.models.Model_Spawn;
 import map_command.parent.AdminCmdController;
 import org.bukkit.entity.Player;
@@ -21,7 +21,7 @@ public class Controller_Spawn extends AdminCmdController {
         String color_team = args[2];
         this.name = args[3];
 
-        this.map = MapsRecuperator.getMapByName(this.maps_list, this.map_name);
+        this.map = MapsUtils.getMapByName(this.maps_list, this.map_name);
 
         Arrays.stream(TeamList.values())
                 .filter(teamlist -> color_team.equalsIgnoreCase(teamlist.toString().toLowerCase()))
