@@ -82,6 +82,7 @@ public class Controller_Request extends CommandController {
                     error = this.game.getMap() == null ? "§cVous ne pouvez pas charger une map vide" :
                             (int) this.game.getGameCharacteristicValue("flag") > this.game.getMap().getFlag_list().size() ? "§cCette map contient uniquement " + this.game.getMap().getFlag_list().size() + " drapeau(x)" :
                             this.game.getMap().isUsed() ? "§cMalheuresement quelqu'un a chargé la map avant vous. Veuillez en reprendre une autre (Premier charger, premier servi)" :
+                            this.game.isMap_loaded() ? "§cVous avez déjà chargé la map" :
                             this.game.getOwner() != this.sender.getUniqueId() ? "§cVous devez être le propriétaire de la partie" : null;
                     break;
                 }

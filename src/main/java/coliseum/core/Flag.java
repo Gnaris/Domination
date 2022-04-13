@@ -18,7 +18,7 @@ public class Flag {
     private final String name;
     private final Location flag_location;
     private final List<UUID> player_on_flag = new ArrayList<>();
-    private boolean catched = false;
+    private FlagStatus status = FlagStatus.NONE;
     private TeamList team_catched = null;
 
     public Flag(String name, Location flag_location)

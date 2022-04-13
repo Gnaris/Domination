@@ -31,7 +31,7 @@ public class Game extends GameCharacteristic {
         this.name = name;
         this.owner = sender.getUniqueId();
         Arrays.stream(TeamList.values())
-                .filter(team_list -> team_list != TeamList.RANDOM)
+                .filter(team_list -> team_list.isPlayable())
                 .collect(Collectors.toList())
                 .forEach(team_list -> this.team_point.put(team_list, 0));
     }

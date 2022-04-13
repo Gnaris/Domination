@@ -2,6 +2,7 @@ package gameplay.core;
 
 import classification.team.TeamList;
 import coliseum.core.Flag;
+import coliseum.core.FlagStatus;
 import game.Game;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -39,11 +40,13 @@ public class Statistic extends BukkitRunnable {
         this.objective.getScore("").setScore(total_score);
         total_score--;
         this.objective.getScore("■ Drapeaux :").setScore(total_score);
-        total_score = showFlags(total_score--);
+        total_score--;
+        total_score = showFlags(total_score);
         this.objective.getScore(" ").setScore(total_score);
         total_score--;
         this.objective.getScore("■ Objectif : " + (int) this.game.getGameCharacteristicValue("point") + " points").setScore(total_score);
-        total_score = showTeamScore(total_score--);
+        total_score--;
+        total_score = showTeamScore(total_score);
         this.objective.getScore("  ").setScore(total_score);
         return this.board;
     }
@@ -77,18 +80,18 @@ public class Statistic extends BukkitRunnable {
         int score = total_score;
         for (Flag flag : this.game.getMap().getFlag_list())
         {
-            if (flag.isCatched())
+            if (flag.getStatus() == FlagStatus.CAPTURED)
             {
-                this.objective.getScoreboard().resetScores("§6→ " + flag.getName() + " : none");
+                this.objective.getScoreboard().resetScores("→ " + flag.getName() + " : none");
                 Arrays.stream(TeamList.values())
                         .filter(team_list -> team_list != TeamList.RANDOM)
                         .collect(Collectors.toList())
-                        .forEach(team_list -> this.objective.getScoreboard().resetScores("§6→ " + flag.getName() + " : " + team_list.getName()));
-                this.objective.getScore("§6→ " + flag.getName() + " : " + flag.getTeam_catched().getName()).setScore(score);
+                        .forEach(team_list -> this.objective.getScoreboard().resetScores(team_list.getColor() + "→ " + flag.getName() + " : " + team_list.getName()));
+                this.objective.getScore(flag.getTeam_catched().getColor() + "→ " + flag.getName() + " : " + flag.getTeam_catched().getName()).setScore(score);
             }
             else
             {
-                this.objective.getScore("§6→ " + flag.getName() + " : none").setScore(score);
+                this.objective.getScore("→ " + flag.getName() + " : none").setScore(score);
             }
             score--;
         }
@@ -103,9 +106,9 @@ public class Statistic extends BukkitRunnable {
             TeamList team_color = (TeamList) team_point.getKey();
             for(int i = 0; i < this.game.getMap().getFlag_list().size() + 1; i++)
             {
-                this.objective.getScoreboard().resetScores(team_color.getName() + " : " + ((int) team_point.getValue() - i));
+                this.objective.getScoreboard().resetScores(team_color.getColor() + "Équipe : " + team_color.getName() + " : " + ((int) team_point.getValue() - i));
             }
-            this.objective.getScore(team_color.getName() + " : " + team_point.getValue()).setScore(score);
+            this.objective.getScore(team_color.getColor() + "Équipe : " + team_color.getName() + " : " + team_point.getValue()).setScore(score);
             score--;
         }
         return score;

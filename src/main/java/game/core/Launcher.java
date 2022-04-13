@@ -4,6 +4,7 @@ import game.Game;
 import gameplay.GamePlay;
 import gameplay.core.PointIncreaser;
 import gameplay.core.Statistic;
+import gameplay.event.FlagsArea;
 import main.Main;
 import org.bukkit.Bukkit;
 import org.bukkit.scheduler.BukkitRunnable;

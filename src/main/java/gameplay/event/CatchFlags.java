@@ -2,6 +2,7 @@ package gameplay.event;
 
 import classification.team.TeamList;
 import coliseum.core.Flag;
+import coliseum.core.FlagStatus;
 import game.Game;
 import lombok.Getter;
 import org.bukkit.Bukkit;
@@ -44,7 +45,7 @@ public class CatchFlags extends BukkitRunnable {
 
         if(this.bar.getProgress() <= 0)
         {
-            this.flag.setCatched(true);
+            this.flag.setStatus(FlagStatus.CAPTURED);
             this.flag.setTeam_catched(this.game.getPlayer_list().get(this.catcher.getUniqueId()).getTeam());
             TeamList team_color = null;
             int i = 0;

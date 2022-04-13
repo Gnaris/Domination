@@ -1,5 +1,6 @@
 package game.core;
 
+import classification.kit.KitList;
 import classification.team.TeamList;
 import game.Game;
 import main.Main;
@@ -13,6 +14,7 @@ import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.ScoreboardManager;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class GameScoreBoard extends BukkitRunnable {
 
@@ -21,7 +23,6 @@ public class GameScoreBoard extends BukkitRunnable {
     private final Objective objective = board.registerNewObjective("GameScoreboard", "dummy");
 
     private final Game game;
-    private final List<String> scores = new ArrayList<>();
     private final Player sender;
 
     public GameScoreBoard(String game_name, Player sender, Main plugin)
@@ -34,12 +35,7 @@ public class GameScoreBoard extends BukkitRunnable {
     {
         this.objective.setDisplaySlot(DisplaySlot.SIDEBAR);
         this.objective.setDisplayName("§c§lDOMINATION");
-        int size = this.scores.size();
-        for(int i = 0; i < this.scores.size(); i++)
-        {
-            this.objective.getScore(this.scores.get(i)).setScore(size);
-            size--;
-        }
+        fillScore();
         return this.board;
     }
 
@@ -49,54 +45,53 @@ public class GameScoreBoard extends BukkitRunnable {
         {
             if(this.game.getPlayer_list().containsKey(playerUUID))
             {
-                fillScore(playerUUID);
                 Bukkit.getPlayer(playerUUID).setScoreboard(openScoreBoard());
             }
-            this.scores.clear();
         }
     }
 
-    private void fillScore(UUID player)
+    private void fillScore()
     {
-        this.scores.add("         §a§l▶ Caractéristique ◀   ");
-        this.scores.add("· Nb de Joueur : §e(" + this.game.getPlayer_list().size() + "/" + (int) this.game.getGameCharacteristicValue("player") + ")");
-        this.scores.add("· Durée de la Partie : §e" + (int) this.game.getGameCharacteristicValue("time") + "s");
-        this.scores.add("· Tps de Capture : §e" + (int) this.game.getGameCharacteristicValue("catchtimer") + "s");
-        this.scores.add("· Vitesse de Capture : §e+" + this.game.getGameCharacteristicValue("catchspeed") + "s");
-        this.scores.add("· Tps de Respawn : §e" + (int) this.game.getGameCharacteristicValue("respawntimer") + "s");
-        this.scores.add("· Nombre de Drapeau : §e" + (int) this.game.getGameCharacteristicValue("flag"));
-        this.scores.add("· Rayon du Drapeau : §e" + (int) this.game.getGameCharacteristicValue("radius"));
-        this.scores.add("· Objectif Point : §e" + (int) this.game.getGameCharacteristicValue("point"));
-        this.scores.add("· Point par Massacre : §e" + (int) this.game.getGameCharacteristicValue("killpoint"));
-        this.scores.add("· Point par Drapeau : §e" + (int) this.game.getGameCharacteristicValue("flagpoint"));
-        int red = 0;
-        int blue = 0;
-        int random = 0;
-        for(UUID playerUUID : this.game.getPlayer_list().keySet())
-        {
-            if(this.game.getPlayer_list().get(playerUUID).getTeam() == TeamList.RED)
-            {
-                red++;
-            }
-            if(this.game.getPlayer_list().get(playerUUID).getTeam() == TeamList.BlUE)
-            {
-                blue++;
-            }
-            if(this.game.getPlayer_list().get(playerUUID).getTeam() == TeamList.RANDOM)
-            {
-                random++;
-            }
-        }
-        this.scores.add("                  §c" + red + " §7| §1" + blue + " §7| §d" + random);
+        this.objective.getScore("         §a§l▶ Caractéristique ◀   ").setScore(15);
+        this.objective.getScore("· Nb de Joueur : §e(" + this.game.getPlayer_list().size() + "/" + (int) this.game.getGameCharacteristicValue("player") + ")").setScore(14);
+        this.objective.getScore("· Durée de la Partie : §e" + (int) this.game.getGameCharacteristicValue("time") + "s").setScore(13);
+        this.objective.getScore("· Tps de Capture : §e" + (int) this.game.getGameCharacteristicValue("catchtimer") + "s").setScore(12);
+        this.objective.getScore("· Vitesse de Capture : §e+" + this.game.getGameCharacteristicValue("catchspeed") + "s").setScore(11);
+        this.objective.getScore("· Tps de Respawn : §e" + (int) this.game.getGameCharacteristicValue("respawntimer") + "s").setScore(10);
+        this.objective.getScore("· Nombre de Drapeau : §e" + (int) this.game.getGameCharacteristicValue("flag")).setScore(9);
+        this.objective.getScore("· Rayon du Drapeau : §e" + (int) this.game.getGameCharacteristicValue("radius")).setScore(8);
+        this.objective.getScore("· Objectif Point : §e" + (int) this.game.getGameCharacteristicValue("point")).setScore(7);
+        this.objective.getScore("· Point par Massacre : §e" + (int) this.game.getGameCharacteristicValue("killpoint")).setScore(6);
+        this.objective.getScore("· Point par Drapeau : §e" + (int) this.game.getGameCharacteristicValue("flagpoint")).setScore(5);
         if(this.game.getMap() != null)
         {
-            this.scores.add("            Map : §2" + this.game.getMap().getName());
+            this.objective.getScoreboard().resetScores("            Map : §2Aucune map");
+            this.objective.getScore("            Map : §2" + this.game.getMap().getName()).setScore(4);
         }
         else
         {
-            this.scores.add("            Map : §2Aucune map");
+            this.objective.getScore("            Map : §2Aucune map").setScore(4);
         }
-        this.scores.add("      §aVotre équipe : " + this.game.getPlayer_list().get(player).getTeam().getName());
-        this.scores.add("          §aVotre kit : §6" + this.game.getPlayer_list().get(player).getKit().getName());
+        int i = TeamList.values().length - 1;
+
+        for(TeamList team_list : TeamList.values())
+        {
+            this.objective.getScoreboard().resetScores(team_list.getColor()+"Équipe " + team_list.getName() + " : " + (updateEffectif(team_list) - 1));
+            this.objective.getScore(team_list.getColor()+"Équipe " + team_list.getName() + " : " + updateEffectif(team_list)).setScore(i);
+            i--;
+        }
+    }
+
+    private int updateEffectif(TeamList team_color)
+    {
+        int effectif = 0;
+        for(UUID playerUUID : this.game.getPlayer_list().keySet())
+        {
+            if(this.game.getPlayer_list().get(playerUUID).getTeam() == team_color)
+            {
+                effectif++;
+            }
+        }
+        return effectif;
     }
 }

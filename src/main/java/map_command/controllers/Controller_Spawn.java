@@ -35,7 +35,7 @@ public class Controller_Spawn extends AdminCmdController {
         String error;
         error = this.map == null ? "§cLe nom de la map est inexistant" :
                 this.color_team == null ? "§cLe nom de cette équipe est invalide" :
-                this.color_team == TeamList.RANDOM ? "§cPourquoi mettre un spawn pour les randoms ?" : null;
+                !this.color_team.isSpawnable() ? "§cVous ne pouvez pas ajouter un spawn pour cette team" : null;
 
         if(error == null)
         {

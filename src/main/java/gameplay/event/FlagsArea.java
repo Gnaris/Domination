@@ -1,19 +1,23 @@
 package gameplay.event;
 
 import coliseum.core.Flag;
+import coliseum.core.FlagStatus;
 import game.Game;
 import main.Main;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
-public class FlagsArea implements Listener {
+public class FlagsArea implements Listener{
 
     private final Main plugin;
     private final List<Game> games_started = new ArrayList<>();
@@ -56,9 +60,12 @@ public class FlagsArea implements Listener {
             {
                 flag = this.player_game.getMap().getFlag_list().get(i);
                 player.sendMessage("§aVous entrez dans le drapeau : " + flag.getName());
-                this.catch_bar = new CatchFlags(this.player_game, flag, e.getPlayer());
-                this.catch_bar.getBar().addPlayer(player);
-                this.catch_task = this.catch_bar.runTaskTimer(this.plugin, 0, 20);
+                if(flag.getTeam_catched() != null || flag.getTeam_catched() != this.player_game.getPlayer_list().get(player.getUniqueId()).getTeam())
+                {
+                    this.catch_bar = new CatchFlags(this.player_game, flag, e.getPlayer());
+                    this.catch_bar.getBar().addPlayer(player);
+                    this.catch_task = this.catch_bar.runTaskTimer(this.plugin, 0, 20);
+                }
                 flag.getPlayer_on_flag_area().add(player.getUniqueId());
             }
 
