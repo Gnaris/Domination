@@ -6,10 +6,10 @@ import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Getter
 @Setter
@@ -20,11 +20,16 @@ public class Flag {
     private final List<UUID> player_on_flag = new ArrayList<>();
     private FlagStatus status = FlagStatus.NONE;
     private TeamList team_catched = null;
+    private HashMap<TeamList, UUID> progress_capture_list = new HashMap<TeamList, UUID>();
 
     public Flag(String name, Location flag_location)
     {
         this.name = name;
         this.flag_location = flag_location;
+        Arrays.stream(TeamList.values())
+                .filter(team_color -> team_color != TeamList.RANDOM ||team_color != TeamList.SPECTATOR)
+                .collect(Collectors.toList())
+                .forEach(team_color -> this.progress_capture_list.put(team_color, null));
     }
 
     public void buildFlag(Material block, Material glass, int radius)

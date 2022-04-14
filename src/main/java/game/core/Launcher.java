@@ -19,7 +19,7 @@ public class Launcher extends BukkitRunnable {
 
     public Launcher(Game game, Main plugin) {
         this.game = game;
-        this.timer = 10;
+        this.timer = 3;
         this.plugin = plugin;
     }
 
