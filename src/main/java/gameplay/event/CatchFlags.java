@@ -33,6 +33,14 @@ public class CatchFlags extends BukkitRunnable {
     @Override
     public void run() {
 
+
+        if(this.flag.getStatus() == FlagStatus.CAPTURED)
+        {
+            this.cancel();
+            this.bar.removePlayer(this.catcher);
+            this.flag.setStatus(FlagStatus.NONE);
+        }
+
         double reduce_progress = 1.0 / (int) this.game.getGameCharacteristicValue("catchtimer");
 
         if(this.bar.getProgress() - reduce_progress >= 0)
@@ -48,17 +56,8 @@ public class CatchFlags extends BukkitRunnable {
         {
             this.flag.setStatus(FlagStatus.CAPTURED);
             this.flag.setTeam_catched(this.game.getPlayer_list().get(this.catcher.getUniqueId()).getTeam());
-            TeamList team_color = null;
-            int i = 0;
-            while(team_color == null && i < TeamList.values().length)
-            {
-                if(this.game.getPlayer_list().get(this.catcher.getUniqueId()).getTeam() == TeamList.values()[i])
-                {
-                    team_color = TeamList.values()[i];
-                    this.flag.buildFlag(team_color.getConcrete(), team_color.getGlass(), (int) this.game.getGameCharacteristicValue("radius"));
-                }
-                i++;
-            }
+            TeamList player_team = this.game.getPlayer_list().get(this.catcher.getUniqueId()).getTeam();
+            this.flag.buildFlag(player_team.getConcrete(), player_team.getGlass(), (int) this.game.getGameCharacteristicValue("radius"));
             this.bar.removePlayer(this.catcher);
         }
     }

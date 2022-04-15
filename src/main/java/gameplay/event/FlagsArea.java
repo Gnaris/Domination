@@ -61,7 +61,6 @@ public class FlagsArea implements Listener{
                 flag = this.player_game.getMap().getFlag_list().get(i);
                 player.sendMessage("§aVous entrez dans le drapeau : " + flag.getName());
                 flag.getPlayer_on_flag_area().add(player.getUniqueId());
-                flag.setStatus(FlagStatus.PROGRESS);
                 if(flag.getTeam_catched() != null || flag.getTeam_catched() != this.player_game.getPlayer_list().get(player.getUniqueId()).getTeam())
                 {
                     if(flag.getProgress_capture_list().get(this.player_game.getPlayer_list().get(player.getUniqueId()).getTeam()) == null)
@@ -70,6 +69,7 @@ public class FlagsArea implements Listener{
                         this.catch_bar.getBar().addPlayer(player);
                         this.catch_task = this.catch_bar.runTaskTimer(this.plugin, 0, 20);
                         flag.getProgress_capture_list().put(this.player_game.getPlayer_list().get(player.getUniqueId()).getTeam(), player.getUniqueId());
+                        flag.setStatus(FlagStatus.PROGRESS);
                     }
                 }
             }
@@ -79,22 +79,15 @@ public class FlagsArea implements Listener{
             {
                 flag = this.player_game.getMap().getFlag_list().get(i);
                 player.sendMessage("§cVous êtes sortis du drapeau : " + flag.getName());
-                if(this.catch_bar != null)
+                if(this.catch_task != null)
                 {
                     if(this.catch_bar.getBar().getPlayers().contains(player))
                     {
                         this.catch_bar.getBar().removePlayer(player);
                         this.catch_task.cancel();
+                        this.catch_task = null;
                         flag.getProgress_capture_list().put(this.player_game.getPlayer_list().get(player.getUniqueId()).getTeam(), null);
                     }
-                }
-                if(flag.getTeam_catched() != null)
-                {
-                    flag.setStatus(FlagStatus.CAPTURED);
-                }
-                else
-                {
-                    flag.setStatus(FlagStatus.NONE);
                 }
                 flag.getPlayer_on_flag_area().remove(player.getUniqueId());
             }
