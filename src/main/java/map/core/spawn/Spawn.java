@@ -1,4 +1,4 @@
-package coliseum.core;
+package map.core.spawn;
 
 import classification.team.TeamList;
 import lombok.Getter;

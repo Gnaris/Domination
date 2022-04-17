@@ -1,6 +1,6 @@
 package map_command.models;
 
-import coliseum.core.Flag;
+import map.core.flag.Flag;
 import map_command.parent.AdminCmdController;
 import map_command.parent.AdminCmdModel;
 

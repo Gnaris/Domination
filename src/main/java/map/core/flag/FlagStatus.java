@@ -1,4 +1,4 @@
-package coliseum.core;
+package map.core.flag;
 
 public enum FlagStatus {
 

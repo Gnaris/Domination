@@ -1,7 +1,7 @@
 package map_command.parent;
 
 import classification.team.TeamList;
-import coliseum.Coliseum;
+import map.Coliseum;
 import lombok.Getter;
 import main.Main;
 import main.MapConfig;
@@ -29,7 +29,7 @@ public abstract class AdminCmdController {
         this.sender = sender;
         this.args = args;
 
-        this.map_config = plugin.getColiseum_config();
+        this.map_config = plugin.getMaps_config();
         this.maps_list = plugin.getMaps_list();
     }
 

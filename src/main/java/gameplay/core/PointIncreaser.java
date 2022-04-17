@@ -1,13 +1,9 @@
 package gameplay.core;
 
 import classification.team.TeamList;
-import coliseum.core.Flag;
-import coliseum.core.FlagStatus;
+import map.core.flag.Flag;
 import game.Game;
-import org.bukkit.Bukkit;
 import org.bukkit.scheduler.BukkitRunnable;
-
-import java.util.Map;
 
 public class PointIncreaser extends BukkitRunnable {
 
@@ -25,7 +21,7 @@ public class PointIncreaser extends BukkitRunnable {
         //Increase score point to team
         for(Flag flag : this.game.getMap().getFlag_list())
         {
-            if(flag.getStatus() == FlagStatus.CAPTURED)
+            if(flag.getTeam_catched().isPlayable())
             {
                 this.game.getTeam_point().put(flag.getTeam_catched(), this.game.getTeam_point().get(flag.getTeam_catched()) + this.flag_point);
             }

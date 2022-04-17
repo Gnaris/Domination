@@ -1,10 +1,9 @@
-package coliseum;
+package map;
 
-import coliseum.core.Flag;
-import coliseum.core.Spawn;
+import map.core.flag.Flag;
+import map.core.spawn.Spawn;
 import lombok.Getter;
 import lombok.Setter;
-import org.checkerframework.checker.units.qual.A;
 
 import java.util.ArrayList;
 import java.util.List;

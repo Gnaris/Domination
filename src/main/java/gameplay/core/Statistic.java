@@ -1,8 +1,7 @@
 package gameplay.core;
 
 import classification.team.TeamList;
-import coliseum.core.Flag;
-import coliseum.core.FlagStatus;
+import map.core.flag.Flag;
 import game.Game;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -71,6 +70,7 @@ public class Statistic extends BukkitRunnable {
         this.objective.getScore("§eFin de la partie dans : " + decimal_format.format(this.game.getTimer()) + "s").setScore(0);
 
         if (this.game.getTimer() <= 0) {
+            this.game.deleteGame();
             this.cancel();
         }
     }
@@ -80,7 +80,7 @@ public class Statistic extends BukkitRunnable {
         int score = total_score;
         for (Flag flag : this.game.getMap().getFlag_list())
         {
-            if (flag.getStatus() == FlagStatus.CAPTURED)
+            if (flag.getTeam_catched() != TeamList.NONE)
             {
                 this.objective.getScoreboard().resetScores("→ " + flag.getName() + " : none");
                 Arrays.stream(TeamList.values())
@@ -108,6 +108,7 @@ public class Statistic extends BukkitRunnable {
             {
                 this.objective.getScoreboard().resetScores(team_color.getColor() + "Équipe : " + team_color.getName() + " : " + ((int) team_point.getValue() - i));
             }
+            this.objective.getScoreboard().resetScores(team_color.getColor() + "Équipe : " + team_color.getName() + " : " + ((int) team_point.getValue() - (int) this.game.getGameCharacteristicValue("killpoint")));
             this.objective.getScore(team_color.getColor() + "Équipe : " + team_color.getName() + " : " + team_point.getValue()).setScore(score);
             score--;
         }

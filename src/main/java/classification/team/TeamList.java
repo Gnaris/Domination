@@ -5,10 +5,15 @@ import org.bukkit.Material;
 
 @Getter
 public enum TeamList {
+    // Team list (will be displayed in the scoreboard)
     RED(Material.RED_CONCRETE, Material.RED_STAINED_GLASS, "Rouge", "§c", true, true),
     BlUE(Material.BLUE_CONCRETE, Material.BLUE_STAINED_GLASS, "Bleu", "§1", true, true),
     RANDOM(null, null, "Random", "§d", false, false),
-    SPECTATOR(null, null, "Spectacteur", "§7", true, false);
+    SPECTATOR(null, null, "Spectacteur", "§7", true, false),
+
+    //none = null and spawn = player spawn after end game (don't touch this)
+    SPAWN(null, null, null, null, true, false),
+    NONE(null, null, null, null, false, false);
 
     private Material concrete;
     private Material glass;

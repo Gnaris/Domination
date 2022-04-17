@@ -9,6 +9,7 @@ import main.Main;
 import utils.GameUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import utils.TeamUtils;
 
 import java.util.Objects;
 import java.util.UUID;
@@ -54,7 +55,7 @@ public class Controller_Request extends CommandController {
                 {
                     error = this.game.isLaunched() ? "§cLa partie a déjà été lancée" :
                             !this.game.isOpen() && this.game.getOwner() != this.sender.getUniqueId()  ? "§cLa partie est en privée" :
-                            this.game.getPlayer_list().size() > this.game.getGameCharacteristicValue("player") ? "§cIl n'y a plus de place dans cette partie" :
+                            (this.game.getPlayer_list().size() - TeamUtils.getSpectatorsList(this.game).size())  > this.game.getGameCharacteristicValue("player") ? "§cIl n'y a plus de place dans cette partie" :
                             this.game.getPlayer_list().containsKey(this.sender.getUniqueId()) ? "§cVous êtes déjà dans la partie" : null;
                     if(error == null)
                     {

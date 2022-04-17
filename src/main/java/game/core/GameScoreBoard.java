@@ -12,6 +12,7 @@ import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.ScoreboardManager;
+import utils.TeamUtils;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -53,27 +54,25 @@ public class GameScoreBoard extends BukkitRunnable {
     private void fillScore()
     {
         this.objective.getScore("         §a§l▶ Caractéristique ◀   ").setScore(15);
-        this.objective.getScore("· Nb de Joueur : §e(" + this.game.getPlayer_list().size() + "/" + (int) this.game.getGameCharacteristicValue("player") + ")").setScore(14);
+        this.objective.getScore("· Nb de Joueur : §e(" + (this.game.getPlayer_list().size() - TeamUtils.getSpectatorsList(this.game).size()) + "/" + (int) this.game.getGameCharacteristicValue("player") + ")").setScore(14);
         this.objective.getScore("· Durée de la Partie : §e" + (int) this.game.getGameCharacteristicValue("time") + "s").setScore(13);
         this.objective.getScore("· Tps de Capture : §e" + (int) this.game.getGameCharacteristicValue("catchtimer") + "s").setScore(12);
-        this.objective.getScore("· Vitesse de Capture : §e+" + this.game.getGameCharacteristicValue("catchspeed") + "s").setScore(11);
-        this.objective.getScore("· Tps de Respawn : §e" + (int) this.game.getGameCharacteristicValue("respawntimer") + "s").setScore(10);
-        this.objective.getScore("· Nombre de Drapeau : §e" + (int) this.game.getGameCharacteristicValue("flag")).setScore(9);
-        this.objective.getScore("· Rayon du Drapeau : §e" + (int) this.game.getGameCharacteristicValue("radius")).setScore(8);
-        this.objective.getScore("· Objectif Point : §e" + (int) this.game.getGameCharacteristicValue("point")).setScore(7);
-        this.objective.getScore("· Point par Massacre : §e" + (int) this.game.getGameCharacteristicValue("killpoint")).setScore(6);
-        this.objective.getScore("· Point par Drapeau : §e" + (int) this.game.getGameCharacteristicValue("flagpoint")).setScore(5);
+        this.objective.getScore("· Tps de Respawn : §e" + (int) this.game.getGameCharacteristicValue("respawntimer") + "s").setScore(11);
+        this.objective.getScore("· Nombre de Drapeau : §e" + (int) this.game.getGameCharacteristicValue("flag")).setScore(10);
+        this.objective.getScore("· Rayon du Drapeau : §e" + (int) this.game.getGameCharacteristicValue("radius")).setScore(9);
+        this.objective.getScore("· Objectif Point : §e" + (int) this.game.getGameCharacteristicValue("point")).setScore(8);
+        this.objective.getScore("· Point par Massacre : §e" + (int) this.game.getGameCharacteristicValue("killpoint")).setScore(7);
+        this.objective.getScore("· Point par Drapeau : §e" + (int) this.game.getGameCharacteristicValue("flagpoint")).setScore(6);
         if(this.game.getMap() != null)
         {
             this.objective.getScoreboard().resetScores("            Map : §2Aucune map");
-            this.objective.getScore("            Map : §2" + this.game.getMap().getName()).setScore(4);
+            this.objective.getScore("            Map : §2" + this.game.getMap().getName()).setScore(5);
         }
         else
         {
-            this.objective.getScore("            Map : §2Aucune map").setScore(4);
+            this.objective.getScore("            Map : §2Aucune map").setScore(5);
         }
-        int i = TeamList.values().length - 1;
-
+        int i = TeamList.values().length - 2; // -2 beceause TeamList.NONE and TeamList.SPAWN is not a team
         for(TeamList team_list : TeamList.values())
         {
             this.objective.getScoreboard().resetScores(team_list.getColor()+"Équipe " + team_list.getName() + " : " + (updateEffectif(team_list) - 1));

@@ -1,7 +1,7 @@
 package map_command.parent;
 
 import classification.team.TeamList;
-import coliseum.Coliseum;
+import map.Coliseum;
 import main.MapConfig;
 import org.bukkit.entity.Player;
 

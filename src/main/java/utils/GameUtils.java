@@ -1,6 +1,7 @@
 package utils;
 
 import game.Game;
+import main.Main;
 
 import java.util.List;
 import java.util.UUID;
@@ -40,7 +41,7 @@ public class GameUtils {
         return game[0];
     }
 
-    public static void endTheGame()
+    public static void endTheGame(Game game, Main plugin)
     {
 
     }

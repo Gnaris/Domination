@@ -2,7 +2,7 @@ package command.parent;
 
 import classification.kit.KitList;
 import classification.team.TeamList;
-import coliseum.Coliseum;
+import map.Coliseum;
 import game.Game;
 import main.Main;
 import org.bukkit.entity.Player;

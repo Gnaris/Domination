@@ -1,6 +1,6 @@
 package map_command.models;
 
-import coliseum.Coliseum;
+import map.Coliseum;
 import map_command.parent.AdminCmdController;
 import map_command.parent.AdminCmdModel;
 

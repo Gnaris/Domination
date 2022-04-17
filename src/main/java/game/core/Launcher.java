@@ -1,10 +1,10 @@
 package game.core;
 
+import utils.TeamUtils;
 import game.Game;
 import gameplay.GamePlay;
 import gameplay.core.PointIncreaser;
 import gameplay.core.Statistic;
-import gameplay.event.FlagsArea;
 import main.Main;
 import org.bukkit.Bukkit;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -30,6 +30,7 @@ public class Launcher extends BukkitRunnable {
         }
         this.timer--;
         if (this.timer <= -1) {
+            TeamUtils.filterTeam(this.game);
             GamePlay gameplay = new GamePlay(this.game);
             gameplay.teleportPlayers();
             new Statistic(this.game).runTaskTimer(this.plugin, 0, 20);

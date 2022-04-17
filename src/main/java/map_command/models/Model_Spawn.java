@@ -1,6 +1,7 @@
 package map_command.models;
 
-import coliseum.core.Spawn;
+import classification.team.TeamList;
+import map.core.spawn.Spawn;
 import map_command.parent.AdminCmdController;
 import map_command.parent.AdminCmdModel;
 
@@ -15,6 +16,10 @@ public class Model_Spawn extends AdminCmdModel {
     public void setSpawn()
     {
         this.map_config.getConfig().set("map." + this.map.getName() + ".spawns." + this.color_team.toString().toLowerCase() + "." + this.name, null);
+        if(this.color_team == TeamList.SPAWN)
+        {
+            this.map_config.getConfig().set("map." + this.map.getName() + ".spawns." + this.color_team.toString().toLowerCase() + "." + this.name + ".world", this.sender.getWorld().getName());
+        }
         this.map_config.getConfig().set("map." + this.map.getName() + ".spawns." + this.color_team.toString().toLowerCase() + "." + this.name + ".x", this.sender.getLocation().getX());
         this.map_config.getConfig().set("map." + this.map.getName() + ".spawns." + this.color_team.toString().toLowerCase() + "." + this.name + ".y", this.sender.getLocation().getY());
         this.map_config.getConfig().set("map." + this.map.getName() + ".spawns." + this.color_team.toString().toLowerCase() + "." + this.name + ".z", this.sender.getLocation().getZ());

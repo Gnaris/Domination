@@ -1,6 +1,6 @@
 package utils;
 
-import coliseum.Coliseum;
+import map.Coliseum;
 
 import java.util.List;
 

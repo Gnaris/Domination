@@ -1,4 +1,4 @@
-package coliseum.core;
+package map.core.flag;
 
 
 import classification.team.TeamList;
@@ -6,7 +6,6 @@ import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.entity.Player;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -17,19 +16,21 @@ public class Flag {
 
     private final String name;
     private final Location flag_location;
+
     private final List<UUID> player_on_flag = new ArrayList<>();
+    private HashMap<TeamList, UUID> player_capturing_list = new HashMap<TeamList, UUID>();
+
     private FlagStatus status = FlagStatus.NONE;
-    private TeamList team_catched = null;
-    private HashMap<TeamList, UUID> progress_capture_list = new HashMap<TeamList, UUID>();
+    private TeamList team_catched = TeamList.NONE;
 
     public Flag(String name, Location flag_location)
     {
         this.name = name;
         this.flag_location = flag_location;
         Arrays.stream(TeamList.values())
-                .filter(team_color -> team_color != TeamList.RANDOM ||team_color != TeamList.SPECTATOR)
+                .filter(TeamList::isPlayable)
                 .collect(Collectors.toList())
-                .forEach(team_color -> this.progress_capture_list.put(team_color, null));
+                .forEach(team_color -> this.player_capturing_list.put(team_color, null));
     }
 
     public void buildFlag(Material block, Material glass, int radius)
@@ -43,7 +44,7 @@ public class Flag {
             }
         }
 
-        //Beacon platform
+        //Beacon
         for(int x = (int) this.flag_location.getX() - 2; x < (int) this.flag_location.getX() + 1; x++) {
             for(int z = (int) this.flag_location.getZ() - 1; z < (int) this.flag_location.getZ() + 2; z++) {
                 this.flag_location.getWorld()
@@ -61,8 +62,4 @@ public class Flag {
                 .setType(glass);
     }
 
-
-    public List<UUID> getPlayer_on_flag_area() {
-        return player_on_flag;
-    }
 }

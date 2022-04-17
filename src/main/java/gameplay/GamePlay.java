@@ -1,9 +1,7 @@
 package gameplay;
 
-import classification.Classification;
 import classification.team.TeamList;
-import coliseum.core.Flag;
-import coliseum.core.Spawn;
+import map.core.spawn.Spawn;
 import game.Game;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
