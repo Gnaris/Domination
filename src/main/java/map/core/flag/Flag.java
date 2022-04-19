@@ -1,7 +1,7 @@
 package map.core.flag;
 
 
-import classification.team.TeamList;
+import classification.TeamList;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Location;

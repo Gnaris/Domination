@@ -29,7 +29,7 @@ public class Launcher extends BukkitRunnable {
             Bukkit.getPlayer(player).sendMessage("§aLa partie commençera dans : " + this.timer);
         }
         this.timer--;
-        if (this.timer <= -1) {
+        if (this.timer <= 0) {
             TeamUtils.filterTeam(this.game);
             GamePlay gameplay = new GamePlay(this.game);
             gameplay.teleportPlayers();

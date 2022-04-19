@@ -1,17 +1,14 @@
 package gameplay.event;
 
-import classification.team.TeamList;
+import classification.TeamList;
 import game.Game;
 import main.Main;
 import map.core.spawn.Spawn;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
-import org.bukkit.scheduler.BukkitTask;
 import utils.GameUtils;
 
 import java.util.*;

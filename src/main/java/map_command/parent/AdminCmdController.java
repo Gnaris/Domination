@@ -1,6 +1,6 @@
 package map_command.parent;
 
-import classification.team.TeamList;
+import classification.TeamList;
 import map.Coliseum;
 import lombok.Getter;
 import main.Main;

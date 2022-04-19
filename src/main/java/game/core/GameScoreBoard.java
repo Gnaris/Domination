@@ -1,7 +1,6 @@
 package game.core;
 
-import classification.kit.KitList;
-import classification.team.TeamList;
+import classification.TeamList;
 import game.Game;
 import main.Main;
 import utils.GameUtils;
@@ -15,7 +14,6 @@ import org.bukkit.scoreboard.ScoreboardManager;
 import utils.TeamUtils;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class GameScoreBoard extends BukkitRunnable {
 

@@ -5,8 +5,8 @@ import command.controllers.game_config.Controller_GameConfigMap;
 import command.controllers.game_config.Controller_GameConfigStatus;
 import command.controllers.game_config.Controller_GameConfigValue;
 import command.controllers.request.Controller_Request;
+import command.controllers.request.RequestList;
 import command.parent.CommandController;
-import game_command.controllers.request.RequestList;
 import main.Main;
 import org.bukkit.entity.Player;
 
@@ -47,6 +47,10 @@ public class ControllerFactory
 
             case 2 :
             {
+                if(command_type.equalsIgnoreCase("help"))
+                {
+                    controller = new Controller_Request(args, sender, plugin);
+                }
                 if(command_type.equalsIgnoreCase("team") || command_type.equalsIgnoreCase("kit"))
                 {
                     controller = new Controller_Classification(args, sender, plugin);

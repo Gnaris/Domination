@@ -1,7 +1,5 @@
 package classification;
 
-import classification.kit.KitList;
-import classification.team.TeamList;
 import lombok.Getter;
 import lombok.Setter;
 

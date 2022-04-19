@@ -28,7 +28,7 @@ public class GameUtils {
     /**
      * Get the game via a player uuid
      * @param games_list
-     * @param game_name
+     * @param player_uuid
      * @return
      */
     public static Game getGameByPlayerUUID(List<Game> games_list, UUID player_uuid)
@@ -39,10 +39,5 @@ public class GameUtils {
                 .collect(Collectors.toList())
                 .forEach(game_list -> game[0] = game_list);
         return game[0];
-    }
-
-    public static void endTheGame(Game game, Main plugin)
-    {
-
     }
 }

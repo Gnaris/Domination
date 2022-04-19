@@ -1,6 +1,6 @@
 package gameplay;
 
-import classification.team.TeamList;
+import classification.TeamList;
 import map.core.spawn.Spawn;
 import game.Game;
 import org.bukkit.Bukkit;

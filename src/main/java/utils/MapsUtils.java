@@ -1,7 +1,11 @@
 package utils;
 
+import main.MapConfig;
 import map.Coliseum;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MapsUtils {

@@ -1,7 +1,7 @@
 package game;
 
 import classification.Classification;
-import classification.team.TeamList;
+import classification.TeamList;
 import map.Coliseum;
 import map.core.flag.Flag;
 import game.parent.GameCharacteristic;
@@ -36,7 +36,7 @@ public class Game extends GameCharacteristic {
         this.name = name;
         this.owner = sender.getUniqueId();
         Arrays.stream(TeamList.values())
-                .filter(team_list -> team_list.isPlayable())
+                .filter(TeamList::isPlayable)
                 .collect(Collectors.toList())
                 .forEach(team_list -> this.team_point.put(team_list, 0));
     }
@@ -44,31 +44,21 @@ public class Game extends GameCharacteristic {
     public void deleteGame()
     {
         //Teleport every player to spawn and clear inventory
-        Location spawn = null;
         MapConfig map_config = this.plugin.getMaps_config();
-        String world;
-        double x, y, z;
-        float yaw, pitch;
-        for(String key : map_config.getConfig().getConfigurationSection("map." + this.map.getName() + ".spawns." + ".spawn").getKeys(false))
-        {
-            world = map_config.getConfig().getString("map." + this.map.getName() + ".spawns." + ".spawn." + key + ".world");
-            x = map_config.getConfig().getDouble("map." + this.map.getName() + ".spawns." + ".spawn." + key + ".x");
-            y = map_config.getConfig().getDouble("map." + this.map.getName() + ".spawns." + ".spawn." + key + ".y");
-            z = map_config.getConfig().getDouble("map." + this.map.getName() + ".spawns." + ".spawn." + key + ".z");
-            yaw = (float) map_config.getConfig().getDouble("map." + this.map.getName() + ".spawns." + ".spawn." + key + ".yaw");
-            pitch = (float) map_config.getConfig().getDouble("map." + this.map.getName() + ".spawns." + ".spawn." + key + ".pitch");
-            spawn = new Location(Bukkit.getWorld(world), x,y,z,yaw,pitch);
-        }
+
         for(UUID playerUUID : this.getPlayer_list().keySet())
         {
-            Bukkit.getPlayer(playerUUID).teleport(spawn);
+            Bukkit.getPlayer(playerUUID).teleport(this.map.getEnd_spawn());
             Bukkit.getPlayer(playerUUID).getInventory().clear();
+            Bukkit.getPlayer(playerUUID).setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());
         }
+
         //Rebuild flag
         for(Flag flag : this.map.getFlag_list())
         {
             flag.buildFlag(Material.OBSIDIAN, Material.OBSIDIAN, (int) this.getGameCharacteristicValue("radius"));
         }
+
         //Reset Map and set not used this map
         int i = 0;
         Coliseum map = null;

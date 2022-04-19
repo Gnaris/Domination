@@ -1,7 +1,7 @@
 package command.controllers.classification;
 
-import classification.kit.KitList;
-import classification.team.TeamList;
+import classification.KitList;
+import classification.TeamList;
 
 import command.models.classification.Model_Classification;
 import command.parent.CommandController;

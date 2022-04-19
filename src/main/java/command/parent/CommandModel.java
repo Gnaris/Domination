@@ -1,7 +1,7 @@
 package command.parent;
 
-import classification.kit.KitList;
-import classification.team.TeamList;
+import classification.KitList;
+import classification.TeamList;
 import map.Coliseum;
 import game.Game;
 import main.Main;

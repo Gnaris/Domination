@@ -1,4 +1,4 @@
-package classification.kit;
+package classification;
 
 import lombok.Getter;
 

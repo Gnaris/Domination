@@ -1,6 +1,6 @@
 package gameplay.event;
 
-import classification.team.TeamList;
+import classification.TeamList;
 import map.core.flag.Flag;
 import map.core.flag.FlagStatus;
 import game.Game;

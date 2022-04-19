@@ -1,7 +1,7 @@
 package map_command.factory;
 
 import main.Main;
-import map_command.controllers.Controller_Coliseum;
+import map_command.controllers.Controller_Map;
 import map_command.controllers.Controller_Flag;
 import map_command.controllers.Controller_Spawn;
 import map_command.parent.AdminCmdController;
@@ -22,13 +22,6 @@ import org.bukkit.entity.Player;
 
 public class ControllerAdministorFactory {
 
-    /**
-     * Send to the desired controller according to the command launched
-     * @param sender
-     * @param args
-     * @param plugin
-     * @return
-     */
     public static AdminCmdController getInstance(Player sender, String[] args, Main plugin)
     {
         String command_type = args[0];
@@ -39,7 +32,7 @@ public class ControllerAdministorFactory {
             {
                 if(command_type.equalsIgnoreCase("create") || command_type.equalsIgnoreCase("delete"))
                 {
-                    return new Controller_Coliseum(args, sender, plugin);
+                    return new Controller_Map(args, sender, plugin);
                 }
                 break;
             }
@@ -50,6 +43,10 @@ public class ControllerAdministorFactory {
                 if(command_type.equalsIgnoreCase("setflag") || command_type.equalsIgnoreCase("deleteflag"))
                 {
                     return new Controller_Flag(args, sender, plugin);
+                }
+                if((command_type.equalsIgnoreCase("setspawn") || command_type.equalsIgnoreCase("deletespawn")) && args[2].equalsIgnoreCase("endspawn"))
+                {
+                    return  new Controller_Spawn(args, sender, plugin);
                 }
                 break;
             }

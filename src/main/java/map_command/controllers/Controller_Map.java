@@ -2,13 +2,13 @@ package map_command.controllers;
 
 import main.Main;
 import utils.MapsUtils;
-import map_command.models.Model_Coliseum;
+import map_command.models.Model_Map;
 import map_command.parent.AdminCmdController;
 import org.bukkit.entity.Player;
 
-public class Controller_Coliseum extends AdminCmdController {
+public class Controller_Map extends AdminCmdController {
 
-    public Controller_Coliseum(String[] args, Player sender, Main plugin) {
+    public Controller_Map(String[] args, Player sender, Main plugin) {
         super(args, sender, plugin);
 
         // Command : /dta [create, delete] <map name>
@@ -49,20 +49,20 @@ public class Controller_Coliseum extends AdminCmdController {
     @Override
     protected void executeCmd() {
 
-        Model_Coliseum model_coliseum = new Model_Coliseum(this);
+        Model_Map model_map = new Model_Map(this, this.map_name);
 
         switch(this.command_type)
         {
             case "create" :
             {
-                model_coliseum.createColiseum();
+                model_map.createColiseum();
                 this.sender.sendMessage("§aL'arène " + this.map_name + " a bien été crée");
                 break;
             }
 
             case "delete" :
             {
-                model_coliseum.deleteColiseum();
+                model_map.deleteColiseum();
                 this.sender.sendMessage("§aL'arène " + this.map_name + " a bien été supprimée");
                 break;
             }

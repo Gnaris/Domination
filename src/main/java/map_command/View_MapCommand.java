@@ -36,12 +36,6 @@ public class View_MapCommand implements CommandExecutor {
         if(player instanceof Player && player.hasPermission("domination"))
         {
             Player sender = (Player) player;
-            if(args.length < 2)
-            {
-                sender.sendMessage("§cCommande inconnu veuillez vous renseigner je ne sais pas ou mais quelques part en tout cas");
-                return false;
-            }
-
             AdminCmdController controller = ControllerAdministorFactory.getInstance(sender, args, this.plugin);
             if(controller != null)
             {

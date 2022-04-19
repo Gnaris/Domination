@@ -1,6 +1,6 @@
 package gameplay.core;
 
-import classification.team.TeamList;
+import classification.TeamList;
 import map.core.flag.Flag;
 import game.Game;
 import org.bukkit.scheduler.BukkitRunnable;

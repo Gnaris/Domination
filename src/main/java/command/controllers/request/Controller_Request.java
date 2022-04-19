@@ -23,7 +23,7 @@ public class Controller_Request extends CommandController {
         // Command : /dt [RequestList] <game name> OR /dt help
 
         this.command_type = args[0];
-        if(args.length == 2)
+        if(args.length == 2 && !this.command_type.equalsIgnoreCase("help"))
         {
             this.game_name = args[1];
             this.game = GameUtils.getGameByName(plugin.getGames_list(), this.game_name);
@@ -33,7 +33,7 @@ public class Controller_Request extends CommandController {
     @Override
     public void ControlCmd()
     {
-        String error = null;
+        String error;
         error = this.game == null && !this.command_type.equalsIgnoreCase("create") && !this.command_type.equalsIgnoreCase("help")  ? "§cLe nom de la partie est incorrecte ou inexistant" : null;
 
         if(error == null)
@@ -149,8 +149,8 @@ public class Controller_Request extends CommandController {
                 request.delete();
                 for(UUID player : this.game.getPlayer_list().keySet())
                 {
-                    Objects.requireNonNull(Bukkit.getPlayer(player)).sendMessage("§cLa partie §e<< " + this.game_name + " >> §cvient d'être supprimé");
-                    Objects.requireNonNull(Bukkit.getPlayer(player)).setScoreboard(Objects.requireNonNull(Bukkit.getScoreboardManager()).getNewScoreboard());
+                    Bukkit.getPlayer(player).sendMessage("§cLa partie §e<< " + this.game_name + " >> §cvient d'être supprimé");
+                    Bukkit.getPlayer(player).setScoreboard(Objects.requireNonNull(Bukkit.getScoreboardManager()).getNewScoreboard());
                 }
                 this.sender.sendMessage("§aVous venez de supprimer la partie");
                 break;
@@ -160,7 +160,7 @@ public class Controller_Request extends CommandController {
             {
                 request.leave();
                 new GameScoreBoard(this.game_name, this.sender, this.plugin).runTaskLater(this.plugin, 0);
-                this.sender.setScoreboard(Objects.requireNonNull(Bukkit.getScoreboardManager()).getNewScoreboard());
+                this.sender.setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());
                 this.sender.sendMessage("§cVous avez quitté la partie !");
                 break;
             }
@@ -182,7 +182,31 @@ public class Controller_Request extends CommandController {
             case "help" :
             {
                 this.sender.sendMessage("§aVoici la liste des commandes");
-                request.help();
+                if(this.args.length == 1)
+                {
+                    request.help();
+                }
+                if(this.args.length == 2)
+                {
+                    switch (this.args[1])
+                    {
+                        case "1" :
+                        {
+                            request.help();
+                            break;
+                        }
+                        case "2" :
+                        {
+                            request.help2();
+                            break;
+                        }
+                        case "3" :
+                        {
+                            request.help3();
+                            break;
+                        }
+                    }
+                }
                 break;
             }
 
