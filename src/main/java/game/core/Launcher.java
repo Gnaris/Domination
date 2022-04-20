@@ -2,7 +2,6 @@ package game.core;
 
 import utils.TeamUtils;
 import game.Game;
-import gameplay.GamePlay;
 import gameplay.core.PointIncreaser;
 import gameplay.core.Statistic;
 import main.Main;
@@ -31,8 +30,7 @@ public class Launcher extends BukkitRunnable {
         this.timer--;
         if (this.timer <= 0) {
             TeamUtils.filterTeam(this.game);
-            GamePlay gameplay = new GamePlay(this.game);
-            gameplay.teleportPlayers();
+            this.game.teleportEveryone();
             new Statistic(this.game).runTaskTimer(this.plugin, 0, 20);
             new PointIncreaser(this.game).runTaskTimer(this.plugin, 0, 20);
             this.cancel();

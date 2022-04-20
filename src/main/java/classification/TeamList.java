@@ -9,7 +9,7 @@ public enum TeamList {
     RED(Material.RED_CONCRETE, Material.RED_STAINED_GLASS, "Rouge", "§c", true, true),
     BlUE(Material.BLUE_CONCRETE, Material.BLUE_STAINED_GLASS, "Bleu", "§1", true, true),
     RANDOM(null, null, "Random", "§d", false, false),
-    SPECTATOR(null, null, "Spectacteur", "§7", true, false),
+    SPECTATOR(null, null, "Spectateur", "§7", true, false),
 
     NONE(null, null, null, null, false, false);
 

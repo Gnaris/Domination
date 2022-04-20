@@ -54,10 +54,7 @@ public class Respawn implements Listener {
         {
             e.setCancelled(true);
             victim.setHealth(20);
-            List<Spawn> spawn_color = game.getMap().getSpawn_list().stream().filter(spawn -> spawn.getTeam_color().equals(victim_team_color)).collect(Collectors.toList());
-            Random random = new Random();
-            int rdn_nb = random.nextInt(spawn_color.size());
-            victim.teleport(spawn_color.get(rdn_nb).getLocation());
+            game.teleportRandomSpawn(victim.getUniqueId(), victim_team_color);
             this.deaths_list.put(victim.getUniqueId(), System.currentTimeMillis() / 1000);
             victim.sendMessage("§aVous avez été tué par " + victim.getKiller().getName());
 

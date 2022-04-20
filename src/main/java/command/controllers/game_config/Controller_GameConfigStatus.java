@@ -23,7 +23,7 @@ public class Controller_GameConfigStatus extends CommandController {
         String error = null;
 
         error = this.game == null ? "§cVous devez d'abord créer une partie" :
-                this.game.getOwner() != this.sender.getUniqueId() ? "§cVous devez être le propriétaire de la partie" :
+                this.game.getOwner() != this.sender.getUniqueId() && !this.sender.hasPermission("domination.animator.use") ? "§cVous devez être le propriétaire de la partie" :
                 this.game.isOpen() && this.command_type.equalsIgnoreCase("open") ? "§cVotre partie est actuellement déjà ouverte" :
                 !this.game.isOpen() && this.command_type.equalsIgnoreCase("close") ? "Votre partie est déjà fermé aux plublics" : null;
 

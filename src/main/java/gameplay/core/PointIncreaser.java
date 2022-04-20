@@ -32,13 +32,12 @@ public class PointIncreaser extends BukkitRunnable {
         {
             if(team_color.isPlayable())
             {
-                if(this.game.getTeam_point().get(team_color) >= this.game.getGameCharacteristicValue("point"))
+                if(this.game.getTeam_point().get(team_color) >= this.game.getGameCharacteristicValue("point") || this.game.getTimer() <= 0)
                 {
                     this.game.setTimer((double) 0);
                     this.cancel();
                 }
             }
         }
-
     }
 }

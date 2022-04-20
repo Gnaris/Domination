@@ -1,6 +1,7 @@
 package command.controllers.request;
 
 
+import classification.TeamList;
 import command.models.request.Model_Request;
 import command.parent.CommandController;
 import game.core.GameScoreBoard;
@@ -11,6 +12,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import utils.TeamUtils;
 
+import java.util.Arrays;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -46,7 +48,7 @@ public class Controller_Request extends CommandController {
                     if(error == null && !this.sender.hasPermission("domination.animator.use"))
                     {
                         error = this.plugin.getGames_list().stream()
-                                .anyMatch(game_list -> game_list.getOwner() == this.sender.getUniqueId()) ? "§cVous avez déjà crée une partie" : null;
+                                .anyMatch(game_list -> game_list.getOwner() == this.sender.getUniqueId()) ? "§cVous avez déjà une partie sous le nom de " + GameUtils.getGameByPlayerUUID(this.plugin.getGames_list(), this.sender.getUniqueId()).getName() : null;
                     }
                     break;
                 }
@@ -60,7 +62,7 @@ public class Controller_Request extends CommandController {
                     if(error == null)
                     {
                         error = this.plugin.getGames_list().stream()
-                                .anyMatch(game_list -> game_list.getPlayer_list().containsKey(this.sender.getUniqueId())) ? "§cVous avez déjà rejoins une partie" : null;
+                                .anyMatch(game_list -> game_list.getPlayer_list().containsKey(this.sender.getUniqueId())) ? "§cVous êtes actuellement dans la partie de " + GameUtils.getGameByPlayerUUID(this.plugin.getGames_list(), this.sender.getUniqueId()).getName() : null;
                     }
                     break;
                 }
@@ -104,7 +106,10 @@ public class Controller_Request extends CommandController {
 
                 case "help" :
                 {
-                    error = null;
+                    if(args.length >= 2)
+                    {
+                        error = args[1].equalsIgnoreCase("3") && !this.sender.hasPermission("domination.animator.use") ? "§cVous n'êtes pas autorisé à consulter cette page." : null;
+                    }
                     break;
                 }
             }
@@ -146,11 +151,18 @@ public class Controller_Request extends CommandController {
 
             case "delete" :
             {
-                request.delete();
-                for(UUID player : this.game.getPlayer_list().keySet())
+                if(this.game.isMap_loaded())
                 {
-                    Bukkit.getPlayer(player).sendMessage("§cLa partie §e<< " + this.game_name + " >> §cvient d'être supprimé");
-                    Bukkit.getPlayer(player).setScoreboard(Objects.requireNonNull(Bukkit.getScoreboardManager()).getNewScoreboard());
+                    this.game.deleteGame();
+                }
+                else
+                {
+                    request.delete();
+                    for(UUID player : this.game.getPlayer_list().keySet())
+                    {
+                        Bukkit.getPlayer(player).sendMessage("§cLa partie §e<< " + this.game_name + " >> §cvient d'être supprimé");
+                        Bukkit.getPlayer(player).setScoreboard(Objects.requireNonNull(Bukkit.getScoreboardManager()).getNewScoreboard());
+                    }
                 }
                 this.sender.sendMessage("§aVous venez de supprimer la partie");
                 break;
@@ -184,7 +196,7 @@ public class Controller_Request extends CommandController {
                 this.sender.sendMessage("§aVoici la liste des commandes");
                 if(this.args.length == 1)
                 {
-                    request.help();
+                    request.helpCommand();
                 }
                 if(this.args.length == 2)
                 {
@@ -192,17 +204,17 @@ public class Controller_Request extends CommandController {
                     {
                         case "1" :
                         {
-                            request.help();
+                            request.helpCommand();
                             break;
                         }
                         case "2" :
                         {
-                            request.help2();
+                            request.helpConfiguration();
                             break;
                         }
                         case "3" :
                         {
-                            request.help3();
+                            request.helpMapCommand();
                             break;
                         }
                     }

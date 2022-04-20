@@ -1,5 +1,6 @@
 package command.controllers.game_config;
 
+import classification.TeamList;
 import command.models.game_config.Model_GameConfigMap;
 import command.parent.CommandController;
 import game.core.GameScoreBoard;
@@ -29,7 +30,23 @@ public class Controller_GameConfigMap extends CommandController {
         String error = null;
         error = this.map == null ? "§cVous ne pouvez pas utiliser une map qui n'existe pas" :
                 this.map.isUsed() ? "§cCette map est déjà utilisée par une autre partie" :
-                this.game.getOwner() != this.sender.getUniqueId() ? "§cVous devez être le propriétaire de la partie" : null;
+                this.game.getOwner() != this.sender.getUniqueId() && !this.sender.hasPermission("domination.animator.use") ? "§cVous devez être le propriétaire de la partie" :
+                this.map.getEnd_spawn() == null ? "§cCette map ne contient pas de spawn pour la fin de la partie. Veuillez informer le staff." : null;
+        if(error == null)
+        {
+            int i = 0;
+            while(i < TeamList.values().length && error == null)
+            {
+                if(TeamList.values()[i].isSpawnable())
+                {
+                    if(this.plugin.getMaps_config().getConfig().getString("map." + this.map_name + ".spawns_teams." + TeamList.values()[i].toString().toLowerCase()) == null)
+                    {
+                        error = "§cL'équipe " + TeamList.values()[i].getName() + " ne possède pas de spawn dans cette map. Veuillez informer le staff.";
+                    }
+                }
+                i++;
+            }
+        }
         if(error == null)
         {
             executeCmd();

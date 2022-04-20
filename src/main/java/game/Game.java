@@ -9,7 +9,9 @@ import lombok.Getter;
 import lombok.Setter;
 import main.Main;
 import main.MapConfig;
+import map.core.spawn.Spawn;
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -48,8 +50,11 @@ public class Game extends GameCharacteristic {
 
         for(UUID playerUUID : this.getPlayer_list().keySet())
         {
-            Bukkit.getPlayer(playerUUID).teleport(this.map.getEnd_spawn());
-            Bukkit.getPlayer(playerUUID).getInventory().clear();
+            if(this.isLaunched())
+            {
+                Bukkit.getPlayer(playerUUID).teleport(this.map.getEnd_spawn());
+                Bukkit.getPlayer(playerUUID).getInventory().clear();
+            }
             Bukkit.getPlayer(playerUUID).setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());
         }
 
@@ -73,5 +78,38 @@ public class Game extends GameCharacteristic {
         }
         //Delete Game
         this.plugin.getGames_list().remove(this);
+    }
+
+    public void teleportEveryone()
+    {
+        for(UUID playerUUID : this.player_list.keySet())
+        {
+            for(TeamList color_team : TeamList.values())
+            {
+                if(this.player_list.get(playerUUID).getTeam().equals(color_team))
+                {
+                    teleportRandomSpawn(playerUUID, color_team);
+                }
+            }
+        }
+    }
+
+    public void teleportRandomSpawn(UUID player, TeamList color_team)
+    {
+        int i = 0;
+        Spawn spawn = null;
+        Collections.shuffle(this.map.getSpawn_list());
+        while(i < this.map.getSpawn_list().size() && spawn == null)
+        {
+            if(this.map.getSpawn_list().get(i).getTeam_color().equals(color_team))
+            {
+                spawn = this.map.getSpawn_list().get(i);
+            }
+        }
+        Bukkit.getPlayer(player).teleport(spawn.getLocation());
+        if(color_team.equals(TeamList.SPECTATOR))
+        {
+            Bukkit.getPlayer(player).setGameMode(GameMode.SPECTATOR);
+        }
     }
 }

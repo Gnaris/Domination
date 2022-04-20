@@ -42,6 +42,7 @@ public class FlagsArea implements Listener{
 
         List<Flag> flags_list = this.game.getMap().getFlag_list();
         Map<UUID, Classification> players_list = this.game.getPlayer_list();
+        if(!players_list.get(player.getUniqueId()).getTeam().isPlayable()){return;}
         int area = (int) this.game.getGameCharacteristicValue("radius") + 1; // +1 (beacon)
 
         while(flag == null && i < flags_list.size())

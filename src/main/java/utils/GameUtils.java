@@ -2,6 +2,7 @@ package utils;
 
 import game.Game;
 import main.Main;
+import org.bukkit.Bukkit;
 
 import java.util.List;
 import java.util.UUID;
@@ -35,7 +36,7 @@ public class GameUtils {
     {
         final Game[] game = {null};
         games_list.stream()
-                .filter(game_list -> game_list.getPlayer_list().containsKey(player_uuid))
+                .filter(game_list -> game_list.getPlayer_list().containsKey(player_uuid) || game_list.getOwner() == player_uuid)
                 .collect(Collectors.toList())
                 .forEach(game_list -> game[0] = game_list);
         return game[0];
