@@ -15,6 +15,7 @@ import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.potion.PotionEffect;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -54,6 +55,12 @@ public class Game extends GameCharacteristic {
             {
                 Bukkit.getPlayer(playerUUID).teleport(this.map.getEnd_spawn());
                 Bukkit.getPlayer(playerUUID).getInventory().clear();
+            }
+            Bukkit.getPlayer(playerUUID).setFireTicks(0);
+            Bukkit.getPlayer(playerUUID).setFreezeTicks(0);
+            for(PotionEffect potion : Bukkit.getPlayer(playerUUID).getActivePotionEffects())
+            {
+                Bukkit.getPlayer(playerUUID).removePotionEffect(potion.getType());
             }
             Bukkit.getPlayer(playerUUID).setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());
         }
@@ -105,6 +112,7 @@ public class Game extends GameCharacteristic {
             {
                 spawn = this.map.getSpawn_list().get(i);
             }
+            i++;
         }
         Bukkit.getPlayer(player).teleport(spawn.getLocation());
         if(color_team.equals(TeamList.SPECTATOR))

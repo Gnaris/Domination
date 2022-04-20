@@ -104,11 +104,10 @@ public class Statistic extends BukkitRunnable {
         for (Map.Entry team_point : this.game.getTeam_point().entrySet())
         {
             TeamList team_color = (TeamList) team_point.getKey();
-            for(int i = 0; i < this.game.getMap().getFlag_list().size() + 1; i++)
+            for(int i = 0; i < (int) this.game.getGameCharacteristicValue("point") + 1; i++)
             {
-                this.objective.getScoreboard().resetScores(team_color.getColor() + "Équipe : " + team_color.getName() + " : " + ((int) team_point.getValue() - i));
+                this.objective.getScoreboard().resetScores(team_color.getColor() + "Équipe : " + team_color.getName() + " : " + i);
             }
-            this.objective.getScoreboard().resetScores(team_color.getColor() + "Équipe : " + team_color.getName() + " : " + ((int) team_point.getValue() - (int) this.game.getGameCharacteristicValue("killpoint")));
             this.objective.getScore(team_color.getColor() + "Équipe : " + team_color.getName() + " : " + team_point.getValue()).setScore(score);
             score--;
         }

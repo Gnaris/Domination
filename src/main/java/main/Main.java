@@ -1,7 +1,7 @@
 package main;
 
 import classification.TeamList;
-import gameplay.event.Respawn;
+import gameplay.event.Death;
 import map.Coliseum;
 import map.core.flag.Flag;
 import map.core.spawn.Spawn;
@@ -15,7 +15,6 @@ import org.bukkit.Location;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Getter
 public final class Main extends JavaPlugin {
@@ -103,7 +102,7 @@ public final class Main extends JavaPlugin {
 
         //EVENT
         getServer().getPluginManager().registerEvents(new FlagsArea(this), this);
-        getServer().getPluginManager().registerEvents(new Respawn(this), this);
+        getServer().getPluginManager().registerEvents(new Death(this), this);
 
         System.out.println("[DOMINATION] has been turn on");
     }
